@@ -1,0 +1,10 @@
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\bin\Debug\CCAD.exe.config
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\bin\Debug\CCAD.exe
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\bin\Debug\CCAD.pdb
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.csprojResolveAssemblyReference.cache
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.Board.resources
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.Properties.Resources.resources
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.csproj.GenerateResource.Cache
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.exe
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.pdb
+c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.HelpScreen.resources
