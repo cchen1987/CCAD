@@ -587,7 +587,6 @@
             this.btSelect.Size = new System.Drawing.Size(40, 40);
             this.btSelect.TabIndex = 0;
             this.btSelect.UseVisualStyleBackColor = false;
-            this.btSelect.MouseHover += new System.EventHandler(this.btSelect_MouseHover);
             // 
             // pProperty
             // 

@@ -23,23 +23,48 @@ namespace CCAD
             entities = new List<Entity>();
         }
 
+        // Open help window
         private void tbHelp_Click(object sender, EventArgs e)
         {
             HelpScreen myHelpScreen = new HelpScreen();
             myHelpScreen.Show();
         }
 
+        // Exit program
         private void btExit_Click(object sender, EventArgs e)
         {
-            Save();
-            Close();
+            if (entities.Count == 0)
+                Close();
+            else
+            {
+                
+            }
         }
 
-        private void Save()
+// New project block
+        // This method creates new project
+        private void btNew_Click(object sender, EventArgs e)
         {
-            // TO DO
+            // Clear the screen
+            if (entities.Count == 0)
+            {
+                pBoard.Dispose();
+            }
+            else
+            {
+                entities = new List<Entity>();
+                pBoard.Dispose();
+            }
         }
 
+        // This method creates new project
+        private void btNew2_Click(object sender, EventArgs e)
+        {
+            btNew_Click(sender, e);
+        }
+
+// Open file Block
+        // This method loads a selected file from a folder
         private void btOpen_Click(object sender, EventArgs e)
         {
             Stream myStream = null;
@@ -71,21 +96,26 @@ namespace CCAD
             }
         }
 
+        // This method loads a selected file from a folder
         private void btOpen2_Click(object sender, EventArgs e)
         {
             btOpen_Click(sender, e);
         }
 
+// Save file block
+        // This method saves the current file in an already opened file
         private void btSave_Click(object sender, EventArgs e)
         {
             // TO DO
         }
 
+        // This method saves the current file in an already opened file
         private void btSave2_Click(object sender, EventArgs e)
         {
             btSave_Click(sender, e);
         }
-
+        
+        // This method saves the file in the selected folder
         private void btSaveAs_Click(object sender, EventArgs e)
         {
             if (outFile.ShowDialog() == DialogResult.OK)
@@ -110,43 +140,21 @@ namespace CCAD
             }
         }
 
+        // This method saves the file in the selected folder
         private void btSaveAs2_Click(object sender, EventArgs e)
         {
             btSaveAs_Click(sender, e);
         }
 
-        private void btSelect_MouseHover(object sender, EventArgs e)
-        {
-            //tToolTip.BackColor = Color.White;
-            //tToolTip.Show("Selector tool", this, Cursor.Position);
-        }
-
-        // Show the current x and y of the mouse
+        // This method displays the current x and y of the mouse
         private void pBoard_MouseMove(object sender, MouseEventArgs e)
         {
             lbMouseX.Text = e.X.ToString("0.0000");
             lbMouseY.Text = e.Y.ToString("0.0000");
         }
 
-        private void btNew_Click(object sender, EventArgs e)
-        {
-            // Clear the screen
-            if (entities.Count == 0)
-            {
-                pBoard.Dispose();
-            }
-            else
-            {
-                entities = new List<Entity>();
-                pBoard.Dispose();
-            }
-        }
-
-        private void btNew2_Click(object sender, EventArgs e)
-        {
-            btNew_Click(sender, e);
-        }
-
+// Main code block
+        // Main board
         private void pBoard_Paint(object sender, PaintEventArgs e)
         {
             // TO DO

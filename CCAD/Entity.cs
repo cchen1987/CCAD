@@ -22,16 +22,19 @@ namespace CCAD
             originalColor = color;
             Color = color;
         }
-
+        
+        //This method draw the painting in the board
         public virtual void Draw()
         {
         }
 
+        // This method restore the current color to the original color
         public void ResetColor()
         {
             Color = originalColor;
         }
 
+        // This method checks if the mouse is next to the drawing
         public virtual bool IsInRange(int x, int y)
         {
             // TO DO
