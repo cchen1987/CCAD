@@ -23,14 +23,23 @@ namespace CCAD
             entities = new List<Entity>();
         }
 
-        // Open help window
+        /// <summary>
+        /// This method opens the help window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tbHelp_Click(object sender, EventArgs e)
         {
             HelpScreen myHelpScreen = new HelpScreen();
             myHelpScreen.Show();
         }
 
-        // Exit program
+        /// <summary>
+        /// This method closes the program but ask for save file if
+        /// the array of entities is not empty before close
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btExit_Click(object sender, EventArgs e)
         {
             if (entities.Count == 0)
@@ -42,29 +51,43 @@ namespace CCAD
         }
 
 // New project block
-        // This method creates new project
+        /// <summary>
+        /// This method creates a new project, cleaning the previous drawing
+        /// and clear the entity array
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btNew_Click(object sender, EventArgs e)
         {
             // Clear the screen
             if (entities.Count == 0)
             {
-                pBoard.Dispose();
+                pBoard.BackColor = Color.Black;
             }
             else
             {
                 entities = new List<Entity>();
-                pBoard.Dispose();
+                pBoard.BackColor = Color.Black;
             }
         }
 
-        // This method creates new project
+        /// <summary>
+        /// This method creates a new project, cleaning the previous drawing
+        /// and clear the entity array
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btNew2_Click(object sender, EventArgs e)
         {
             btNew_Click(sender, e);
         }
 
 // Open file Block
-        // This method loads a selected file from a folder
+        /// <summary>
+        /// This method loads a selected file from a folder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btOpen_Click(object sender, EventArgs e)
         {
             Stream myStream = null;
@@ -96,26 +119,42 @@ namespace CCAD
             }
         }
 
-        // This method loads a selected file from a folder
+        /// <summary>
+        /// This method loads a selected file from a folder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btOpen2_Click(object sender, EventArgs e)
         {
             btOpen_Click(sender, e);
         }
 
 // Save file block
-        // This method saves the current file in an already opened file
+        /// <summary>
+        /// This method saves the current file in an already opened file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btSave_Click(object sender, EventArgs e)
         {
             // TO DO
         }
 
-        // This method saves the current file in an already opened file
+        /// <summary>
+        /// This method saves the current file in an already opened file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btSave2_Click(object sender, EventArgs e)
         {
             btSave_Click(sender, e);
         }
-        
-        // This method saves the file in the selected folder
+
+        /// <summary>
+        /// This method saves the file in the selected folder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btSaveAs_Click(object sender, EventArgs e)
         {
             if (outFile.ShowDialog() == DialogResult.OK)
@@ -140,13 +179,21 @@ namespace CCAD
             }
         }
 
-        // This method saves the file in the selected folder
+        /// <summary>
+        /// This method saves the file in the selected folder
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btSaveAs2_Click(object sender, EventArgs e)
         {
             btSaveAs_Click(sender, e);
         }
 
-        // This method displays the current x and y of the mouse
+        /// <summary>
+        /// This method displays the current x and y of the mouse
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pBoard_MouseMove(object sender, MouseEventArgs e)
         {
             lbMouseX.Text = e.X.ToString("0.0000");
@@ -154,10 +201,15 @@ namespace CCAD
         }
 
 // Main code block
-        // Main board
+        /// <summary>
+        /// Main board
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pBoard_Paint(object sender, PaintEventArgs e)
         {
             // TO DO
+            
         }
     }
 }

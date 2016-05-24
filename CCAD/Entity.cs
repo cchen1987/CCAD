@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,36 +10,67 @@ namespace CCAD
 {
     class Entity
     {
-        protected float perimeter;
-        protected float area;
+        protected double perimeter;
+        protected double area;
         protected int range;
         protected Color originalColor;
-        
+        protected PaintEventArgs graph;
+
+        public int LineWidth { get; set; }
         public Color Color { get; set; }
 
         public Entity(Color color)
         {
-            range = 5;
+            range = 10;
             originalColor = color;
             Color = color;
         }
-        
-        //This method draw the painting in the board
-        public virtual void Draw()
+
+        /// <summary>
+        /// This method draw the painting in the board
+        /// </summary>
+        /// <param name="graph"></param>
+        public virtual void Draw(PaintEventArgs graph)
         {
+            this.graph = graph;
         }
 
-        // This method restore the current color to the original color
+        /// <summary>
+        /// This method restore the current color to the original color
+        /// </summary>
         public void ResetColor()
         {
             Color = originalColor;
         }
 
-        // This method checks if the mouse is next to the drawing
+        /// <summary>
+        /// This method checks if the mouse is next to the drawing
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public virtual bool IsInRange(int x, int y)
         {
-            // TO DO
-            return true;
+            // Defined in each class
+            return false;
+        }
+
+        /// <summary>
+        /// This method returns the area of the entity
+        /// </summary>
+        /// <returns></returns>
+        public double GetArea()
+        {
+            return area;
+        }
+
+        /// <summary>
+        /// This method returns the perimeter of the entity
+        /// </summary>
+        /// <returns></returns>
+        public double GetPerimeter()
+        {
+            return perimeter;
         }
     }
 }

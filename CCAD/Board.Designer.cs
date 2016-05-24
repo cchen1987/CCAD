@@ -210,6 +210,7 @@
             this.outFile = new System.Windows.Forms.SaveFileDialog();
             this.inFile = new System.Windows.Forms.OpenFileDialog();
             this.tToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btOrto = new System.Windows.Forms.Button();
             this.tsToolBar.SuspendLayout();
             this.pTools.SuspendLayout();
             this.pProperty.SuspendLayout();
@@ -233,7 +234,7 @@
             this.tbHelp});
             this.tsToolBar.Location = new System.Drawing.Point(0, 0);
             this.tsToolBar.Name = "tsToolBar";
-            this.tsToolBar.Size = new System.Drawing.Size(1584, 25);
+            this.tsToolBar.Size = new System.Drawing.Size(1184, 25);
             this.tsToolBar.TabIndex = 0;
             this.tsToolBar.Text = "ToolBar";
             // 
@@ -258,7 +259,7 @@
             // 
             this.btNew.Image = ((System.Drawing.Image)(resources.GetObject("btNew.Image")));
             this.btNew.Name = "btNew";
-            this.btNew.Size = new System.Drawing.Size(152, 22);
+            this.btNew.Size = new System.Drawing.Size(114, 22);
             this.btNew.Text = "New";
             this.btNew.Click += new System.EventHandler(this.btNew_Click);
             // 
@@ -266,20 +267,20 @@
             // 
             this.btOpen.Image = ((System.Drawing.Image)(resources.GetObject("btOpen.Image")));
             this.btOpen.Name = "btOpen";
-            this.btOpen.Size = new System.Drawing.Size(152, 22);
+            this.btOpen.Size = new System.Drawing.Size(114, 22);
             this.btOpen.Text = "Open";
             this.btOpen.Click += new System.EventHandler(this.btOpen_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(111, 6);
             // 
             // btSave
             // 
             this.btSave.Image = ((System.Drawing.Image)(resources.GetObject("btSave.Image")));
             this.btSave.Name = "btSave";
-            this.btSave.Size = new System.Drawing.Size(152, 22);
+            this.btSave.Size = new System.Drawing.Size(114, 22);
             this.btSave.Text = "Save";
             this.btSave.Click += new System.EventHandler(this.btSave_Click);
             // 
@@ -287,19 +288,19 @@
             // 
             this.btSaveAs.Image = ((System.Drawing.Image)(resources.GetObject("btSaveAs.Image")));
             this.btSaveAs.Name = "btSaveAs";
-            this.btSaveAs.Size = new System.Drawing.Size(152, 22);
+            this.btSaveAs.Size = new System.Drawing.Size(114, 22);
             this.btSaveAs.Text = "Save As";
             this.btSaveAs.Click += new System.EventHandler(this.btSaveAs_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(111, 6);
             // 
             // btExit
             // 
             this.btExit.Name = "btExit";
-            this.btExit.Size = new System.Drawing.Size(152, 22);
+            this.btExit.Size = new System.Drawing.Size(114, 22);
             this.btExit.Text = "Exit";
             this.btExit.Click += new System.EventHandler(this.btExit_Click);
             // 
@@ -317,6 +318,7 @@
             // 
             this.pTools.BackColor = System.Drawing.Color.LightGray;
             this.pTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pTools.Controls.Add(this.btOrto);
             this.pTools.Controls.Add(this.label7);
             this.pTools.Controls.Add(this.btZoom);
             this.pTools.Controls.Add(this.label6);
@@ -344,7 +346,7 @@
             this.pTools.Dock = System.Windows.Forms.DockStyle.Top;
             this.pTools.Location = new System.Drawing.Point(0, 25);
             this.pTools.Name = "pTools";
-            this.pTools.Size = new System.Drawing.Size(1584, 50);
+            this.pTools.Size = new System.Drawing.Size(1184, 50);
             this.pTools.TabIndex = 1;
             // 
             // label7
@@ -601,9 +603,9 @@
             this.pProperty.Controls.Add(this.pStraightLine);
             this.pProperty.Controls.Add(this.pGeneralProperty);
             this.pProperty.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pProperty.Location = new System.Drawing.Point(1377, 75);
+            this.pProperty.Location = new System.Drawing.Point(977, 75);
             this.pProperty.Name = "pProperty";
-            this.pProperty.Size = new System.Drawing.Size(207, 790);
+            this.pProperty.Size = new System.Drawing.Size(207, 686);
             this.pProperty.TabIndex = 3;
             // 
             // pRectangleProperty
@@ -1620,9 +1622,9 @@
             this.pBottom.Controls.Add(this.lbCommand);
             this.pBottom.Controls.Add(this.tbCommands);
             this.pBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pBottom.Location = new System.Drawing.Point(0, 764);
+            this.pBottom.Location = new System.Drawing.Point(0, 660);
             this.pBottom.Name = "pBottom";
-            this.pBottom.Size = new System.Drawing.Size(1377, 101);
+            this.pBottom.Size = new System.Drawing.Size(977, 101);
             this.pBottom.TabIndex = 4;
             // 
             // lbxCommands
@@ -1635,7 +1637,7 @@
             this.lbxCommands.Name = "lbxCommands";
             this.lbxCommands.ScrollAlwaysVisible = true;
             this.lbxCommands.SelectionMode = System.Windows.Forms.SelectionMode.None;
-            this.lbxCommands.Size = new System.Drawing.Size(1078, 64);
+            this.lbxCommands.Size = new System.Drawing.Size(678, 64);
             this.lbxCommands.TabIndex = 3;
             // 
             // pSelector
@@ -1651,7 +1653,7 @@
             this.pSelector.Controls.Add(this.btDownArrow);
             this.pSelector.Controls.Add(this.btUpArrow);
             this.pSelector.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pSelector.Location = new System.Drawing.Point(1078, 0);
+            this.pSelector.Location = new System.Drawing.Point(678, 0);
             this.pSelector.Name = "pSelector";
             this.pSelector.Size = new System.Drawing.Size(297, 99);
             this.pSelector.TabIndex = 2;
@@ -1776,7 +1778,7 @@
             this.pActionBar.Dock = System.Windows.Forms.DockStyle.Left;
             this.pActionBar.Location = new System.Drawing.Point(0, 75);
             this.pActionBar.Name = "pActionBar";
-            this.pActionBar.Size = new System.Drawing.Size(114, 689);
+            this.pActionBar.Size = new System.Drawing.Size(114, 585);
             this.pActionBar.TabIndex = 5;
             // 
             // btCopy
@@ -2003,10 +2005,11 @@
             // 
             this.pBoard.BackColor = System.Drawing.Color.Black;
             this.pBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pBoard.Cursor = System.Windows.Forms.Cursors.Cross;
             this.pBoard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pBoard.Location = new System.Drawing.Point(114, 75);
             this.pBoard.Name = "pBoard";
-            this.pBoard.Size = new System.Drawing.Size(1263, 689);
+            this.pBoard.Size = new System.Drawing.Size(863, 585);
             this.pBoard.TabIndex = 6;
             this.pBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.pBoard_Paint);
             this.pBoard.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pBoard_MouseMove);
@@ -2022,11 +2025,22 @@
             this.inFile.Filter = "\"ccad files (*.ccad)|*.ccad\"";
             this.inFile.InitialDirectory = "\"c:\\\\\"";
             // 
+            // btOrto
+            // 
+            this.btOrto.BackColor = System.Drawing.Color.Transparent;
+            this.btOrto.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btOrto.BackgroundImage")));
+            this.btOrto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btOrto.Location = new System.Drawing.Point(841, 3);
+            this.btOrto.Name = "btOrto";
+            this.btOrto.Size = new System.Drawing.Size(40, 40);
+            this.btOrto.TabIndex = 42;
+            this.btOrto.UseVisualStyleBackColor = false;
+            // 
             // Board
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1584, 865);
+            this.ClientSize = new System.Drawing.Size(1184, 761);
             this.Controls.Add(this.pBoard);
             this.Controls.Add(this.pActionBar);
             this.Controls.Add(this.pBottom);
@@ -2250,6 +2264,7 @@
         private System.Windows.Forms.TextBox tbRectSX;
         private System.Windows.Forms.Label lbRectStartPoint;
         private System.Windows.Forms.Label lbRectangleProp;
+        private System.Windows.Forms.Button btOrto;
     }
 }
 
