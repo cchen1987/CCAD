@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace CCAD
 {
+    /// <summary>
+    /// This class encompasses all rectilinear drawings
+    /// </summary>
     class Block : Entity
     {
         protected Line[] Lines;
-        //protected PointF[] Points;
 
         public Block(Color color, Line[] lines) : base(color)
         {
@@ -20,13 +17,20 @@ namespace CCAD
                 perimeter += lines[i].Length;
         }
 
-        // This method returns a line at the entered index
+        /// <summary>
+        /// This method returns a line at the entered index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>Line</returns>
         public Line GetLineAt(int index)
         {
             return Lines[index];
         }
 
-        // This method returns all lines contained in the block
+        /// <summary>
+        /// This method returns all lines contained in the block
+        /// </summary>
+        /// <returns>Line[]</returns>
         public Line[] GetLines()
         {
             return Lines;
@@ -45,12 +49,20 @@ namespace CCAD
                 Lines[i].Draw(graph);
         }
 
+        /// <summary>
+        /// This method changes the colour of all lines in the block
+        /// </summary>
+        /// <param name="color"></param>
         public void SetBlockColor(Color color)
         {
             for (int i = 0; i < Lines.Length; i++)
                 Lines[i].Color = color;
         }
 
+        /// <summary>
+        /// This method reset the colour of all lines in the block
+        /// to their previous color
+        /// </summary>
         public void ResetBlockColor()
         {
             for (int i = 0; i < Lines.Length; i++)

@@ -41,6 +41,12 @@
             this.btExit = new System.Windows.Forms.ToolStripMenuItem();
             this.tbHelp = new System.Windows.Forms.ToolStripButton();
             this.pTools = new System.Windows.Forms.Panel();
+            this.lbCurrentLineWidth = new System.Windows.Forms.Label();
+            this.cbCurrentLineWidth = new System.Windows.Forms.ComboBox();
+            this.lbCurrentColor = new System.Windows.Forms.Label();
+            this.cbColorSelector = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.btOrto = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.btZoom = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -175,6 +181,10 @@
             this.pBottom = new System.Windows.Forms.Panel();
             this.lbxCommands = new System.Windows.Forms.ListBox();
             this.pSelector = new System.Windows.Forms.Panel();
+            this.lbAction = new System.Windows.Forms.Label();
+            this.lbActionText = new System.Windows.Forms.Label();
+            this.lbOrto = new System.Windows.Forms.Label();
+            this.lbOrtoText = new System.Windows.Forms.Label();
             this.lbSelector = new System.Windows.Forms.Label();
             this.lbMouseY = new System.Windows.Forms.Label();
             this.lbMouseX = new System.Windows.Forms.Label();
@@ -197,20 +207,21 @@
             this.btImage = new System.Windows.Forms.Button();
             this.btMove = new System.Windows.Forms.Button();
             this.btText = new System.Windows.Forms.Button();
-            this.btStraightLineAngle = new System.Windows.Forms.Button();
             this.btEllipse = new System.Windows.Forms.Button();
             this.btCircleDia = new System.Windows.Forms.Button();
             this.btCircleRad = new System.Windows.Forms.Button();
             this.btArc = new System.Windows.Forms.Button();
             this.btBezier = new System.Windows.Forms.Button();
             this.btPolygon = new System.Windows.Forms.Button();
-            this.btStraightLine = new System.Windows.Forms.Button();
+            this.btLine = new System.Windows.Forms.Button();
             this.btPoint = new System.Windows.Forms.Button();
             this.pBoard = new System.Windows.Forms.Panel();
+            this.lbDinamic = new System.Windows.Forms.Label();
+            this.tbDinamic = new System.Windows.Forms.TextBox();
             this.outFile = new System.Windows.Forms.SaveFileDialog();
             this.inFile = new System.Windows.Forms.OpenFileDialog();
             this.tToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btOrto = new System.Windows.Forms.Button();
+            this.cdColor = new System.Windows.Forms.ColorDialog();
             this.tsToolBar.SuspendLayout();
             this.pTools.SuspendLayout();
             this.pProperty.SuspendLayout();
@@ -225,6 +236,7 @@
             this.pBottom.SuspendLayout();
             this.pSelector.SuspendLayout();
             this.pActionBar.SuspendLayout();
+            this.pBoard.SuspendLayout();
             this.SuspendLayout();
             // 
             // tsToolBar
@@ -318,6 +330,11 @@
             // 
             this.pTools.BackColor = System.Drawing.Color.LightGray;
             this.pTools.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pTools.Controls.Add(this.lbCurrentLineWidth);
+            this.pTools.Controls.Add(this.cbCurrentLineWidth);
+            this.pTools.Controls.Add(this.lbCurrentColor);
+            this.pTools.Controls.Add(this.cbColorSelector);
+            this.pTools.Controls.Add(this.label13);
             this.pTools.Controls.Add(this.btOrto);
             this.pTools.Controls.Add(this.label7);
             this.pTools.Controls.Add(this.btZoom);
@@ -348,6 +365,68 @@
             this.pTools.Name = "pTools";
             this.pTools.Size = new System.Drawing.Size(1184, 50);
             this.pTools.TabIndex = 1;
+            // 
+            // lbCurrentLineWidth
+            // 
+            this.lbCurrentLineWidth.AutoSize = true;
+            this.lbCurrentLineWidth.Location = new System.Drawing.Point(1030, 6);
+            this.lbCurrentLineWidth.Name = "lbCurrentLineWidth";
+            this.lbCurrentLineWidth.Size = new System.Drawing.Size(88, 13);
+            this.lbCurrentLineWidth.TabIndex = 47;
+            this.lbCurrentLineWidth.Text = "Current line width";
+            // 
+            // cbCurrentLineWidth
+            // 
+            this.cbCurrentLineWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCurrentLineWidth.FormattingEnabled = true;
+            this.cbCurrentLineWidth.Location = new System.Drawing.Point(1030, 22);
+            this.cbCurrentLineWidth.Name = "cbCurrentLineWidth";
+            this.cbCurrentLineWidth.Size = new System.Drawing.Size(121, 21);
+            this.cbCurrentLineWidth.TabIndex = 46;
+            this.cbCurrentLineWidth.SelectedIndexChanged += new System.EventHandler(this.cbCurrentLineWidth_SelectedIndexChanged);
+            // 
+            // lbCurrentColor
+            // 
+            this.lbCurrentColor.AutoSize = true;
+            this.lbCurrentColor.Location = new System.Drawing.Point(895, 6);
+            this.lbCurrentColor.Name = "lbCurrentColor";
+            this.lbCurrentColor.Size = new System.Drawing.Size(67, 13);
+            this.lbCurrentColor.TabIndex = 45;
+            this.lbCurrentColor.Text = "Current color";
+            // 
+            // cbColorSelector
+            // 
+            this.cbColorSelector.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbColorSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbColorSelector.FormattingEnabled = true;
+            this.cbColorSelector.Location = new System.Drawing.Point(895, 22);
+            this.cbColorSelector.Name = "cbColorSelector";
+            this.cbColorSelector.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cbColorSelector.Size = new System.Drawing.Size(121, 21);
+            this.cbColorSelector.TabIndex = 44;
+            this.cbColorSelector.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbColorSelector_DrawItem);
+            this.cbColorSelector.SelectedIndexChanged += new System.EventHandler(this.cbColorSelector_SelectedIndexChanged);
+            // 
+            // label13
+            // 
+            this.label13.BackColor = System.Drawing.Color.DimGray;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 31F);
+            this.label13.Location = new System.Drawing.Point(887, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(2, 50);
+            this.label13.TabIndex = 43;
+            // 
+            // btOrto
+            // 
+            this.btOrto.BackColor = System.Drawing.Color.Transparent;
+            this.btOrto.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btOrto.BackgroundImage")));
+            this.btOrto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btOrto.Location = new System.Drawing.Point(841, 3);
+            this.btOrto.Name = "btOrto";
+            this.btOrto.Size = new System.Drawing.Size(40, 40);
+            this.btOrto.TabIndex = 42;
+            this.btOrto.UseVisualStyleBackColor = false;
+            this.btOrto.Click += new System.EventHandler(this.btOrto_Click);
             // 
             // label7
             // 
@@ -589,6 +668,7 @@
             this.btSelect.Size = new System.Drawing.Size(40, 40);
             this.btSelect.TabIndex = 0;
             this.btSelect.UseVisualStyleBackColor = false;
+            this.btSelect.Click += new System.EventHandler(this.btSelect_Click);
             // 
             // pProperty
             // 
@@ -1521,6 +1601,7 @@
             this.pGeneralProperty.Controls.Add(this.cbColor);
             this.pGeneralProperty.Controls.Add(this.lbProperty);
             this.pGeneralProperty.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pGeneralProperty.Enabled = false;
             this.pGeneralProperty.Location = new System.Drawing.Point(0, 0);
             this.pGeneralProperty.Name = "pGeneralProperty";
             this.pGeneralProperty.Size = new System.Drawing.Size(205, 179);
@@ -1563,6 +1644,7 @@
             // 
             // cbLineType
             // 
+            this.cbLineType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLineType.FormattingEnabled = true;
             this.cbLineType.Location = new System.Drawing.Point(95, 116);
             this.cbLineType.Name = "cbLineType";
@@ -1580,6 +1662,7 @@
             // 
             // cbLineWidth
             // 
+            this.cbLineWidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLineWidth.FormattingEnabled = true;
             this.cbLineWidth.Location = new System.Drawing.Point(95, 87);
             this.cbLineWidth.Name = "cbLineWidth";
@@ -1597,11 +1680,15 @@
             // 
             // cbColor
             // 
+            this.cbColor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbColor.FormattingEnabled = true;
             this.cbColor.Location = new System.Drawing.Point(95, 60);
             this.cbColor.Name = "cbColor";
+            this.cbColor.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.cbColor.Size = new System.Drawing.Size(98, 21);
             this.cbColor.TabIndex = 1;
+            this.cbColor.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.cbColor_DrawItem);
             // 
             // lbProperty
             // 
@@ -1636,7 +1723,6 @@
             this.lbxCommands.Location = new System.Drawing.Point(0, 0);
             this.lbxCommands.Name = "lbxCommands";
             this.lbxCommands.ScrollAlwaysVisible = true;
-            this.lbxCommands.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.lbxCommands.Size = new System.Drawing.Size(678, 64);
             this.lbxCommands.TabIndex = 3;
             // 
@@ -1644,6 +1730,10 @@
             // 
             this.pSelector.BackColor = System.Drawing.Color.LightGray;
             this.pSelector.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pSelector.Controls.Add(this.lbAction);
+            this.pSelector.Controls.Add(this.lbActionText);
+            this.pSelector.Controls.Add(this.lbOrto);
+            this.pSelector.Controls.Add(this.lbOrtoText);
             this.pSelector.Controls.Add(this.lbSelector);
             this.pSelector.Controls.Add(this.lbMouseY);
             this.pSelector.Controls.Add(this.lbMouseX);
@@ -1657,6 +1747,42 @@
             this.pSelector.Name = "pSelector";
             this.pSelector.Size = new System.Drawing.Size(297, 99);
             this.pSelector.TabIndex = 2;
+            // 
+            // lbAction
+            // 
+            this.lbAction.AutoSize = true;
+            this.lbAction.Location = new System.Drawing.Point(126, 77);
+            this.lbAction.Name = "lbAction";
+            this.lbAction.Size = new System.Drawing.Size(37, 13);
+            this.lbAction.TabIndex = 51;
+            this.lbAction.Text = "Select";
+            // 
+            // lbActionText
+            // 
+            this.lbActionText.AutoSize = true;
+            this.lbActionText.Location = new System.Drawing.Point(126, 54);
+            this.lbActionText.Name = "lbActionText";
+            this.lbActionText.Size = new System.Drawing.Size(40, 13);
+            this.lbActionText.TabIndex = 50;
+            this.lbActionText.Text = "Action:";
+            // 
+            // lbOrto
+            // 
+            this.lbOrto.AutoSize = true;
+            this.lbOrto.Location = new System.Drawing.Point(126, 27);
+            this.lbOrto.Name = "lbOrto";
+            this.lbOrto.Size = new System.Drawing.Size(65, 13);
+            this.lbOrto.TabIndex = 49;
+            this.lbOrto.Text = "Deactivated";
+            // 
+            // lbOrtoText
+            // 
+            this.lbOrtoText.AutoSize = true;
+            this.lbOrtoText.Location = new System.Drawing.Point(126, 4);
+            this.lbOrtoText.Name = "lbOrtoText";
+            this.lbOrtoText.Size = new System.Drawing.Size(30, 13);
+            this.lbOrtoText.TabIndex = 48;
+            this.lbOrtoText.Text = "Orto:";
             // 
             // lbSelector
             // 
@@ -1750,6 +1876,7 @@
             this.tbCommands.Name = "tbCommands";
             this.tbCommands.Size = new System.Drawing.Size(584, 26);
             this.tbCommands.TabIndex = 0;
+            this.tbCommands.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbCommands_KeyDown);
             // 
             // pActionBar
             // 
@@ -1766,14 +1893,13 @@
             this.pActionBar.Controls.Add(this.btImage);
             this.pActionBar.Controls.Add(this.btMove);
             this.pActionBar.Controls.Add(this.btText);
-            this.pActionBar.Controls.Add(this.btStraightLineAngle);
             this.pActionBar.Controls.Add(this.btEllipse);
             this.pActionBar.Controls.Add(this.btCircleDia);
             this.pActionBar.Controls.Add(this.btCircleRad);
             this.pActionBar.Controls.Add(this.btArc);
             this.pActionBar.Controls.Add(this.btBezier);
             this.pActionBar.Controls.Add(this.btPolygon);
-            this.pActionBar.Controls.Add(this.btStraightLine);
+            this.pActionBar.Controls.Add(this.btLine);
             this.pActionBar.Controls.Add(this.btPoint);
             this.pActionBar.Dock = System.Windows.Forms.DockStyle.Left;
             this.pActionBar.Location = new System.Drawing.Point(0, 75);
@@ -1797,7 +1923,7 @@
             this.btRectangle.BackColor = System.Drawing.Color.Transparent;
             this.btRectangle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btRectangle.BackgroundImage")));
             this.btRectangle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btRectangle.Location = new System.Drawing.Point(57, 117);
+            this.btRectangle.Location = new System.Drawing.Point(3, 61);
             this.btRectangle.Name = "btRectangle";
             this.btRectangle.Size = new System.Drawing.Size(50, 50);
             this.btRectangle.TabIndex = 21;
@@ -1819,7 +1945,7 @@
             this.btSplit.BackColor = System.Drawing.Color.Transparent;
             this.btSplit.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btSplit.BackgroundImage")));
             this.btSplit.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btSplit.Location = new System.Drawing.Point(3, 509);
+            this.btSplit.Location = new System.Drawing.Point(57, 453);
             this.btSplit.Name = "btSplit";
             this.btSplit.Size = new System.Drawing.Size(50, 50);
             this.btSplit.TabIndex = 36;
@@ -1830,7 +1956,7 @@
             this.btShade.BackColor = System.Drawing.Color.Transparent;
             this.btShade.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btShade.BackgroundImage")));
             this.btShade.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btShade.Location = new System.Drawing.Point(59, 509);
+            this.btShade.Location = new System.Drawing.Point(3, 510);
             this.btShade.Name = "btShade";
             this.btShade.Size = new System.Drawing.Size(50, 50);
             this.btShade.TabIndex = 35;
@@ -1841,7 +1967,7 @@
             this.btMirror.BackColor = System.Drawing.Color.Transparent;
             this.btMirror.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btMirror.BackgroundImage")));
             this.btMirror.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btMirror.Location = new System.Drawing.Point(59, 453);
+            this.btMirror.Location = new System.Drawing.Point(3, 397);
             this.btMirror.Name = "btMirror";
             this.btMirror.Size = new System.Drawing.Size(50, 50);
             this.btMirror.TabIndex = 34;
@@ -1852,7 +1978,7 @@
             this.btScale.BackColor = System.Drawing.Color.Transparent;
             this.btScale.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btScale.BackgroundImage")));
             this.btScale.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btScale.Location = new System.Drawing.Point(3, 397);
+            this.btScale.Location = new System.Drawing.Point(57, 341);
             this.btScale.Name = "btScale";
             this.btScale.Size = new System.Drawing.Size(50, 50);
             this.btScale.TabIndex = 33;
@@ -1874,7 +2000,7 @@
             this.btImage.BackColor = System.Drawing.Color.Transparent;
             this.btImage.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btImage.BackgroundImage")));
             this.btImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btImage.Location = new System.Drawing.Point(57, 341);
+            this.btImage.Location = new System.Drawing.Point(57, 285);
             this.btImage.Name = "btImage";
             this.btImage.Size = new System.Drawing.Size(50, 50);
             this.btImage.TabIndex = 31;
@@ -1902,23 +2028,12 @@
             this.btText.TabIndex = 29;
             this.btText.UseVisualStyleBackColor = false;
             // 
-            // btStraightLineAngle
-            // 
-            this.btStraightLineAngle.BackColor = System.Drawing.Color.Transparent;
-            this.btStraightLineAngle.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btStraightLineAngle.BackgroundImage")));
-            this.btStraightLineAngle.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btStraightLineAngle.Location = new System.Drawing.Point(3, 61);
-            this.btStraightLineAngle.Name = "btStraightLineAngle";
-            this.btStraightLineAngle.Size = new System.Drawing.Size(50, 50);
-            this.btStraightLineAngle.TabIndex = 28;
-            this.btStraightLineAngle.UseVisualStyleBackColor = false;
-            // 
             // btEllipse
             // 
             this.btEllipse.BackColor = System.Drawing.Color.Transparent;
             this.btEllipse.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btEllipse.BackgroundImage")));
             this.btEllipse.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btEllipse.Location = new System.Drawing.Point(59, 285);
+            this.btEllipse.Location = new System.Drawing.Point(3, 230);
             this.btEllipse.Name = "btEllipse";
             this.btEllipse.Size = new System.Drawing.Size(50, 50);
             this.btEllipse.TabIndex = 27;
@@ -1929,7 +2044,7 @@
             this.btCircleDia.BackColor = System.Drawing.Color.Transparent;
             this.btCircleDia.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btCircleDia.BackgroundImage")));
             this.btCircleDia.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btCircleDia.Location = new System.Drawing.Point(3, 229);
+            this.btCircleDia.Location = new System.Drawing.Point(57, 173);
             this.btCircleDia.Name = "btCircleDia";
             this.btCircleDia.Size = new System.Drawing.Size(50, 50);
             this.btCircleDia.TabIndex = 26;
@@ -1951,7 +2066,7 @@
             this.btArc.BackColor = System.Drawing.Color.Transparent;
             this.btArc.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btArc.BackgroundImage")));
             this.btArc.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btArc.Location = new System.Drawing.Point(59, 173);
+            this.btArc.Location = new System.Drawing.Point(57, 117);
             this.btArc.Name = "btArc";
             this.btArc.Size = new System.Drawing.Size(50, 50);
             this.btArc.TabIndex = 24;
@@ -1979,16 +2094,17 @@
             this.btPolygon.TabIndex = 22;
             this.btPolygon.UseVisualStyleBackColor = false;
             // 
-            // btStraightLine
+            // btLine
             // 
-            this.btStraightLine.BackColor = System.Drawing.Color.Transparent;
-            this.btStraightLine.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btStraightLine.BackgroundImage")));
-            this.btStraightLine.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btStraightLine.Location = new System.Drawing.Point(57, 5);
-            this.btStraightLine.Name = "btStraightLine";
-            this.btStraightLine.Size = new System.Drawing.Size(50, 50);
-            this.btStraightLine.TabIndex = 20;
-            this.btStraightLine.UseVisualStyleBackColor = false;
+            this.btLine.BackColor = System.Drawing.Color.Transparent;
+            this.btLine.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btLine.BackgroundImage")));
+            this.btLine.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btLine.Location = new System.Drawing.Point(57, 5);
+            this.btLine.Name = "btLine";
+            this.btLine.Size = new System.Drawing.Size(50, 50);
+            this.btLine.TabIndex = 20;
+            this.btLine.UseVisualStyleBackColor = false;
+            this.btLine.Click += new System.EventHandler(this.btLine_Click);
             // 
             // btPoint
             // 
@@ -2005,6 +2121,8 @@
             // 
             this.pBoard.BackColor = System.Drawing.Color.Black;
             this.pBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pBoard.Controls.Add(this.lbDinamic);
+            this.pBoard.Controls.Add(this.tbDinamic);
             this.pBoard.Cursor = System.Windows.Forms.Cursors.Cross;
             this.pBoard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pBoard.Location = new System.Drawing.Point(114, 75);
@@ -2012,29 +2130,41 @@
             this.pBoard.Size = new System.Drawing.Size(863, 585);
             this.pBoard.TabIndex = 6;
             this.pBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.pBoard_Paint);
+            this.pBoard.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pBoard_MouseClick);
+            this.pBoard.MouseLeave += new System.EventHandler(this.pBoard_MouseLeave);
             this.pBoard.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pBoard_MouseMove);
+            this.pBoard.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pBoard_PreviewKeyDown);
+            // 
+            // lbDinamic
+            // 
+            this.lbDinamic.AutoSize = true;
+            this.lbDinamic.BackColor = System.Drawing.Color.Transparent;
+            this.lbDinamic.ForeColor = System.Drawing.Color.White;
+            this.lbDinamic.Location = new System.Drawing.Point(225, 210);
+            this.lbDinamic.Name = "lbDinamic";
+            this.lbDinamic.Size = new System.Drawing.Size(70, 13);
+            this.lbDinamic.TabIndex = 1;
+            this.lbDinamic.Text = "Dinamic label";
+            // 
+            // tbDinamic
+            // 
+            this.tbDinamic.Location = new System.Drawing.Point(228, 239);
+            this.tbDinamic.Name = "tbDinamic";
+            this.tbDinamic.Size = new System.Drawing.Size(70, 20);
+            this.tbDinamic.TabIndex = 0;
+            this.tbDinamic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbDinamic_KeyDown);
             // 
             // outFile
             // 
-            this.outFile.DefaultExt = "\".ccad\"";
-            this.outFile.Filter = "\"ccad files (*.ccad)|*.ccad\"";
+            this.outFile.DefaultExt = "ccad";
+            this.outFile.Filter = "ccad files (*.ccad)|*.ccad";
             this.outFile.InitialDirectory = "\"c:\\\\\"";
             // 
             // inFile
             // 
-            this.inFile.Filter = "\"ccad files (*.ccad)|*.ccad\"";
+            this.inFile.DefaultExt = "ccad";
+            this.inFile.Filter = "ccad files (*.ccad)|*.ccad";
             this.inFile.InitialDirectory = "\"c:\\\\\"";
-            // 
-            // btOrto
-            // 
-            this.btOrto.BackColor = System.Drawing.Color.Transparent;
-            this.btOrto.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btOrto.BackgroundImage")));
-            this.btOrto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btOrto.Location = new System.Drawing.Point(841, 3);
-            this.btOrto.Name = "btOrto";
-            this.btOrto.Size = new System.Drawing.Size(40, 40);
-            this.btOrto.TabIndex = 42;
-            this.btOrto.UseVisualStyleBackColor = false;
             // 
             // Board
             // 
@@ -2052,9 +2182,11 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CCAD";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Board_KeyDown);
             this.tsToolBar.ResumeLayout(false);
             this.tsToolBar.PerformLayout();
             this.pTools.ResumeLayout(false);
+            this.pTools.PerformLayout();
             this.pProperty.ResumeLayout(false);
             this.pRectangleProperty.ResumeLayout(false);
             this.pRectangleProperty.PerformLayout();
@@ -2077,6 +2209,8 @@
             this.pSelector.ResumeLayout(false);
             this.pSelector.PerformLayout();
             this.pActionBar.ResumeLayout(false);
+            this.pBoard.ResumeLayout(false);
+            this.pBoard.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2121,11 +2255,10 @@
         private System.Windows.Forms.Button btZoom;
         private System.Windows.Forms.Button btZoomOut;
         private System.Windows.Forms.Button btZoomIn;
-        private System.Windows.Forms.Button btStraightLine;
+        private System.Windows.Forms.Button btLine;
         private System.Windows.Forms.Button btPoint;
         private System.Windows.Forms.Button btPolygon;
         private System.Windows.Forms.Button btRectangle;
-        private System.Windows.Forms.Button btStraightLineAngle;
         private System.Windows.Forms.Button btEllipse;
         private System.Windows.Forms.Button btCircleDia;
         private System.Windows.Forms.Button btCircleRad;
@@ -2265,6 +2398,18 @@
         private System.Windows.Forms.Label lbRectStartPoint;
         private System.Windows.Forms.Label lbRectangleProp;
         private System.Windows.Forms.Button btOrto;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox cbColorSelector;
+        private System.Windows.Forms.ColorDialog cdColor;
+        private System.Windows.Forms.Label lbCurrentColor;
+        private System.Windows.Forms.Label lbCurrentLineWidth;
+        private System.Windows.Forms.ComboBox cbCurrentLineWidth;
+        private System.Windows.Forms.Label lbOrto;
+        private System.Windows.Forms.Label lbOrtoText;
+        private System.Windows.Forms.Label lbAction;
+        private System.Windows.Forms.Label lbActionText;
+        private System.Windows.Forms.Label lbDinamic;
+        private System.Windows.Forms.TextBox tbDinamic;
     }
 }
 

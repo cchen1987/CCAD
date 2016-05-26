@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace CCAD
 {
+    /// <summary>
+    /// This class store information about a text to draw on screen,
+    /// and all it's information
+    /// </summary>
     class Text : Entity
     {
         public string Phrase { get; set; }
@@ -16,10 +15,11 @@ namespace CCAD
         public PointF Point { get; set; }
         public Font Font { get; }
         
-        public Text(Color color, int size, FontFamily fontFamily, PointF point)
-                : base(color)
+        public Text(Color color, int size, FontFamily fontFamily, PointF point,
+            string text) : base(color)
         {
             Point = point;
+            Phrase = text;
             Size = size;
             FontFamily = fontFamily;
             Font = new Font(FontFamily, Size);

@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CCAD
 {
+    /// <summary>
+    /// This class is a circle, defined by a centre point and a radius
+    /// </summary>
     class Circle : CurvedLine
     {
-        public Circle(Color color, PointF point, double radius)
-                : base(color, point, radius)
+        public Circle(Color color, PointF point, int width, double radius)
+                : base(color, point, width, radius)
         {
             perimeter = 2 * Math.PI * Radius;
             area = Math.PI * Radius * Radius;

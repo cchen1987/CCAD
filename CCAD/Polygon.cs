@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace CCAD
 {
+    /// <summary>
+    /// This class is a set of n numbers of lines
+    /// that defines a regular polygon
+    /// </summary>
     class Polygon : Block
     {
         public PointF CentrePoint { get; set; }

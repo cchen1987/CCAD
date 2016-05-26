@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CCAD
 {
+    /// <summary>
+    /// Class ellipse, defined by a minor axis, and a major axis
+    /// </summary>
     class Ellipse : CurvedLine
     {
         public PointF MinorAxisPoint { get; set; }
@@ -15,19 +14,25 @@ namespace CCAD
         public PointF StartPoint { get; set; }
         public PointF EndPoint { get; set; }
         
-        public Ellipse(Color color, PointF point, double radius, PointF axisP1,
-                PointF axisP2) : base(color, point, radius)
+        public Ellipse(Color color, PointF point, int width,
+                PointF minorAxisPoint, PointF majorAxisPoint)
+                : base(color, point, width)
         {
-            MinorAxisPoint = axisP1;
-            MajorAxisPoint = axisP2;
+            MinorAxisPoint = minorAxisPoint;
+            MajorAxisPoint = majorAxisPoint;
+            // Calculate the top left point of the rectangle that 
+            // contains the ellipse
             StartPoint = new PointF(2f * CentrePoint.X - MajorAxisPoint.X,
                 MinorAxisPoint.Y);
+            // Calculate the bottom right point of the rectangle that 
+            // contains the ellipse
             EndPoint = new PointF(MajorAxisPoint.X, 2f * CentrePoint.Y - 
                 MinorAxisPoint.Y);
             // a is major radius
             double a = Math.Abs(MajorAxisPoint.X - CentrePoint.X);
             // b is minor radius
             double b = Math.Abs(MinorAxisPoint.Y - CentrePoint.Y);
+
             area = Math.PI * a * b;
             perimeter = Math.PI * Math.Abs(3 * (a + b) - 
                 Math.Sqrt((3 * a + b) * (a + 3 * b)));

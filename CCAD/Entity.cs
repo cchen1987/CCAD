@@ -1,13 +1,11 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CCAD
 {
+    /// <summary>
+    /// Class that represents all the elements that will be drawn
+    /// </summary>
     class Entity
     {
         protected double perimeter;
@@ -15,6 +13,7 @@ namespace CCAD
         protected int range;
         protected Color originalColor;
         protected PaintEventArgs graph;
+        protected bool selected;
 
         public int LineWidth { get; set; }
         public Color Color { get; set; }
@@ -27,7 +26,7 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method draw the painting in the board
+        /// This method draw the entity in the board
         /// </summary>
         /// <param name="graph"></param>
         public virtual void Draw(PaintEventArgs graph)
@@ -36,7 +35,7 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method restore the current color to the original color
+        /// This method restore the current color to the previous color
         /// </summary>
         public void ResetColor()
         {
@@ -44,11 +43,20 @@ namespace CCAD
         }
 
         /// <summary>
+        /// This method returns the original colour of the entity
+        /// </summary>
+        /// <returns>originalColor</returns>
+        public Color GetOriginalColor()
+        {
+            return originalColor;
+        }
+
+        /// <summary>
         /// This method checks if the mouse is next to the drawing
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        /// <returns></returns>
+        /// <returns>true if is in range, false if not</returns>
         public virtual bool IsInRange(int x, int y)
         {
             // Defined in each class
@@ -58,7 +66,7 @@ namespace CCAD
         /// <summary>
         /// This method returns the area of the entity
         /// </summary>
-        /// <returns></returns>
+        /// <returns>area</returns>
         public double GetArea()
         {
             return area;
@@ -67,10 +75,36 @@ namespace CCAD
         /// <summary>
         /// This method returns the perimeter of the entity
         /// </summary>
-        /// <returns></returns>
+        /// <returns>perimeter</returns>
         public double GetPerimeter()
         {
             return perimeter;
+        }
+
+        /// <summary>
+        /// This method marks the entity as selected
+        /// </summary>
+        public void Selected()
+        {
+            selected = true;
+        }
+
+        /// <summary>
+        /// This method checks if the entity is selected
+        /// </summary>
+        /// <returns>true if selected, and false if not</returns>
+        public bool IsSelected()
+        {
+            return selected;
+        }
+
+        /// <summary>
+        /// This method changes the selected status to
+        /// not selected
+        /// </summary>
+        public void Free()
+        {
+            selected = false;
         }
     }
 }

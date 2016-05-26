@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CCAD
 {
+    /// <summary>
+    /// This class is one of the basic clases, that will be used by blocks
+    /// </summary>
     class Line : Entity
     {
         public PointF StartPoint { get; set; }

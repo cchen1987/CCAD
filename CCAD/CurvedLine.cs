@@ -1,22 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CCAD
 {
+    /// <summary>
+    /// this class encompasses all curved drawings
+    /// </summary>
     class CurvedLine : Entity
     {
         public double Radius { get; set; }
         public PointF CentrePoint { get; set; }
 
-        public CurvedLine(Color color, PointF point, double radius)
+        public CurvedLine(Color color, PointF point, int width) : base(color)
+        {
+            CentrePoint = point;
+            LineWidth = width;
+        }
+
+        public CurvedLine(Color color, PointF point, int width, double radius)
                 : base(color)
         {
             CentrePoint = point;
             Radius = radius;
+            LineWidth = width;
         }
 
         public override bool IsInRange(int x, int y)

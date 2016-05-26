@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Drawing;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CCAD
 {
+    /// <summary>
+    /// Basic class that is used to define all drawings
+    /// </summary>
     class Point : Entity
     {
         public PointF StartPoint { get; set; }
