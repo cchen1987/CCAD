@@ -7,7 +7,7 @@ namespace CCAD
     /// This class is a set of n numbers of lines
     /// that defines a regular polygon
     /// </summary>
-    class Polygon : Block
+    public class Polygon : Block
     {
         public PointF CentrePoint { get; set; }
 

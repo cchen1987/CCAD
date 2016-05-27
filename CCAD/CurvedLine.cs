@@ -6,7 +6,7 @@ namespace CCAD
     /// <summary>
     /// this class encompasses all curved drawings
     /// </summary>
-    class CurvedLine : Entity
+    public class CurvedLine : Entity
     {
         public double Radius { get; set; }
         public PointF CentrePoint { get; set; }

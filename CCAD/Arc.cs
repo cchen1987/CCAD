@@ -8,7 +8,7 @@ namespace CCAD
     /// This class represents a segment of a circle,
     /// defined by 3 points
     /// </summary>
-    class Arc : CurvedLine
+    public class Arc : CurvedLine
     {
         public double StartAngle { get; set; }
         public double SweepAngle { get; set; }
@@ -16,7 +16,7 @@ namespace CCAD
         public PointF EndPoint { get; }
 
         public Arc(Color color, PointF point, PointF start, PointF end,
-                int width, double radius) : base(color, point, width, radius)
+                int width) : base(color, point, width)
         {
             double lengthX = end.X - CentrePoint.X;
             double lengthY = end.Y - CentrePoint.Y;

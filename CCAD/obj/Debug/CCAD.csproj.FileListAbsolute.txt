@@ -8,3 +8,36 @@ c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.csp
 c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.exe
 c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.pdb
 c:\users\chao\documents\visual studio 2015\Projects\CCAD\CCAD\obj\Debug\CCAD.HelpScreen.resources
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\bin\Debug\CCAD.exe.config
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\obj\Debug\CCAD.exe
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\obj\Debug\CCAD.pdb
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\bin\Debug\CCAD.exe
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\bin\Debug\CCAD.pdb
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\obj\Debug\CCAD.csprojResolveAssemblyReference.cache
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\obj\Debug\CCAD.Board.resources
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\obj\Debug\CCAD.Canvas.resources
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\obj\Debug\CCAD.HelpScreen.resources
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\obj\Debug\CCAD.Properties.Resources.resources
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con form incrustado\CCAD\obj\Debug\CCAD.csproj.GenerateResource.Cache
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\bin\Debug\CCAD.exe.config
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\obj\Debug\CCAD.exe
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\obj\Debug\CCAD.pdb
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\obj\Debug\CCAD.csprojResolveAssemblyReference.cache
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\obj\Debug\CCAD.Board.resources
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\obj\Debug\CCAD.Canvas.resources
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\obj\Debug\CCAD.HelpScreen.resources
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\obj\Debug\CCAD.Properties.Resources.resources
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\obj\Debug\CCAD.csproj.GenerateResource.Cache
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\bin\Debug\CCAD.exe
+C:\Users\chao\Documents\Visual Studio 2015\Projects\CCAD con Canvas\CCAD\bin\Debug\CCAD.pdb
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\bin\Debug\CCAD.exe.config
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.exe
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.pdb
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\bin\Debug\CCAD.exe
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\bin\Debug\CCAD.pdb
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.csprojResolveAssemblyReference.cache
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.Board.resources
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.Canvas.resources
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.HelpScreen.resources
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.Properties.Resources.resources
+C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.csproj.GenerateResource.Cache

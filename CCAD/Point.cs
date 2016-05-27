@@ -7,7 +7,7 @@ namespace CCAD
     /// <summary>
     /// Basic class that is used to define all drawings
     /// </summary>
-    class Point : Entity
+    public class Point : Entity
     {
         public PointF StartPoint { get; set; }
 

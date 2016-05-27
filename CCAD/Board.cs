@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
+using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace CCAD
 {
@@ -11,78 +11,12 @@ namespace CCAD
     /// </summary>
     public partial class Board : Form
     {
-        private List<Entity> entities;
-        private bool firstClick;
-        private bool secondClick;
-        private bool thirdClick;
-        private bool draw;
-        private bool drawLine;
-        private bool drawPolyline;
-        private bool drawRectangle;
-        private bool drawPolygon;
-        private bool drawText;
-        private bool drawPoint;
-        private bool drawCircle;
-        private bool drawCircleOpposite;
-        private bool drawEllipse;
-        private bool drawArc;
-        private bool drawImage;
-        private bool scale;
-        private bool mirror;
-        private bool copy;
-        private bool move;
-        private bool select;
-        private bool orto;
-        private int currentX;
-        private int currentY;
-        private int currentLineWidth;
-        private double zoomIncrement;
-        private double currentZoom;
-        private double angle;
-        private PointF startPoint;
-        private PointF endPoint;
-        private PointF previousPoint;
-        private Color currentColor;
-        private Graphics graph;
-        private Brush brush;
-        private Pen pen;
+        private Canvas myCanvas;
+        private string currentFilePath;
 
         public Board()
         {
             InitializeComponent();
-            lbxCommands.Items.Add("Welcome to CCAD version 1.0 2016");
-            lbxCommands.Items.Add("Author: Chen Chao");
-            entities = new List<Entity>();
-            firstClick = true;
-            secondClick = false;
-            thirdClick = false;
-            draw = false;
-            drawLine = false;
-            drawPolyline = false;
-            drawRectangle = false;
-            drawPolygon = false;
-            drawText = false;
-            drawPoint = false;
-            drawCircle = false;
-            drawCircleOpposite = false;
-            drawEllipse = false;
-            drawArc = false;
-            drawImage = false;
-            scale = false;
-            mirror = false;
-            copy = false;
-            move = false;
-            select = false;
-            orto = false;
-            zoomIncrement = 0.1f;
-            currentZoom = 1f;
-            angle = 0;
-            graph = pBoard.CreateGraphics();
-            brush = new SolidBrush(currentColor);
-            pen = new Pen(brush, currentLineWidth);
-            startPoint = new PointF();
-            endPoint = new PointF();
-            previousPoint = new PointF();
             cbColorSelector.Items.Add("White");
             cbColorSelector.Items.Add("Green");
             cbColorSelector.Items.Add("Blue");
@@ -109,13 +43,15 @@ namespace CCAD
             cbCurrentLineWidth.Items.Add(1);
             cbCurrentLineWidth.Items.Add(5);
             cbCurrentLineWidth.Items.Add(9);
-            currentLineWidth = Convert.ToInt32(cbCurrentLineWidth.Items[0]);
-            currentColor = Color.FromName(
-                cbColorSelector.Items[0].ToString());
+            // Create canvas
+            myCanvas = new Canvas(this);
+            pBoard.Controls.Add(myCanvas);
+            pBoard.Tag = myCanvas;
+            myCanvas.Show();
+            // Predefine item
             cbColorSelector.SelectedIndex = 0;
             cbCurrentLineWidth.SelectedIndex = 0;
-            lbDinamic.Hide();
-            tbDinamic.Hide();
+            currentFilePath = "";
         }
 
         /// <summary>
@@ -137,11 +73,22 @@ namespace CCAD
         /// <param name="e"></param>
         private void btExit_Click(object sender, EventArgs e)
         {
-            if (entities.Count == 0)
+            if (myCanvas.GetDrawing().Count == 0 && currentFilePath == "")
                 Close();
             else
             {
-                // TO DO                
+                DialogResult result = MessageBox.Show(
+                    "Hay cambios sin guardar, ¿Desea guardarlos?",
+                    "¡Advertencia!", MessageBoxButtons.YesNoCancel);
+                if (result == DialogResult.Yes)
+                {
+                    btSave_Click(sender, e);
+
+                }
+                else if (result == DialogResult.No)
+                {
+                    Close();
+                }
             }
         }
 
@@ -155,25 +102,34 @@ namespace CCAD
         private void btNew_Click(object sender, EventArgs e)
         {
             // Clear the screen
-            if (entities.Count == 0)
+            if (myCanvas.GetDrawing().Count == 0)
             {
-                pBoard.BackColor = Color.Black;
-                Refresh();
+                currentFilePath = "";
+                lbxCommands.Items.Clear();
+                myCanvas.ResetCanvas();
+                Text = "CCAD";
             }
             else
             {
                 DialogResult result = MessageBox.Show(
-                    "Hay cambios sin guardar, ¿Desea guardarlos?", 
+                    "Hay cambios sin guardar, ¿Desea guardarlos?",
                     "¡Advertencia!", MessageBoxButtons.YesNoCancel);
+                // Save all drawing if user press yes
                 if (result == DialogResult.Yes)
                 {
                     btSave_Click(sender, e);
+                    lbxCommands.Items.Clear();
+                    myCanvas.ResetCanvas();
+                    currentFilePath = "";
+                    Text = "CCAD";
                 }
+                // Delete all drawing if user press no
                 else if (result == DialogResult.No)
                 {
-                    entities = new List<Entity>();
-                    pBoard.BackColor = Color.Black;
-                    Refresh();
+                    currentFilePath = "";
+                    Text = "CCAD";
+                    lbxCommands.Items.Clear();
+                    myCanvas.ResetCanvas();
                 }
             }
         }
@@ -201,19 +157,78 @@ namespace CCAD
             {
                 try
                 {
-                    // TO DO
+                    currentFilePath = inFile.FileName;
+                    StreamReader read = File.OpenText(currentFilePath);
+                    string line;
+
+                    // Read and check header
+                    line = read.ReadLine();
+                    if (!line.Equals("CCADv2016"))
+                    {
+                        MessageBox.Show("Not a valid file!");
+                        currentFilePath = "";
+                        return;
+                    }
+
+                    List<Entity> entities = new List<Entity>();
+                    do
+                    {
+                        line = read.ReadLine();
+                        if (line != null)
+                        {
+                            int lineWidth = Convert.ToInt32(read.ReadLine());
+                            Color color = Color.FromName(read.ReadLine());
+                            if (line.Equals("Point"))
+                                entities.Add(new Point(color,
+                                    ReadPoint(read)));
+                            else if (line.Equals("Line"))
+                                entities.Add(ReadLine(read, color,
+                                    lineWidth));
+                            else if (line.Equals("Rectangle"))
+                                entities.Add(ReadRectangle(read, color,
+                                    lineWidth));
+                            else if (line.Equals("Polyline"))
+                                entities.Add(ReadPolyline(read, color,
+                                    lineWidth));
+                            else if (line.Equals("Polygon"))
+                                entities.Add(ReadPolygon(read, color,
+                                    lineWidth));
+                            else if (line.Equals("Arc"))
+                                entities.Add(ReadArc(read, color,
+                                    lineWidth));
+                            else if (line.Equals("Circle"))
+                                entities.Add(ReadCircle(read, color,
+                                    lineWidth));
+                            else if (line.Equals("Ellipse"))
+                                entities.Add(ReadEllipse(read, color,
+                                    lineWidth));
+                            else if (line.Equals("Text"))
+                                entities.Add(ReadText(read, color));
+                            else if (line.Equals("Image"))
+                                entities.Add(ReadImage(read, color));
+                        }
+                    }
+                    while (line != null);
+                    read.Close();
+
+                    myCanvas.LoadDrawing(entities);
+                    entities = null;
                 }
                 catch (PathTooLongException)
                 {
                     MessageBox.Show("Path too long.");
+                    currentFilePath = "";
                 }
                 catch (IOException ex)
                 {
-                    MessageBox.Show("Input error: Cound not read file from disk. Original error: " + ex.Message);
+                    MessageBox.Show("Input error: Cound not read file" +
+                        " from disk. Original error: " + ex.Message);
+                    currentFilePath = "";
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Unexpected error: " + ex.Message);
+                    currentFilePath = "";
                 }
             }
         }
@@ -237,8 +252,42 @@ namespace CCAD
         {
             try
             {
-                // TO DO
-                // Save method, all code here
+                StreamWriter write = File.CreateText(path);
+                // Write header
+                write.WriteLine("CCADv2016");
+
+                // Save drawings
+                List<Entity> entities = myCanvas.GetDrawing();
+                int size = entities.Count;
+                for (int i = 0; i < size; i++)
+                {
+                    string name =
+                        entities[i].GetType().ToString().Replace("CCAD.", "");
+                    write.WriteLine(name);
+                    write.WriteLine(entities[i].LineWidth);
+                    write.WriteLine(entities[i].Color.ToString().Split()[1].
+                        Replace("[", "").Replace("]", ""));
+                    if (name.Equals("Point"))
+                        WritePoint(write, ((Point)entities[i]).StartPoint);
+                    else if (name.Equals("Line"))
+                        WriteLine(write, (Line)entities[i]);
+                    else if (name.Equals("Rectangle") ||
+                            name.Equals("Polyline"))
+                        WriteBlock(write, (Block)entities[i]);
+                    else if (name.Equals("Polygon"))
+                        WritePolygon(write, (Polygon)entities[i]);
+                    else if (name.Equals("Arc"))
+                        WriteArc(write, (Arc)entities[i]);
+                    else if (name.Equals("Circle"))
+                        WriteCircle(write, (Circle)entities[i]);
+                    else if (name.Equals("Ellipse"))
+                        WriteEllipse(write, (Ellipse)entities[i]);
+                    else if (name.Equals("Text"))
+                        WriteText(write, (Text)entities[i]);
+                    else if (name.Equals("Image"))
+                        WriteImageInfo(write, (Image)entities[i]);
+                }
+                write.Close();
             }
             catch (PathTooLongException)
             {
@@ -262,7 +311,15 @@ namespace CCAD
         /// <param name="e"></param>
         private void btSave_Click(object sender, EventArgs e)
         {
-            // TO DO
+            // Check for file path, if no file path, call save dialog
+            if (currentFilePath == "")
+            {
+                btSaveAs_Click(sender, e);
+            }
+            else
+            {
+                Save(currentFilePath);
+            }
         }
 
         /// <summary>
@@ -283,9 +340,12 @@ namespace CCAD
         /// <param name="e"></param>
         private void btSaveAs_Click(object sender, EventArgs e)
         {
+            // Ask for file directory
             if (outFile.ShowDialog() == DialogResult.OK)
             {
-                // TO DO
+                currentFilePath = outFile.FileName;
+                Text = currentFilePath + " - CCAD";
+                Save(currentFilePath);
             }
         }
 
@@ -302,24 +362,156 @@ namespace CCAD
 
 // Color selector block
         /// <summary>
-        /// This method sets the current color to the select item in the color box
+        /// This method sets the current color to the select item in the
+        /// color box
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void cbColorSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentColor = Color.FromName(cbColorSelector.SelectedItem.ToString());
+            myCanvas.CurrentColor = 
+                Color.FromName(cbColorSelector.SelectedItem.ToString());
         }
-        
+
         /// <summary>
-        /// This method draws rectangles filled with the corresponding colour of each
-        /// item in the combo box
+        /// This method draws rectangles filled with the corresponding colour
+        /// of each item in the combo box
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void cbColorSelector_DrawItem(object sender, DrawItemEventArgs e)
         {
-            e.DrawFocusRectangle();
+            DrawItemsColor(sender, e);
+        }
+
+        /// <summary>
+        /// This method sets the current line width to the select item in the
+        /// line width box
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbCurrentLineWidth_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            myCanvas.CurrentLineWidth = 
+                Convert.ToInt32(cbCurrentLineWidth.SelectedItem);
+        }
+
+        /// <summary>
+        /// This method draws rectangles filled with the corresponding 
+        /// colour of each item in the combo box of the property editor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cbColor_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            DrawItemsColor(sender, e);
+        }
+
+// Action buttons events
+        /// <summary>
+        /// This method activate and deactivate the orto option
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btOrto_Click(object sender, EventArgs e)
+        {
+            myCanvas.Orto = !myCanvas.Orto;
+
+            if (myCanvas.Orto)
+                lbOrto.Text = "Activated";
+            else
+                lbOrto.Text = "Deactivated";
+        }
+
+        /// <summary>
+        /// This method activate the select tool and deactivate other tools
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btSelect_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+        }
+
+        /// <summary>
+        /// This method activates the line action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btLine_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawLine = true;
+            lbAction.Text = "Line";
+        }
+
+// Keyboard event
+        /// <summary>
+        /// This method checks if enter key pressed and interprete the 
+        /// commands
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tbCommands_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                myCanvas.SilenceKeySound(e);
+
+                if (myCanvas.DrawLine && !myCanvas.FirstClick)
+                {
+                    string[] parts = tbCommands.Text.Split(';');
+
+                    // Interpretation of commands
+                    if (myCanvas.AddLine(parts))
+                    {
+                        lbxCommands.Items.Add("Command: " + tbCommands.Text);
+                        lbxCommands.BackColor = Color.White;
+                        lbxCommands.SelectedIndex = lbxCommands.Items.Count - 1;
+                        tbCommands.Clear();
+                        tbCommands.BackColor = Color.White;
+                    }
+                    else
+                    {
+                        tbCommands.BackColor = Color.Red;
+                    }
+                }
+                // TO DO
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                myCanvas.ResetAllAction();
+                myCanvas.SilenceKeySound(e);
+                lbxCommands.Items.Add("*Canceled*");
+                lbxCommands.SelectedIndex = lbxCommands.Items.Count - 1;
+            }
+        }
+
+        /// <summary>
+        /// This method checks if key pressed when focus on board
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Board_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                myCanvas.SilenceKeySound(e);
+                // Reset all actions when key escape pressed
+                myCanvas.ResetAllAction();
+            }
+        }
+
+// Own methods
+        /// <summary>
+        /// This method draw rectangles in the color picker
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DrawItemsColor(object sender, DrawItemEventArgs e)
+        {
             Graphics g = e.Graphics;
             System.Drawing.Rectangle rect = e.Bounds;
             if (e.Index >= 0)
@@ -334,420 +526,270 @@ namespace CCAD
                     rect.Height - 3);
                 // Draw perimeter
                 e.Graphics.DrawRectangle(SystemPens.WindowText,
-                    new System.Drawing.Rectangle(rect.X + 60, rect.Y + 2, rect.Width - 65,
-                    rect.Height - 3));
+                    new System.Drawing.Rectangle(rect.X + 60, rect.Y + 2, 
+                    rect.Width - 65, rect.Height - 3));
             }
-        }
-
-        /// <summary>
-        /// This method sets the current line width to the select item in the
-        /// line width box
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbCurrentLineWidth_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            currentLineWidth = Convert.ToInt32(cbCurrentLineWidth.SelectedItem);
-        }
-
-        /// <summary>
-        /// This method draws rectangles filled with the corresponding colour of each
-        /// item in the combo box of the property editor
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void cbColor_DrawItem(object sender, DrawItemEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            System.Drawing.Rectangle rect = e.Bounds;
-            if (e.Index >= 0)
-            {
-                string name = ((ComboBox)sender).Items[e.Index].ToString();
-                Font font = new Font("Arial", 5, FontStyle.Regular);
-                Color color = Color.FromName(name);
-                Brush tempBrush = new SolidBrush(color);
-                g.DrawString(name, font, Brushes.Black, rect.X, rect.Top);
-                // Draw background colour
-                g.FillRectangle(tempBrush, rect.X + 60, rect.Y + 2, rect.Width - 65,
-                    rect.Height - 3);
-                // Draw perimeter
-                e.Graphics.DrawRectangle(SystemPens.WindowText,
-                    new System.Drawing.Rectangle(rect.X + 60, rect.Y + 2, rect.Width - 65,
-                    rect.Height - 3));
-            }
-        }
-
-// Main board block
-        /// <summary>
-        /// Main board
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pBoard_Paint(object sender, PaintEventArgs e)
-        {
-            // Draw all entities
-            for (int i = 0; i < entities.Count; i++)
-                entities[i].Draw(e);
-        }
-
-// Mouse events
-        /// <summary>
-        /// This method create entities by mouse clicks
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pBoard_MouseClick(object sender, MouseEventArgs e)
-        {
-            // Get line points if drawing line
-            if (drawLine)
-                CreateLine();
-        }
-
-        /// <summary>
-        /// This method displays the current x and y of the mouse
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pBoard_MouseMove(object sender, MouseEventArgs e)
-        {
-            lbMouseX.Text = e.X.ToString("0.0000");
-            lbMouseY.Text = e.Y.ToString("0.0000");
-
-            // Show the mouse current coordinates in the label
-            if (orto && !firstClick)
-            {
-                if (Math.Abs(e.X - startPoint.X) > Math.Abs(e.Y - startPoint.Y))
-                {
-                    currentX = e.X;
-                    currentY = (int)startPoint.Y;
-                }
-                else
-                {
-                    currentY = e.Y;
-                    currentX = (int)startPoint.X;
-                }
-            }
-            else
-            {
-                currentX = e.X;
-                currentY = e.Y;
-            }
-
-            if (draw)
-            {
-                // Show dinamic items and set their coordinates
-                tbDinamic.Show();
-                tbDinamic.Location = new System.Drawing.Point(e.X + 10, e.Y + 10);
-                tbDinamic.Focus();
-                lbDinamic.Show();
-                lbDinamic.Location = new System.Drawing.Point(e.X + 10, e.Y - 20);
-
-                // set dinamic label text to mouse coordinates
-                if (draw)
-                {
-                    lbDinamic.Text = "x: " + e.X.ToString("0.0000") + " y: " + 
-                        e.Y.ToString("0.0000");
-                }
-            }
-        }
-
-        /// <summary>
-        /// This method checks if mouse leave the main board
-        /// and hide dinamic items when is true
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pBoard_MouseLeave(object sender, EventArgs e)
-        {
-            // Hide dinamic items when mouse leave the main board
-            tbDinamic.Hide();
-            lbDinamic.Hide();
-        }
-
-// Action buttons events
-        /// <summary>
-        /// This method activate and deactivate the orto option
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btOrto_Click(object sender, EventArgs e)
-        {
-            orto = !orto;
-            if (orto)
-                lbOrto.Text = "Activated";
-            else
-                lbOrto.Text = "Deactivated";
-        }
-
-        /// <summary>
-        /// This method activate the select tool and deactivate other tools
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btSelect_Click(object sender, EventArgs e)
-        {
-            ResetAllAction();
         }
         
         /// <summary>
-        /// This method activates the line action
+        /// This method writes the point info in file
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void btLine_Click(object sender, EventArgs e)
+        /// <param name="write"></param>
+        /// <param name="point"></param>
+        private void WritePoint(StreamWriter write, PointF point)
         {
-            ResetAllAction();
-            select = false;
-            draw = true;
-            drawLine = true;
-            lbAction.Text = "Line";
-        }
-
-// Keyboard event
-        /// <summary>
-        /// This method checks the pressed key
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void pBoard_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-        {
-            if (e.KeyCode == Keys.Escape && tbCommands.Focused)
-            {
-                // Reset all actions when key escape pressed
-                ResetAllAction();
-                lbxCommands.Items.Add("*Canceled*");
-            }
+            write.WriteLine(point.X);
+            write.WriteLine(point.Y);
         }
 
         /// <summary>
-        /// This method checks if enter key pressed and interprete the
-        /// commands
+        /// This method writes the line info in file
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void tbDinamic_KeyDown(object sender, KeyEventArgs e)
+        /// <param name="write"></param>
+        /// <param name="line"></param>
+        private void WriteLine(StreamWriter write, Line line)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                SilenceKeySound(e);
-
-                // Draw line by commands
-                if (drawLine && !firstClick)
-                {
-                    string[] parts = tbDinamic.Text.Split(';');
-
-                    // Interpretation of commands
-                    if (AddLine(parts))
-                    {
-                        lbxCommands.Items.Add("Command: " + tbDinamic.Text);
-                        lbxCommands.BackColor = Color.White;
-                        lbxCommands.SelectedIndex = lbxCommands.Items.Count - 1;
-                        tbDinamic.Clear();
-                        tbDinamic.BackColor = Color.White;
-                    }
-                    else
-                    {
-                        tbDinamic.BackColor = Color.Red;
-                    }
-                }
-            }
-            else if (e.KeyCode == Keys.Escape)
-            {
-                ResetAllAction();
-                SilenceKeySound(e);
-                lbxCommands.Items.Add("*Canceled*");
-            }
+            WritePoint(write, line.StartPoint);
+            WritePoint(write, line.EndPoint);
         }
 
         /// <summary>
-        /// This method checks if enter key pressed and interprete the 
-        /// commands
+        /// This method writes the block info in file
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void tbCommands_KeyDown(object sender, KeyEventArgs e)
+        /// <param name="write"></param>
+        /// <param name="block"></param>
+        private void WriteBlock(StreamWriter write, Block block)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                SilenceKeySound(e);
-
-                // TO DO
-                if (drawLine && !firstClick)
-                {
-                    string[] parts = tbCommands.Text.Split(';');
-
-                    // Interpretation of commands
-                    if (AddLine(parts))
-                    {
-                        lbxCommands.Items.Add("Command: " + tbCommands.Text);
-                        lbxCommands.BackColor = Color.White;
-                        lbxCommands.SelectedIndex = lbxCommands.Items.Count - 1;
-                        tbCommands.Clear();
-                        tbCommands.BackColor = Color.White;
-                        firstClick = true;
-                    }
-                    else
-                    {
-                        tbCommands.BackColor = Color.Red;
-                    }
-                }
-            }
-            else if (e.KeyCode == Keys.Escape)
-            {
-                ResetAllAction();
-                SilenceKeySound(e);
-                lbxCommands.Items.Add("*Canceled*");
-            }
+            Line[] lines = block.GetLines();
+            write.WriteLine(lines.Length);
+            for (int i = 0; i < lines.Length; i++)
+                WriteLine(write, lines[i]);
         }
 
         /// <summary>
-        /// This method checks if key pressed when focus on board
+        /// This method writes the polygon info in file
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Board_KeyDown(object sender, KeyEventArgs e)
+        private void WritePolygon(StreamWriter write, Polygon polygon)
         {
-            if (e.KeyCode == Keys.Escape)
-            {
-                SilenceKeySound(e);
-                // Reset all actions when key escape pressed
-                ResetAllAction();
-            }
-        }
-
-// Own methods
-        /// <summary>
-        /// This method resets all action buttons
-        /// </summary>
-        private void ResetAllAction()
-        {
-            select = true;
-            firstClick = true;
-            secondClick = false;
-            thirdClick = false;
-            draw = false;
-            drawLine = false;
-            drawPolyline = false;
-            drawRectangle = false;
-            drawPolygon = false;
-            drawText = false;
-            drawPoint = false;
-            drawCircle = false;
-            drawCircleOpposite = false;
-            drawEllipse = false;
-            drawArc = false;
-            drawImage = false;
-            scale = false;
-            mirror = false;
-            copy = false;
-            move = false;
-            lbAction.Text = "Select";
-            lbDinamic.Hide();
-            tbDinamic.Hide();
+            WritePoint(write, polygon.CentrePoint);
+            WriteBlock(write, polygon);
         }
 
         /// <summary>
-        /// This method adds a line in the entity array
+        /// This method writes the circle info in file
         /// </summary>
-        /// <param name="parts"></param>
-        /// <returns>true if line added successfuly and
-        /// false if not</returns>
-        private bool AddLine(string[] parts)
+        /// <param name="write"></param>
+        /// <param name="circle"></param>
+        private void WriteCircle(StreamWriter write, Circle circle)
         {
-            if (parts.Length == 2)
-            {
-                try
-                {
-                    // Draw line given relative position x and y
-                    // @x;y
-                    if (parts[0].StartsWith("@"))
-                    {
-                        endPoint.X = Math.Abs(Convert.ToInt32(
-                            parts[0].Substring(1)) + startPoint.X);
-                        endPoint.Y = Math.Abs(Convert.ToInt32(
-                            parts[1]) + startPoint.Y);
-                        Line tempLine = new Line(currentColor,
-                            currentLineWidth, startPoint, endPoint);
-                        entities.Add(tempLine);
-                        firstClick = true;
-                        pBoard.Refresh();
-                    }
-                    // Draw line given relative angle and length of line
-                    // #angle;length
-                    else if (parts[0].StartsWith("#"))
-                    {
-                        angle = -Convert.ToDouble(
-                            parts[0].Substring(1)) * Math.PI / 180;
-                        double tempLength = Convert.ToDouble(parts[1]);
-                        endPoint.X = (float)(Math.Cos(angle) * tempLength)
-                            + startPoint.X;
-                        endPoint.Y = (float)(Math.Sin(angle) * tempLength)
-                            + startPoint.Y;
-                        Line tempLine = new Line(currentColor,
-                            currentLineWidth, startPoint, endPoint);
-                        entities.Add(tempLine);
-                        firstClick = true;
-                        pBoard.Refresh();
-                    }
-                    // Draw line given absolute position of x and y
-                    // x;y
-                    else
-                    {
-                        endPoint.X = Convert.ToInt32(parts[0]);
-                        endPoint.Y = Convert.ToInt32(parts[1]);
-                        Line tempLine = new Line(currentColor,
-                            currentLineWidth, startPoint, endPoint);
-                        entities.Add(tempLine);
-                        firstClick = true;
-                        pBoard.Refresh();
-                    }
-
-                    firstClick = true;
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-            return false;
+            WritePoint(write, circle.CentrePoint);
+            write.WriteLine(circle.Radius);
         }
 
         /// <summary>
-        /// This method silences the key sound
+        /// This method writes the ellipse info in file
         /// </summary>
-        private void SilenceKeySound(KeyEventArgs e)
+        /// <param name="write"></param>
+        /// <param name="ellipse"></param>
+        private void WriteEllipse(StreamWriter write, Ellipse ellipse)
         {
-            // Silence the windows "ding" sound
-            e.Handled = true;
-            e.SuppressKeyPress = true;
+            WritePoint(write, ellipse.CentrePoint);
+            WritePoint(write, ellipse.MinorAxisPoint);
+            WritePoint(write, ellipse.MajorAxisPoint);
         }
 
         /// <summary>
-        /// This method gets points to create lines
+        /// This method writes the arc info in file
         /// </summary>
-        public void CreateLine()
+        /// <param name="write"></param>
+        /// <param name="arc"></param>
+        private void WriteArc(StreamWriter write, Arc arc)
         {
-            // Define the first point
-            if (firstClick)
-            {
-                startPoint.X = currentX;
-                startPoint.Y = currentY;
-                firstClick = false;
-            }
-            // Define the following points
-            else if (!firstClick)
-            {
-                endPoint.X = currentX;
-                endPoint.Y = currentY;
-                Line tempLine = new Line(currentColor, currentLineWidth,
-                    startPoint, endPoint);
-                entities.Add(tempLine);
-                pBoard.Refresh();
+            WritePoint(write, arc.CentrePoint);
+            WritePoint(write, arc.StartPoint);
+            WritePoint(write, arc.EndPoint);
+        }
 
-                // Set the next line's start point
-                startPoint = endPoint;
-            }
+        /// <summary>
+        /// This method writes the text info in file
+        /// </summary>
+        /// <param name="write"></param>
+        /// <param name="text"></param>
+        private void WriteText(StreamWriter write, Text text)
+        {
+            WritePoint(write, text.Point);
+            write.WriteLine(text.Phrase);
+            write.WriteLine(text.FontFamily);
+            write.WriteLine(text.Size);
+        }
+
+        /// <summary>
+        /// This method writes the image info in file
+        /// </summary>
+        /// <param name="write"></param>
+        /// <param name="image"></param>
+        private void WriteImageInfo(StreamWriter write, Image image)
+        {
+            WritePoint(write, image.StartPoint);
+            write.WriteLine(image.Path);
+        }
+
+        /// <summary>
+        /// This method reads float point info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <returns>PointF</returns>
+        private PointF ReadPoint(StreamReader read)
+        {
+            float x = Convert.ToSingle(read.ReadLine());
+            float y = Convert.ToSingle(read.ReadLine());
+            return new PointF(x, y);
+        }
+
+        /// <summary>
+        /// This method reads line info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <param name="color"></param>
+        /// <param name="lineWidth"></param>
+        /// <returns>Line</returns>
+        private Line ReadLine(StreamReader read, Color color, int lineWidth)
+        {
+            PointF start = ReadPoint(read);
+            PointF end = ReadPoint(read);
+            return new Line(color, lineWidth, start, end);
+        }
+
+        /// <summary>
+        /// This method reads rectangle info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <param name="color"></param>
+        /// <param name="lineWidth"></param>
+        /// <returns>Rectangle</returns>
+        private Rectangle ReadRectangle(StreamReader read, Color color,
+                int lineWidth)
+        {
+            int size = Convert.ToInt32(read.ReadLine());
+            Line[] lines = new Line[size];
+            for (int i = 0; i < size; i++)
+                lines[i] = ReadLine(read, color, lineWidth);
+            return new Rectangle(color, lines);
+        }
+
+        /// <summary>
+        /// This method reads polygon info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <param name="color"></param>
+        /// <param name="lineWidth"></param>
+        /// <returns>Polygon</returns>
+        private Polygon ReadPolygon(StreamReader read, Color color,
+                int lineWidth)
+        {
+            PointF point = ReadPoint(read);
+            int size = Convert.ToInt32(read.ReadLine());
+            Line[] lines = new Line[size];
+            for (int i = 0; i < size; i++)
+                lines[i] = ReadLine(read, color, lineWidth);
+            return new Polygon(color, lines, point);
+        }
+
+        /// <summary>
+        /// This method reads polyline info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <param name="color"></param>
+        /// <param name="lineWidth"></param>
+        /// <returns>Polyline</returns>
+        private Polyline ReadPolyline(StreamReader read, Color color,
+                int lineWidth)
+        {
+            int size = Convert.ToInt32(read.ReadLine());
+            Line[] lines = new Line[size];
+            for (int i = 0; i < size; i++)
+                lines[i] = ReadLine(read, color, lineWidth);
+            return new Polyline(color, lines);
+        }
+
+        /// <summary>
+        /// This method reads circle info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <param name="color"></param>
+        /// <param name="lineWidth"></param>
+        /// <returns>Circle</returns>
+        private Circle ReadCircle(StreamReader read, Color color,
+                int lineWidth)
+        {
+            PointF point = ReadPoint(read);
+            int radius = Convert.ToInt32(read.ReadLine());
+            return new Circle(color, point, lineWidth, radius);
+        }
+
+        /// <summary>
+        /// This method reads ellipse info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <param name="color"></param>
+        /// <param name="lineWidth"></param>
+        /// <returns>Ellipse</returns>
+        private Ellipse ReadEllipse(StreamReader read, Color color,
+                int lineWidth)
+        {
+            PointF centre = ReadPoint(read);
+            PointF minor = ReadPoint(read);
+            PointF major = ReadPoint(read);
+            return new Ellipse(color, centre, lineWidth, minor, major);
+        }
+
+        /// <summary>
+        /// This method reads arc info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <param name="color"></param>
+        /// <param name="lineWidth"></param>
+        /// <returns>Arc</returns>
+        private Arc ReadArc(StreamReader read, Color color,
+                int lineWidth)
+        {
+            PointF centre = ReadPoint(read);
+            PointF start = ReadPoint(read);
+            PointF end = ReadPoint(read);
+            return new Arc(color, centre, start, end, lineWidth);
+        }
+
+        /// <summary>
+        /// This method reads text info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <param name="color"></param>
+        /// <param name="lineWidth"></param>
+        /// <returns>Text</returns>
+        private Text ReadText(StreamReader read, Color color)
+        {
+            PointF point = ReadPoint(read);
+            string text = read.ReadLine();
+            string font = read.ReadLine();
+            FontFamily fontFamily = font.Equals("FontFamily.GenericSerif") ?
+                FontFamily.GenericSerif : font.Equals(
+                "FontFamily.GenericSansSerif") ? FontFamily.GenericSansSerif :
+                FontFamily.GenericMonospace;
+            int size = Convert.ToInt32(read.ReadLine());
+            return new CCAD.Text(color, size, fontFamily, point, text);
+        }
+
+        /// <summary>
+        /// This method reads image info from file
+        /// </summary>
+        /// <param name="read"></param>
+        /// <param name="color"></param>
+        /// <returns>Image</returns>
+        private Image ReadImage(StreamReader read, Color color)
+        {
+            PointF point = ReadPoint(read);
+            string path = read.ReadLine();
+            return new Image(color, point, path);
         }
     }
 }

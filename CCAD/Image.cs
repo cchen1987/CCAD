@@ -7,7 +7,7 @@ namespace CCAD
     /// This class is the container of an image,
     /// which saves the image file path
     /// </summary>
-    class Image : Entity
+    public class Image : Entity
     {
         private int width;
         private int height;

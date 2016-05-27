@@ -98,6 +98,39 @@
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.lbPolygonProperty = new System.Windows.Forms.Label();
+            this.lbRectangleProperty = new System.Windows.Forms.Panel();
+            this.lbPLLength = new System.Windows.Forms.Label();
+            this.tbPolyLength = new System.Windows.Forms.TextBox();
+            this.lbPolyLine = new System.Windows.Forms.Label();
+            this.pCircle = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.lbCirclePerimeter = new System.Windows.Forms.Label();
+            this.tbCircleRadius = new System.Windows.Forms.TextBox();
+            this.tbPerimeter = new System.Windows.Forms.TextBox();
+            this.lbCircleRadius = new System.Windows.Forms.Label();
+            this.tbCircleProperty = new System.Windows.Forms.Label();
+            this.pStraightLine = new System.Windows.Forms.Panel();
+            this.lbEY = new System.Windows.Forms.Label();
+            this.lbEX = new System.Windows.Forms.Label();
+            this.tbEY = new System.Windows.Forms.TextBox();
+            this.tbEX = new System.Windows.Forms.TextBox();
+            this.lbSY = new System.Windows.Forms.Label();
+            this.lbSX = new System.Windows.Forms.Label();
+            this.tbSY = new System.Windows.Forms.TextBox();
+            this.tbSX = new System.Windows.Forms.TextBox();
+            this.lbEndPoint = new System.Windows.Forms.Label();
+            this.lbStartPoint = new System.Windows.Forms.Label();
+            this.tbAngle = new System.Windows.Forms.TextBox();
+            this.lbSLAngle = new System.Windows.Forms.Label();
+            this.lbSLLength = new System.Windows.Forms.Label();
+            this.tbSLLength = new System.Windows.Forms.TextBox();
+            this.lbSLProperty = new System.Windows.Forms.Label();
             this.pArcProperty = new System.Windows.Forms.Panel();
             this.lbArcCY = new System.Windows.Forms.Label();
             this.tbArcCentreY = new System.Windows.Forms.TextBox();
@@ -134,39 +167,6 @@
             this.tbEllipseArea = new System.Windows.Forms.TextBox();
             this.tbEllipsePerimeter = new System.Windows.Forms.TextBox();
             this.lbEllipseProperty = new System.Windows.Forms.Label();
-            this.lbRectangleProperty = new System.Windows.Forms.Panel();
-            this.lbPLLength = new System.Windows.Forms.Label();
-            this.tbPolyLength = new System.Windows.Forms.TextBox();
-            this.lbPolyLine = new System.Windows.Forms.Label();
-            this.pCircle = new System.Windows.Forms.Panel();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.lbCirclePerimeter = new System.Windows.Forms.Label();
-            this.tbCircleRadius = new System.Windows.Forms.TextBox();
-            this.tbPerimeter = new System.Windows.Forms.TextBox();
-            this.lbCircleRadius = new System.Windows.Forms.Label();
-            this.tbCircleProperty = new System.Windows.Forms.Label();
-            this.pStraightLine = new System.Windows.Forms.Panel();
-            this.lbEY = new System.Windows.Forms.Label();
-            this.lbEX = new System.Windows.Forms.Label();
-            this.tbEY = new System.Windows.Forms.TextBox();
-            this.tbEX = new System.Windows.Forms.TextBox();
-            this.lbSY = new System.Windows.Forms.Label();
-            this.lbSX = new System.Windows.Forms.Label();
-            this.tbSY = new System.Windows.Forms.TextBox();
-            this.tbSX = new System.Windows.Forms.TextBox();
-            this.lbEndPoint = new System.Windows.Forms.Label();
-            this.lbStartPoint = new System.Windows.Forms.Label();
-            this.tbAngle = new System.Windows.Forms.TextBox();
-            this.lbSLAngle = new System.Windows.Forms.Label();
-            this.lbSLLength = new System.Windows.Forms.Label();
-            this.tbSLLength = new System.Windows.Forms.TextBox();
-            this.lbSLProperty = new System.Windows.Forms.Label();
             this.pGeneralProperty = new System.Windows.Forms.Panel();
             this.lbGeneralProperty = new System.Windows.Forms.Label();
             this.tbDrawOrder = new System.Windows.Forms.TextBox();
@@ -215,28 +215,25 @@
             this.btPolygon = new System.Windows.Forms.Button();
             this.btLine = new System.Windows.Forms.Button();
             this.btPoint = new System.Windows.Forms.Button();
-            this.pBoard = new System.Windows.Forms.Panel();
-            this.lbDinamic = new System.Windows.Forms.Label();
-            this.tbDinamic = new System.Windows.Forms.TextBox();
             this.outFile = new System.Windows.Forms.SaveFileDialog();
             this.inFile = new System.Windows.Forms.OpenFileDialog();
             this.tToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cdColor = new System.Windows.Forms.ColorDialog();
+            this.pBoard = new System.Windows.Forms.Panel();
             this.tsToolBar.SuspendLayout();
             this.pTools.SuspendLayout();
             this.pProperty.SuspendLayout();
             this.pRectangleProperty.SuspendLayout();
             this.pPolyGonProperty.SuspendLayout();
-            this.pArcProperty.SuspendLayout();
-            this.pEllipseProperty.SuspendLayout();
             this.lbRectangleProperty.SuspendLayout();
             this.pCircle.SuspendLayout();
             this.pStraightLine.SuspendLayout();
+            this.pArcProperty.SuspendLayout();
+            this.pEllipseProperty.SuspendLayout();
             this.pGeneralProperty.SuspendLayout();
             this.pBottom.SuspendLayout();
             this.pSelector.SuspendLayout();
             this.pActionBar.SuspendLayout();
-            this.pBoard.SuspendLayout();
             this.SuspendLayout();
             // 
             // tsToolBar
@@ -676,16 +673,16 @@
             this.pProperty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pProperty.Controls.Add(this.pRectangleProperty);
             this.pProperty.Controls.Add(this.pPolyGonProperty);
-            this.pProperty.Controls.Add(this.pArcProperty);
-            this.pProperty.Controls.Add(this.pEllipseProperty);
             this.pProperty.Controls.Add(this.lbRectangleProperty);
             this.pProperty.Controls.Add(this.pCircle);
             this.pProperty.Controls.Add(this.pStraightLine);
+            this.pProperty.Controls.Add(this.pArcProperty);
+            this.pProperty.Controls.Add(this.pEllipseProperty);
             this.pProperty.Controls.Add(this.pGeneralProperty);
             this.pProperty.Dock = System.Windows.Forms.DockStyle.Right;
             this.pProperty.Location = new System.Drawing.Point(977, 75);
             this.pProperty.Name = "pProperty";
-            this.pProperty.Size = new System.Drawing.Size(207, 686);
+            this.pProperty.Size = new System.Drawing.Size(207, 700);
             this.pProperty.TabIndex = 3;
             // 
             // pRectangleProperty
@@ -706,7 +703,7 @@
             this.pRectangleProperty.Controls.Add(this.lbRectStartPoint);
             this.pRectangleProperty.Controls.Add(this.lbRectangleProp);
             this.pRectangleProperty.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pRectangleProperty.Location = new System.Drawing.Point(0, 1390);
+            this.pRectangleProperty.Location = new System.Drawing.Point(0, 1384);
             this.pRectangleProperty.Name = "pRectangleProperty";
             this.pRectangleProperty.Size = new System.Drawing.Size(205, 211);
             this.pRectangleProperty.TabIndex = 39;
@@ -843,9 +840,9 @@
             this.pPolyGonProperty.Controls.Add(this.label19);
             this.pPolyGonProperty.Controls.Add(this.lbPolygonProperty);
             this.pPolyGonProperty.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pPolyGonProperty.Location = new System.Drawing.Point(0, 1226);
+            this.pPolyGonProperty.Location = new System.Drawing.Point(0, 1227);
             this.pPolyGonProperty.Name = "pPolyGonProperty";
-            this.pPolyGonProperty.Size = new System.Drawing.Size(205, 164);
+            this.pPolyGonProperty.Size = new System.Drawing.Size(205, 157);
             this.pPolyGonProperty.TabIndex = 25;
             this.pPolyGonProperty.Visible = false;
             // 
@@ -934,6 +931,318 @@
             this.lbPolygonProperty.TabIndex = 10;
             this.lbPolygonProperty.Text = "Polygon properties";
             // 
+            // lbRectangleProperty
+            // 
+            this.lbRectangleProperty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lbRectangleProperty.Controls.Add(this.lbPLLength);
+            this.lbRectangleProperty.Controls.Add(this.tbPolyLength);
+            this.lbRectangleProperty.Controls.Add(this.lbPolyLine);
+            this.lbRectangleProperty.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lbRectangleProperty.Location = new System.Drawing.Point(0, 1167);
+            this.lbRectangleProperty.Name = "lbRectangleProperty";
+            this.lbRectangleProperty.Size = new System.Drawing.Size(205, 60);
+            this.lbRectangleProperty.TabIndex = 25;
+            this.lbRectangleProperty.Visible = false;
+            // 
+            // lbPLLength
+            // 
+            this.lbPLLength.AutoSize = true;
+            this.lbPLLength.Location = new System.Drawing.Point(46, 34);
+            this.lbPLLength.Name = "lbPLLength";
+            this.lbPLLength.Size = new System.Drawing.Size(43, 13);
+            this.lbPLLength.TabIndex = 12;
+            this.lbPLLength.Text = "Length:";
+            // 
+            // tbPolyLength
+            // 
+            this.tbPolyLength.Location = new System.Drawing.Point(95, 31);
+            this.tbPolyLength.Name = "tbPolyLength";
+            this.tbPolyLength.ReadOnly = true;
+            this.tbPolyLength.Size = new System.Drawing.Size(98, 20);
+            this.tbPolyLength.TabIndex = 11;
+            // 
+            // lbPolyLine
+            // 
+            this.lbPolyLine.AutoSize = true;
+            this.lbPolyLine.Location = new System.Drawing.Point(49, 3);
+            this.lbPolyLine.Name = "lbPolyLine";
+            this.lbPolyLine.Size = new System.Drawing.Size(92, 13);
+            this.lbPolyLine.TabIndex = 10;
+            this.lbPolyLine.Text = "Polyline properties";
+            // 
+            // pCircle
+            // 
+            this.pCircle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pCircle.Controls.Add(this.label10);
+            this.pCircle.Controls.Add(this.textBox1);
+            this.pCircle.Controls.Add(this.label11);
+            this.pCircle.Controls.Add(this.label12);
+            this.pCircle.Controls.Add(this.textBox2);
+            this.pCircle.Controls.Add(this.label14);
+            this.pCircle.Controls.Add(this.textBox3);
+            this.pCircle.Controls.Add(this.lbCirclePerimeter);
+            this.pCircle.Controls.Add(this.tbCircleRadius);
+            this.pCircle.Controls.Add(this.tbPerimeter);
+            this.pCircle.Controls.Add(this.lbCircleRadius);
+            this.pCircle.Controls.Add(this.tbCircleProperty);
+            this.pCircle.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pCircle.Location = new System.Drawing.Point(0, 968);
+            this.pCircle.Name = "pCircle";
+            this.pCircle.Size = new System.Drawing.Size(205, 199);
+            this.pCircle.TabIndex = 28;
+            this.pCircle.Visible = false;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(69, 174);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(17, 13);
+            this.label10.TabIndex = 26;
+            this.label10.Text = "Y:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(96, 171);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(98, 20);
+            this.textBox1.TabIndex = 27;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(69, 148);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(17, 13);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "X:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(58, 88);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(32, 13);
+            this.label12.TabIndex = 19;
+            this.label12.Text = "Area:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(96, 145);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(98, 20);
+            this.textBox2.TabIndex = 26;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(5, 120);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(76, 13);
+            this.label14.TabIndex = 25;
+            this.label14.Text = "Centre point";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(96, 85);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(98, 20);
+            this.textBox3.TabIndex = 17;
+            // 
+            // lbCirclePerimeter
+            // 
+            this.lbCirclePerimeter.AutoSize = true;
+            this.lbCirclePerimeter.Location = new System.Drawing.Point(36, 58);
+            this.lbCirclePerimeter.Name = "lbCirclePerimeter";
+            this.lbCirclePerimeter.Size = new System.Drawing.Size(54, 13);
+            this.lbCirclePerimeter.TabIndex = 14;
+            this.lbCirclePerimeter.Text = "Perimeter:";
+            // 
+            // tbCircleRadius
+            // 
+            this.tbCircleRadius.Location = new System.Drawing.Point(96, 29);
+            this.tbCircleRadius.Name = "tbCircleRadius";
+            this.tbCircleRadius.Size = new System.Drawing.Size(98, 20);
+            this.tbCircleRadius.TabIndex = 15;
+            // 
+            // tbPerimeter
+            // 
+            this.tbPerimeter.Location = new System.Drawing.Point(96, 55);
+            this.tbPerimeter.Name = "tbPerimeter";
+            this.tbPerimeter.ReadOnly = true;
+            this.tbPerimeter.Size = new System.Drawing.Size(98, 20);
+            this.tbPerimeter.TabIndex = 13;
+            // 
+            // lbCircleRadius
+            // 
+            this.lbCircleRadius.AutoSize = true;
+            this.lbCircleRadius.Location = new System.Drawing.Point(47, 32);
+            this.lbCircleRadius.Name = "lbCircleRadius";
+            this.lbCircleRadius.Size = new System.Drawing.Size(43, 13);
+            this.lbCircleRadius.TabIndex = 14;
+            this.lbCircleRadius.Text = "Radius:";
+            // 
+            // tbCircleProperty
+            // 
+            this.tbCircleProperty.AutoSize = true;
+            this.tbCircleProperty.Location = new System.Drawing.Point(56, 3);
+            this.tbCircleProperty.Name = "tbCircleProperty";
+            this.tbCircleProperty.Size = new System.Drawing.Size(82, 13);
+            this.tbCircleProperty.TabIndex = 13;
+            this.tbCircleProperty.Text = "Circle properties";
+            // 
+            // pStraightLine
+            // 
+            this.pStraightLine.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pStraightLine.Controls.Add(this.lbEY);
+            this.pStraightLine.Controls.Add(this.lbEX);
+            this.pStraightLine.Controls.Add(this.tbEY);
+            this.pStraightLine.Controls.Add(this.tbEX);
+            this.pStraightLine.Controls.Add(this.lbSY);
+            this.pStraightLine.Controls.Add(this.lbSX);
+            this.pStraightLine.Controls.Add(this.tbSY);
+            this.pStraightLine.Controls.Add(this.tbSX);
+            this.pStraightLine.Controls.Add(this.lbEndPoint);
+            this.pStraightLine.Controls.Add(this.lbStartPoint);
+            this.pStraightLine.Controls.Add(this.tbAngle);
+            this.pStraightLine.Controls.Add(this.lbSLAngle);
+            this.pStraightLine.Controls.Add(this.lbSLLength);
+            this.pStraightLine.Controls.Add(this.tbSLLength);
+            this.pStraightLine.Controls.Add(this.lbSLProperty);
+            this.pStraightLine.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pStraightLine.Location = new System.Drawing.Point(0, 719);
+            this.pStraightLine.Name = "pStraightLine";
+            this.pStraightLine.Size = new System.Drawing.Size(205, 249);
+            this.pStraightLine.TabIndex = 2;
+            this.pStraightLine.Visible = false;
+            // 
+            // lbEY
+            // 
+            this.lbEY.AutoSize = true;
+            this.lbEY.Location = new System.Drawing.Point(72, 217);
+            this.lbEY.Name = "lbEY";
+            this.lbEY.Size = new System.Drawing.Size(17, 13);
+            this.lbEY.TabIndex = 24;
+            this.lbEY.Text = "Y:";
+            // 
+            // lbEX
+            // 
+            this.lbEX.AutoSize = true;
+            this.lbEX.Location = new System.Drawing.Point(72, 195);
+            this.lbEX.Name = "lbEX";
+            this.lbEX.Size = new System.Drawing.Size(17, 13);
+            this.lbEX.TabIndex = 23;
+            this.lbEX.Text = "X:";
+            // 
+            // tbEY
+            // 
+            this.tbEY.Location = new System.Drawing.Point(95, 214);
+            this.tbEY.Name = "tbEY";
+            this.tbEY.Size = new System.Drawing.Size(98, 20);
+            this.tbEY.TabIndex = 22;
+            // 
+            // tbEX
+            // 
+            this.tbEX.Location = new System.Drawing.Point(95, 188);
+            this.tbEX.Name = "tbEX";
+            this.tbEX.Size = new System.Drawing.Size(98, 20);
+            this.tbEX.TabIndex = 21;
+            // 
+            // lbSY
+            // 
+            this.lbSY.AutoSize = true;
+            this.lbSY.Location = new System.Drawing.Point(72, 141);
+            this.lbSY.Name = "lbSY";
+            this.lbSY.Size = new System.Drawing.Size(17, 13);
+            this.lbSY.TabIndex = 20;
+            this.lbSY.Text = "Y:";
+            // 
+            // lbSX
+            // 
+            this.lbSX.AutoSize = true;
+            this.lbSX.Location = new System.Drawing.Point(72, 119);
+            this.lbSX.Name = "lbSX";
+            this.lbSX.Size = new System.Drawing.Size(17, 13);
+            this.lbSX.TabIndex = 19;
+            this.lbSX.Text = "X:";
+            // 
+            // tbSY
+            // 
+            this.tbSY.Location = new System.Drawing.Point(95, 138);
+            this.tbSY.Name = "tbSY";
+            this.tbSY.Size = new System.Drawing.Size(98, 20);
+            this.tbSY.TabIndex = 18;
+            // 
+            // tbSX
+            // 
+            this.tbSX.Location = new System.Drawing.Point(95, 112);
+            this.tbSX.Name = "tbSX";
+            this.tbSX.Size = new System.Drawing.Size(98, 20);
+            this.tbSX.TabIndex = 17;
+            // 
+            // lbEndPoint
+            // 
+            this.lbEndPoint.AutoSize = true;
+            this.lbEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbEndPoint.Location = new System.Drawing.Point(4, 167);
+            this.lbEndPoint.Name = "lbEndPoint";
+            this.lbEndPoint.Size = new System.Drawing.Size(61, 13);
+            this.lbEndPoint.TabIndex = 16;
+            this.lbEndPoint.Text = "End point";
+            // 
+            // lbStartPoint
+            // 
+            this.lbStartPoint.AutoSize = true;
+            this.lbStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbStartPoint.Location = new System.Drawing.Point(4, 87);
+            this.lbStartPoint.Name = "lbStartPoint";
+            this.lbStartPoint.Size = new System.Drawing.Size(66, 13);
+            this.lbStartPoint.TabIndex = 15;
+            this.lbStartPoint.Text = "Start point";
+            // 
+            // tbAngle
+            // 
+            this.tbAngle.Location = new System.Drawing.Point(95, 57);
+            this.tbAngle.Name = "tbAngle";
+            this.tbAngle.Size = new System.Drawing.Size(98, 20);
+            this.tbAngle.TabIndex = 14;
+            // 
+            // lbSLAngle
+            // 
+            this.lbSLAngle.AutoSize = true;
+            this.lbSLAngle.Location = new System.Drawing.Point(52, 60);
+            this.lbSLAngle.Name = "lbSLAngle";
+            this.lbSLAngle.Size = new System.Drawing.Size(37, 13);
+            this.lbSLAngle.TabIndex = 13;
+            this.lbSLAngle.Text = "Angle:";
+            // 
+            // lbSLLength
+            // 
+            this.lbSLLength.AutoSize = true;
+            this.lbSLLength.Location = new System.Drawing.Point(46, 34);
+            this.lbSLLength.Name = "lbSLLength";
+            this.lbSLLength.Size = new System.Drawing.Size(43, 13);
+            this.lbSLLength.TabIndex = 12;
+            this.lbSLLength.Text = "Length:";
+            // 
+            // tbSLLength
+            // 
+            this.tbSLLength.Location = new System.Drawing.Point(95, 31);
+            this.tbSLLength.Name = "tbSLLength";
+            this.tbSLLength.Size = new System.Drawing.Size(98, 20);
+            this.tbSLLength.TabIndex = 11;
+            // 
+            // lbSLProperty
+            // 
+            this.lbSLProperty.AutoSize = true;
+            this.lbSLProperty.Location = new System.Drawing.Point(49, 3);
+            this.lbSLProperty.Name = "lbSLProperty";
+            this.lbSLProperty.Size = new System.Drawing.Size(111, 13);
+            this.lbSLProperty.TabIndex = 10;
+            this.lbSLProperty.Text = "Straight line properties";
+            // 
             // pArcProperty
             // 
             this.pArcProperty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -952,9 +1261,9 @@
             this.pArcProperty.Controls.Add(this.lbArcRadius);
             this.pArcProperty.Controls.Add(this.lbArcProperty);
             this.pArcProperty.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pArcProperty.Location = new System.Drawing.Point(0, 1006);
+            this.pArcProperty.Location = new System.Drawing.Point(0, 496);
             this.pArcProperty.Name = "pArcProperty";
-            this.pArcProperty.Size = new System.Drawing.Size(205, 220);
+            this.pArcProperty.Size = new System.Drawing.Size(205, 223);
             this.pArcProperty.TabIndex = 26;
             this.pArcProperty.Visible = false;
             // 
@@ -1100,9 +1409,9 @@
             this.pEllipseProperty.Controls.Add(this.tbEllipsePerimeter);
             this.pEllipseProperty.Controls.Add(this.lbEllipseProperty);
             this.pEllipseProperty.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pEllipseProperty.Location = new System.Drawing.Point(0, 685);
+            this.pEllipseProperty.Location = new System.Drawing.Point(0, 179);
             this.pEllipseProperty.Name = "pEllipseProperty";
-            this.pEllipseProperty.Size = new System.Drawing.Size(205, 321);
+            this.pEllipseProperty.Size = new System.Drawing.Size(205, 317);
             this.pEllipseProperty.TabIndex = 28;
             this.pEllipseProperty.Visible = false;
             // 
@@ -1275,318 +1584,6 @@
             this.lbEllipseProperty.TabIndex = 13;
             this.lbEllipseProperty.Text = "Ellipse properties";
             // 
-            // lbRectangleProperty
-            // 
-            this.lbRectangleProperty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbRectangleProperty.Controls.Add(this.lbPLLength);
-            this.lbRectangleProperty.Controls.Add(this.tbPolyLength);
-            this.lbRectangleProperty.Controls.Add(this.lbPolyLine);
-            this.lbRectangleProperty.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbRectangleProperty.Location = new System.Drawing.Point(0, 621);
-            this.lbRectangleProperty.Name = "lbRectangleProperty";
-            this.lbRectangleProperty.Size = new System.Drawing.Size(205, 64);
-            this.lbRectangleProperty.TabIndex = 25;
-            this.lbRectangleProperty.Visible = false;
-            // 
-            // lbPLLength
-            // 
-            this.lbPLLength.AutoSize = true;
-            this.lbPLLength.Location = new System.Drawing.Point(46, 34);
-            this.lbPLLength.Name = "lbPLLength";
-            this.lbPLLength.Size = new System.Drawing.Size(43, 13);
-            this.lbPLLength.TabIndex = 12;
-            this.lbPLLength.Text = "Length:";
-            // 
-            // tbPolyLength
-            // 
-            this.tbPolyLength.Location = new System.Drawing.Point(95, 31);
-            this.tbPolyLength.Name = "tbPolyLength";
-            this.tbPolyLength.ReadOnly = true;
-            this.tbPolyLength.Size = new System.Drawing.Size(98, 20);
-            this.tbPolyLength.TabIndex = 11;
-            // 
-            // lbPolyLine
-            // 
-            this.lbPolyLine.AutoSize = true;
-            this.lbPolyLine.Location = new System.Drawing.Point(49, 3);
-            this.lbPolyLine.Name = "lbPolyLine";
-            this.lbPolyLine.Size = new System.Drawing.Size(92, 13);
-            this.lbPolyLine.TabIndex = 10;
-            this.lbPolyLine.Text = "Polyline properties";
-            // 
-            // pCircle
-            // 
-            this.pCircle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pCircle.Controls.Add(this.label10);
-            this.pCircle.Controls.Add(this.textBox1);
-            this.pCircle.Controls.Add(this.label11);
-            this.pCircle.Controls.Add(this.label12);
-            this.pCircle.Controls.Add(this.textBox2);
-            this.pCircle.Controls.Add(this.label14);
-            this.pCircle.Controls.Add(this.textBox3);
-            this.pCircle.Controls.Add(this.lbCirclePerimeter);
-            this.pCircle.Controls.Add(this.tbCircleRadius);
-            this.pCircle.Controls.Add(this.tbPerimeter);
-            this.pCircle.Controls.Add(this.lbCircleRadius);
-            this.pCircle.Controls.Add(this.tbCircleProperty);
-            this.pCircle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pCircle.Location = new System.Drawing.Point(0, 421);
-            this.pCircle.Name = "pCircle";
-            this.pCircle.Size = new System.Drawing.Size(205, 200);
-            this.pCircle.TabIndex = 28;
-            this.pCircle.Visible = false;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(69, 174);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(17, 13);
-            this.label10.TabIndex = 26;
-            this.label10.Text = "Y:";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(96, 171);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(98, 20);
-            this.textBox1.TabIndex = 27;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(69, 148);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(17, 13);
-            this.label11.TabIndex = 25;
-            this.label11.Text = "X:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(58, 88);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(32, 13);
-            this.label12.TabIndex = 19;
-            this.label12.Text = "Area:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(96, 145);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(98, 20);
-            this.textBox2.TabIndex = 26;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(5, 120);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(76, 13);
-            this.label14.TabIndex = 25;
-            this.label14.Text = "Centre point";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(96, 85);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(98, 20);
-            this.textBox3.TabIndex = 17;
-            // 
-            // lbCirclePerimeter
-            // 
-            this.lbCirclePerimeter.AutoSize = true;
-            this.lbCirclePerimeter.Location = new System.Drawing.Point(36, 58);
-            this.lbCirclePerimeter.Name = "lbCirclePerimeter";
-            this.lbCirclePerimeter.Size = new System.Drawing.Size(54, 13);
-            this.lbCirclePerimeter.TabIndex = 14;
-            this.lbCirclePerimeter.Text = "Perimeter:";
-            // 
-            // tbCircleRadius
-            // 
-            this.tbCircleRadius.Location = new System.Drawing.Point(96, 29);
-            this.tbCircleRadius.Name = "tbCircleRadius";
-            this.tbCircleRadius.Size = new System.Drawing.Size(98, 20);
-            this.tbCircleRadius.TabIndex = 15;
-            // 
-            // tbPerimeter
-            // 
-            this.tbPerimeter.Location = new System.Drawing.Point(96, 55);
-            this.tbPerimeter.Name = "tbPerimeter";
-            this.tbPerimeter.ReadOnly = true;
-            this.tbPerimeter.Size = new System.Drawing.Size(98, 20);
-            this.tbPerimeter.TabIndex = 13;
-            // 
-            // lbCircleRadius
-            // 
-            this.lbCircleRadius.AutoSize = true;
-            this.lbCircleRadius.Location = new System.Drawing.Point(47, 32);
-            this.lbCircleRadius.Name = "lbCircleRadius";
-            this.lbCircleRadius.Size = new System.Drawing.Size(43, 13);
-            this.lbCircleRadius.TabIndex = 14;
-            this.lbCircleRadius.Text = "Radius:";
-            // 
-            // tbCircleProperty
-            // 
-            this.tbCircleProperty.AutoSize = true;
-            this.tbCircleProperty.Location = new System.Drawing.Point(56, 3);
-            this.tbCircleProperty.Name = "tbCircleProperty";
-            this.tbCircleProperty.Size = new System.Drawing.Size(82, 13);
-            this.tbCircleProperty.TabIndex = 13;
-            this.tbCircleProperty.Text = "Circle properties";
-            // 
-            // pStraightLine
-            // 
-            this.pStraightLine.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pStraightLine.Controls.Add(this.lbEY);
-            this.pStraightLine.Controls.Add(this.lbEX);
-            this.pStraightLine.Controls.Add(this.tbEY);
-            this.pStraightLine.Controls.Add(this.tbEX);
-            this.pStraightLine.Controls.Add(this.lbSY);
-            this.pStraightLine.Controls.Add(this.lbSX);
-            this.pStraightLine.Controls.Add(this.tbSY);
-            this.pStraightLine.Controls.Add(this.tbSX);
-            this.pStraightLine.Controls.Add(this.lbEndPoint);
-            this.pStraightLine.Controls.Add(this.lbStartPoint);
-            this.pStraightLine.Controls.Add(this.tbAngle);
-            this.pStraightLine.Controls.Add(this.lbSLAngle);
-            this.pStraightLine.Controls.Add(this.lbSLLength);
-            this.pStraightLine.Controls.Add(this.tbSLLength);
-            this.pStraightLine.Controls.Add(this.lbSLProperty);
-            this.pStraightLine.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pStraightLine.Location = new System.Drawing.Point(0, 179);
-            this.pStraightLine.Name = "pStraightLine";
-            this.pStraightLine.Size = new System.Drawing.Size(205, 242);
-            this.pStraightLine.TabIndex = 2;
-            this.pStraightLine.Visible = false;
-            // 
-            // lbEY
-            // 
-            this.lbEY.AutoSize = true;
-            this.lbEY.Location = new System.Drawing.Point(72, 217);
-            this.lbEY.Name = "lbEY";
-            this.lbEY.Size = new System.Drawing.Size(17, 13);
-            this.lbEY.TabIndex = 24;
-            this.lbEY.Text = "Y:";
-            // 
-            // lbEX
-            // 
-            this.lbEX.AutoSize = true;
-            this.lbEX.Location = new System.Drawing.Point(72, 195);
-            this.lbEX.Name = "lbEX";
-            this.lbEX.Size = new System.Drawing.Size(17, 13);
-            this.lbEX.TabIndex = 23;
-            this.lbEX.Text = "X:";
-            // 
-            // tbEY
-            // 
-            this.tbEY.Location = new System.Drawing.Point(95, 214);
-            this.tbEY.Name = "tbEY";
-            this.tbEY.Size = new System.Drawing.Size(98, 20);
-            this.tbEY.TabIndex = 22;
-            // 
-            // tbEX
-            // 
-            this.tbEX.Location = new System.Drawing.Point(95, 188);
-            this.tbEX.Name = "tbEX";
-            this.tbEX.Size = new System.Drawing.Size(98, 20);
-            this.tbEX.TabIndex = 21;
-            // 
-            // lbSY
-            // 
-            this.lbSY.AutoSize = true;
-            this.lbSY.Location = new System.Drawing.Point(72, 141);
-            this.lbSY.Name = "lbSY";
-            this.lbSY.Size = new System.Drawing.Size(17, 13);
-            this.lbSY.TabIndex = 20;
-            this.lbSY.Text = "Y:";
-            // 
-            // lbSX
-            // 
-            this.lbSX.AutoSize = true;
-            this.lbSX.Location = new System.Drawing.Point(72, 119);
-            this.lbSX.Name = "lbSX";
-            this.lbSX.Size = new System.Drawing.Size(17, 13);
-            this.lbSX.TabIndex = 19;
-            this.lbSX.Text = "X:";
-            // 
-            // tbSY
-            // 
-            this.tbSY.Location = new System.Drawing.Point(95, 138);
-            this.tbSY.Name = "tbSY";
-            this.tbSY.Size = new System.Drawing.Size(98, 20);
-            this.tbSY.TabIndex = 18;
-            // 
-            // tbSX
-            // 
-            this.tbSX.Location = new System.Drawing.Point(95, 112);
-            this.tbSX.Name = "tbSX";
-            this.tbSX.Size = new System.Drawing.Size(98, 20);
-            this.tbSX.TabIndex = 17;
-            // 
-            // lbEndPoint
-            // 
-            this.lbEndPoint.AutoSize = true;
-            this.lbEndPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbEndPoint.Location = new System.Drawing.Point(4, 167);
-            this.lbEndPoint.Name = "lbEndPoint";
-            this.lbEndPoint.Size = new System.Drawing.Size(61, 13);
-            this.lbEndPoint.TabIndex = 16;
-            this.lbEndPoint.Text = "End point";
-            // 
-            // lbStartPoint
-            // 
-            this.lbStartPoint.AutoSize = true;
-            this.lbStartPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbStartPoint.Location = new System.Drawing.Point(4, 87);
-            this.lbStartPoint.Name = "lbStartPoint";
-            this.lbStartPoint.Size = new System.Drawing.Size(66, 13);
-            this.lbStartPoint.TabIndex = 15;
-            this.lbStartPoint.Text = "Start point";
-            // 
-            // tbAngle
-            // 
-            this.tbAngle.Location = new System.Drawing.Point(95, 57);
-            this.tbAngle.Name = "tbAngle";
-            this.tbAngle.Size = new System.Drawing.Size(98, 20);
-            this.tbAngle.TabIndex = 14;
-            // 
-            // lbSLAngle
-            // 
-            this.lbSLAngle.AutoSize = true;
-            this.lbSLAngle.Location = new System.Drawing.Point(52, 60);
-            this.lbSLAngle.Name = "lbSLAngle";
-            this.lbSLAngle.Size = new System.Drawing.Size(37, 13);
-            this.lbSLAngle.TabIndex = 13;
-            this.lbSLAngle.Text = "Angle:";
-            // 
-            // lbSLLength
-            // 
-            this.lbSLLength.AutoSize = true;
-            this.lbSLLength.Location = new System.Drawing.Point(46, 34);
-            this.lbSLLength.Name = "lbSLLength";
-            this.lbSLLength.Size = new System.Drawing.Size(43, 13);
-            this.lbSLLength.TabIndex = 12;
-            this.lbSLLength.Text = "Length:";
-            // 
-            // tbSLLength
-            // 
-            this.tbSLLength.Location = new System.Drawing.Point(95, 31);
-            this.tbSLLength.Name = "tbSLLength";
-            this.tbSLLength.Size = new System.Drawing.Size(98, 20);
-            this.tbSLLength.TabIndex = 11;
-            // 
-            // lbSLProperty
-            // 
-            this.lbSLProperty.AutoSize = true;
-            this.lbSLProperty.Location = new System.Drawing.Point(49, 3);
-            this.lbSLProperty.Name = "lbSLProperty";
-            this.lbSLProperty.Size = new System.Drawing.Size(111, 13);
-            this.lbSLProperty.TabIndex = 10;
-            this.lbSLProperty.Text = "Straight line properties";
-            // 
             // pGeneralProperty
             // 
             this.pGeneralProperty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1709,7 +1706,7 @@
             this.pBottom.Controls.Add(this.lbCommand);
             this.pBottom.Controls.Add(this.tbCommands);
             this.pBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pBottom.Location = new System.Drawing.Point(0, 660);
+            this.pBottom.Location = new System.Drawing.Point(0, 674);
             this.pBottom.Name = "pBottom";
             this.pBottom.Size = new System.Drawing.Size(977, 101);
             this.pBottom.TabIndex = 4;
@@ -1904,7 +1901,7 @@
             this.pActionBar.Dock = System.Windows.Forms.DockStyle.Left;
             this.pActionBar.Location = new System.Drawing.Point(0, 75);
             this.pActionBar.Name = "pActionBar";
-            this.pActionBar.Size = new System.Drawing.Size(114, 585);
+            this.pActionBar.Size = new System.Drawing.Size(114, 599);
             this.pActionBar.TabIndex = 5;
             // 
             // btCopy
@@ -2117,43 +2114,6 @@
             this.btPoint.TabIndex = 19;
             this.btPoint.UseVisualStyleBackColor = false;
             // 
-            // pBoard
-            // 
-            this.pBoard.BackColor = System.Drawing.Color.Black;
-            this.pBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pBoard.Controls.Add(this.lbDinamic);
-            this.pBoard.Controls.Add(this.tbDinamic);
-            this.pBoard.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.pBoard.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pBoard.Location = new System.Drawing.Point(114, 75);
-            this.pBoard.Name = "pBoard";
-            this.pBoard.Size = new System.Drawing.Size(863, 585);
-            this.pBoard.TabIndex = 6;
-            this.pBoard.Paint += new System.Windows.Forms.PaintEventHandler(this.pBoard_Paint);
-            this.pBoard.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pBoard_MouseClick);
-            this.pBoard.MouseLeave += new System.EventHandler(this.pBoard_MouseLeave);
-            this.pBoard.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pBoard_MouseMove);
-            this.pBoard.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pBoard_PreviewKeyDown);
-            // 
-            // lbDinamic
-            // 
-            this.lbDinamic.AutoSize = true;
-            this.lbDinamic.BackColor = System.Drawing.Color.Transparent;
-            this.lbDinamic.ForeColor = System.Drawing.Color.White;
-            this.lbDinamic.Location = new System.Drawing.Point(225, 210);
-            this.lbDinamic.Name = "lbDinamic";
-            this.lbDinamic.Size = new System.Drawing.Size(70, 13);
-            this.lbDinamic.TabIndex = 1;
-            this.lbDinamic.Text = "Dinamic label";
-            // 
-            // tbDinamic
-            // 
-            this.tbDinamic.Location = new System.Drawing.Point(228, 239);
-            this.tbDinamic.Name = "tbDinamic";
-            this.tbDinamic.Size = new System.Drawing.Size(70, 20);
-            this.tbDinamic.TabIndex = 0;
-            this.tbDinamic.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tbDinamic_KeyDown);
-            // 
             // outFile
             // 
             this.outFile.DefaultExt = "ccad";
@@ -2166,11 +2126,22 @@
             this.inFile.Filter = "ccad files (*.ccad)|*.ccad";
             this.inFile.InitialDirectory = "\"c:\\\\\"";
             // 
+            // pBoard
+            // 
+            this.pBoard.BackColor = System.Drawing.Color.White;
+            this.pBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pBoard.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.pBoard.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pBoard.Location = new System.Drawing.Point(114, 75);
+            this.pBoard.Name = "pBoard";
+            this.pBoard.Size = new System.Drawing.Size(863, 599);
+            this.pBoard.TabIndex = 6;
+            // 
             // Board
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 761);
+            this.ClientSize = new System.Drawing.Size(1184, 775);
             this.Controls.Add(this.pBoard);
             this.Controls.Add(this.pActionBar);
             this.Controls.Add(this.pBottom);
@@ -2192,16 +2163,16 @@
             this.pRectangleProperty.PerformLayout();
             this.pPolyGonProperty.ResumeLayout(false);
             this.pPolyGonProperty.PerformLayout();
-            this.pArcProperty.ResumeLayout(false);
-            this.pArcProperty.PerformLayout();
-            this.pEllipseProperty.ResumeLayout(false);
-            this.pEllipseProperty.PerformLayout();
             this.lbRectangleProperty.ResumeLayout(false);
             this.lbRectangleProperty.PerformLayout();
             this.pCircle.ResumeLayout(false);
             this.pCircle.PerformLayout();
             this.pStraightLine.ResumeLayout(false);
             this.pStraightLine.PerformLayout();
+            this.pArcProperty.ResumeLayout(false);
+            this.pArcProperty.PerformLayout();
+            this.pEllipseProperty.ResumeLayout(false);
+            this.pEllipseProperty.PerformLayout();
             this.pGeneralProperty.ResumeLayout(false);
             this.pGeneralProperty.PerformLayout();
             this.pBottom.ResumeLayout(false);
@@ -2209,207 +2180,202 @@
             this.pSelector.ResumeLayout(false);
             this.pSelector.PerformLayout();
             this.pActionBar.ResumeLayout(false);
-            this.pBoard.ResumeLayout(false);
-            this.pBoard.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ToolStrip tsToolBar;
         private System.Windows.Forms.ToolStripDropDownButton tsdFile;
-        private System.Windows.Forms.ToolStripMenuItem btNew;
-        private System.Windows.Forms.ToolStripMenuItem btOpen;
-        private System.Windows.Forms.ToolStripMenuItem btSave;
-        private System.Windows.Forms.ToolStripMenuItem btSaveAs;
-        private System.Windows.Forms.ToolStripMenuItem btExit;
-        private System.Windows.Forms.ToolStripButton tbHelp;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.Panel pTools;
-        private System.Windows.Forms.Panel pProperty;
-        private System.Windows.Forms.Panel pBottom;
-        private System.Windows.Forms.Panel pActionBar;
-        private System.Windows.Forms.Panel pBoard;
         private System.Windows.Forms.SaveFileDialog outFile;
         private System.Windows.Forms.OpenFileDialog inFile;
-        private System.Windows.Forms.Button btSelect;
-        private System.Windows.Forms.Button btOpen2;
-        private System.Windows.Forms.Button btNew2;
-        private System.Windows.Forms.Button btSave2;
-        private System.Windows.Forms.Button btSaveAs2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btRedo;
-        private System.Windows.Forms.Button btUndo;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btErase;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btPaste;
-        private System.Windows.Forms.Button btCopy2;
-        private System.Windows.Forms.Button btCut;
         private System.Windows.Forms.ToolTip tToolTip;
-        private System.Windows.Forms.Button btZoom;
-        private System.Windows.Forms.Button btZoomOut;
-        private System.Windows.Forms.Button btZoomIn;
-        private System.Windows.Forms.Button btLine;
-        private System.Windows.Forms.Button btPoint;
-        private System.Windows.Forms.Button btPolygon;
-        private System.Windows.Forms.Button btRectangle;
-        private System.Windows.Forms.Button btEllipse;
-        private System.Windows.Forms.Button btCircleDia;
-        private System.Windows.Forms.Button btCircleRad;
-        private System.Windows.Forms.Button btArc;
-        private System.Windows.Forms.Button btBezier;
-        private System.Windows.Forms.Button btMirror;
-        private System.Windows.Forms.Button btScale;
-        private System.Windows.Forms.Button btRotate;
-        private System.Windows.Forms.Button btImage;
-        private System.Windows.Forms.Button btMove;
-        private System.Windows.Forms.Button btText;
-        private System.Windows.Forms.Button btMeasurePtoLine;
-        private System.Windows.Forms.Button btMeasurePoints;
-        private System.Windows.Forms.Button btSplit;
-        private System.Windows.Forms.Button btShade;
-        private System.Windows.Forms.Button btPolyline;
-        private System.Windows.Forms.Button btArea;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button btCopy;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label lbCommand;
-        private System.Windows.Forms.TextBox tbCommands;
-        private System.Windows.Forms.Panel pSelector;
-        private System.Windows.Forms.ListBox lbxCommands;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Button btDownArrow;
-        private System.Windows.Forms.Button btUpArrow;
-        private System.Windows.Forms.Label lbMouseY;
-        private System.Windows.Forms.Label lbMouseX;
-        private System.Windows.Forms.Label lbY;
-        private System.Windows.Forms.Label lbX;
-        private System.Windows.Forms.Label lbSelector;
-        private System.Windows.Forms.Panel pGeneralProperty;
-        private System.Windows.Forms.Label lbProperty;
-        private System.Windows.Forms.Label lbColor;
-        private System.Windows.Forms.ComboBox cbColor;
-        private System.Windows.Forms.Label lbLineWidth;
-        private System.Windows.Forms.ComboBox cbLineWidth;
-        private System.Windows.Forms.TextBox tbDrawOrder;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label lbLineType;
-        private System.Windows.Forms.ComboBox cbLineType;
-        private System.Windows.Forms.Panel pStraightLine;
-        private System.Windows.Forms.Label lbGeneralProperty;
-        private System.Windows.Forms.Label lbSLProperty;
-        private System.Windows.Forms.Label lbSLLength;
-        private System.Windows.Forms.TextBox tbSLLength;
-        private System.Windows.Forms.TextBox tbAngle;
-        private System.Windows.Forms.Label lbSLAngle;
-        private System.Windows.Forms.Label lbEndPoint;
-        private System.Windows.Forms.Label lbStartPoint;
-        private System.Windows.Forms.Label lbSY;
-        private System.Windows.Forms.Label lbSX;
-        private System.Windows.Forms.TextBox tbSY;
-        private System.Windows.Forms.TextBox tbSX;
-        private System.Windows.Forms.Label lbEY;
-        private System.Windows.Forms.Label lbEX;
-        private System.Windows.Forms.TextBox tbEY;
-        private System.Windows.Forms.TextBox tbEX;
-        private System.Windows.Forms.Panel lbRectangleProperty;
-        private System.Windows.Forms.Label lbPLLength;
-        private System.Windows.Forms.TextBox tbPolyLength;
-        private System.Windows.Forms.Label lbPolyLine;
-        private System.Windows.Forms.Panel pArcProperty;
-        private System.Windows.Forms.Label lbArcProperty;
-        private System.Windows.Forms.TextBox tbArcRadius;
-        private System.Windows.Forms.Label lbArcRadius;
-        private System.Windows.Forms.Label lbArcLength;
-        private System.Windows.Forms.TextBox tbArcLength;
-        private System.Windows.Forms.Label lbArcArea;
-        private System.Windows.Forms.Label lbArcAngle;
-        private System.Windows.Forms.TextBox tbArcArea;
-        private System.Windows.Forms.TextBox tbArcAngle;
-        private System.Windows.Forms.Label lbArcCY;
-        private System.Windows.Forms.TextBox tbArcCentreY;
-        private System.Windows.Forms.Label lbArcCX;
-        private System.Windows.Forms.TextBox tbArcCentreX;
-        private System.Windows.Forms.Label lbCentrePoint;
-        private System.Windows.Forms.Panel pCircle;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label lbCirclePerimeter;
-        private System.Windows.Forms.TextBox tbCircleRadius;
-        private System.Windows.Forms.TextBox tbPerimeter;
-        private System.Windows.Forms.Label lbCircleRadius;
-        private System.Windows.Forms.Label tbCircleProperty;
-        private System.Windows.Forms.Panel pEllipseProperty;
-        private System.Windows.Forms.Label lbEllipseCY;
-        private System.Windows.Forms.TextBox tbEllipseCY;
-        private System.Windows.Forms.Label lbEllipseCX;
-        private System.Windows.Forms.Label lbEllipseArea;
-        private System.Windows.Forms.TextBox tbEllipseCX;
-        private System.Windows.Forms.Label lbEllipseCPoint;
-        private System.Windows.Forms.TextBox tbEllipseArea;
-        private System.Windows.Forms.TextBox tbEllipsePerimeter;
-        private System.Windows.Forms.Label lbEllipseProperty;
-        private System.Windows.Forms.Label lbEllipsePerimeter;
-        private System.Windows.Forms.Label lbAxisP2Y;
-        private System.Windows.Forms.Label lbAxisP2X;
-        private System.Windows.Forms.Label lbAxisP1Y;
-        private System.Windows.Forms.Label lbAxisP1X;
-        private System.Windows.Forms.TextBox tbAxisP2Y;
-        private System.Windows.Forms.TextBox tbAxisP2X;
-        private System.Windows.Forms.TextBox tbAxisP1Y;
-        private System.Windows.Forms.TextBox tbAxisP1X;
-        private System.Windows.Forms.Label lbAxisP2;
-        private System.Windows.Forms.Label lbAxistP1;
-        private System.Windows.Forms.Panel pPolyGonProperty;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label lbPolygonProperty;
-        private System.Windows.Forms.Label lbPolygonPerimeter;
-        private System.Windows.Forms.Label lbPolygonArea;
-        private System.Windows.Forms.TextBox tbPolygonArea;
-        private System.Windows.Forms.TextBox tbPolygonPerimeter;
-        private System.Windows.Forms.Panel pRectangleProperty;
-        private System.Windows.Forms.Label lbRectWdith;
-        private System.Windows.Forms.Label lbRectHeight;
-        private System.Windows.Forms.TextBox tbRectHeight;
-        private System.Windows.Forms.TextBox tbRectWidth;
-        private System.Windows.Forms.Label lbRectPerimeter;
-        private System.Windows.Forms.Label lbRectArea;
-        private System.Windows.Forms.TextBox tbRectArea;
-        private System.Windows.Forms.TextBox tbRectPerimeter;
-        private System.Windows.Forms.Label lbRectSY;
-        private System.Windows.Forms.Label lbRectSX;
-        private System.Windows.Forms.TextBox tbRectSY;
-        private System.Windows.Forms.TextBox tbRectSX;
-        private System.Windows.Forms.Label lbRectStartPoint;
-        private System.Windows.Forms.Label lbRectangleProp;
-        private System.Windows.Forms.Button btOrto;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.ComboBox cbColorSelector;
         private System.Windows.Forms.ColorDialog cdColor;
-        private System.Windows.Forms.Label lbCurrentColor;
-        private System.Windows.Forms.Label lbCurrentLineWidth;
-        private System.Windows.Forms.ComboBox cbCurrentLineWidth;
-        private System.Windows.Forms.Label lbOrto;
-        private System.Windows.Forms.Label lbOrtoText;
-        private System.Windows.Forms.Label lbAction;
-        private System.Windows.Forms.Label lbActionText;
-        private System.Windows.Forms.Label lbDinamic;
-        private System.Windows.Forms.TextBox tbDinamic;
+        internal System.Windows.Forms.ToolStrip tsToolBar;
+        internal System.Windows.Forms.ToolStripMenuItem btNew;
+        internal System.Windows.Forms.ToolStripMenuItem btOpen;
+        internal System.Windows.Forms.ToolStripMenuItem btSave;
+        internal System.Windows.Forms.ToolStripMenuItem btSaveAs;
+        internal System.Windows.Forms.ToolStripMenuItem btExit;
+        internal System.Windows.Forms.ToolStripButton tbHelp;
+        internal System.Windows.Forms.Panel pTools;
+        internal System.Windows.Forms.Panel pProperty;
+        internal System.Windows.Forms.Panel pBottom;
+        internal System.Windows.Forms.Panel pActionBar;
+        internal System.Windows.Forms.Button btSelect;
+        internal System.Windows.Forms.Button btOpen2;
+        internal System.Windows.Forms.Button btNew2;
+        internal System.Windows.Forms.Button btSave2;
+        internal System.Windows.Forms.Button btSaveAs2;
+        internal System.Windows.Forms.Label label1;
+        internal System.Windows.Forms.Label label2;
+        internal System.Windows.Forms.Label label3;
+        internal System.Windows.Forms.Button btRedo;
+        internal System.Windows.Forms.Button btUndo;
+        internal System.Windows.Forms.Label label4;
+        internal System.Windows.Forms.Button btErase;
+        internal System.Windows.Forms.Label label5;
+        internal System.Windows.Forms.Button btPaste;
+        internal System.Windows.Forms.Button btCopy2;
+        internal System.Windows.Forms.Button btCut;
+        internal System.Windows.Forms.Button btZoom;
+        internal System.Windows.Forms.Button btZoomOut;
+        internal System.Windows.Forms.Button btZoomIn;
+        internal System.Windows.Forms.Button btLine;
+        internal System.Windows.Forms.Button btPoint;
+        internal System.Windows.Forms.Button btPolygon;
+        internal System.Windows.Forms.Button btRectangle;
+        internal System.Windows.Forms.Button btEllipse;
+        internal System.Windows.Forms.Button btCircleDia;
+        internal System.Windows.Forms.Button btCircleRad;
+        internal System.Windows.Forms.Button btArc;
+        internal System.Windows.Forms.Button btBezier;
+        internal System.Windows.Forms.Button btMirror;
+        internal System.Windows.Forms.Button btScale;
+        internal System.Windows.Forms.Button btRotate;
+        internal System.Windows.Forms.Button btImage;
+        internal System.Windows.Forms.Button btMove;
+        internal System.Windows.Forms.Button btText;
+        internal System.Windows.Forms.Button btMeasurePtoLine;
+        internal System.Windows.Forms.Button btMeasurePoints;
+        internal System.Windows.Forms.Button btSplit;
+        internal System.Windows.Forms.Button btShade;
+        internal System.Windows.Forms.Button btPolyline;
+        internal System.Windows.Forms.Button btArea;
+        internal System.Windows.Forms.Label label6;
+        internal System.Windows.Forms.Button btCopy;
+        internal System.Windows.Forms.Label label7;
+        internal System.Windows.Forms.Label lbCommand;
+        internal System.Windows.Forms.TextBox tbCommands;
+        internal System.Windows.Forms.Panel pSelector;
+        internal System.Windows.Forms.ListBox lbxCommands;
+        internal System.Windows.Forms.Button btDownArrow;
+        internal System.Windows.Forms.Button btUpArrow;
+        internal System.Windows.Forms.Label lbMouseY;
+        internal System.Windows.Forms.Label lbMouseX;
+        internal System.Windows.Forms.Label lbY;
+        internal System.Windows.Forms.Label lbX;
+        internal System.Windows.Forms.Label lbSelector;
+        internal System.Windows.Forms.Panel pGeneralProperty;
+        internal System.Windows.Forms.Label lbProperty;
+        internal System.Windows.Forms.Label lbColor;
+        internal System.Windows.Forms.ComboBox cbColor;
+        internal System.Windows.Forms.Label lbLineWidth;
+        internal System.Windows.Forms.ComboBox cbLineWidth;
+        internal System.Windows.Forms.TextBox tbDrawOrder;
+        internal System.Windows.Forms.Label label9;
+        internal System.Windows.Forms.Label lbLineType;
+        internal System.Windows.Forms.ComboBox cbLineType;
+        internal System.Windows.Forms.Panel pStraightLine;
+        internal System.Windows.Forms.Label lbGeneralProperty;
+        internal System.Windows.Forms.Label lbSLProperty;
+        internal System.Windows.Forms.Label lbSLLength;
+        internal System.Windows.Forms.TextBox tbSLLength;
+        internal System.Windows.Forms.TextBox tbAngle;
+        internal System.Windows.Forms.Label lbSLAngle;
+        internal System.Windows.Forms.Label lbEndPoint;
+        internal System.Windows.Forms.Label lbStartPoint;
+        internal System.Windows.Forms.Label lbSY;
+        internal System.Windows.Forms.Label lbSX;
+        internal System.Windows.Forms.TextBox tbSY;
+        internal System.Windows.Forms.TextBox tbSX;
+        internal System.Windows.Forms.Label lbEY;
+        internal System.Windows.Forms.Label lbEX;
+        internal System.Windows.Forms.TextBox tbEY;
+        internal System.Windows.Forms.TextBox tbEX;
+        internal System.Windows.Forms.Panel lbRectangleProperty;
+        internal System.Windows.Forms.Label lbPLLength;
+        internal System.Windows.Forms.TextBox tbPolyLength;
+        internal System.Windows.Forms.Label lbPolyLine;
+        internal System.Windows.Forms.Panel pArcProperty;
+        internal System.Windows.Forms.Label lbArcProperty;
+        internal System.Windows.Forms.TextBox tbArcRadius;
+        internal System.Windows.Forms.Label lbArcRadius;
+        internal System.Windows.Forms.Label lbArcLength;
+        internal System.Windows.Forms.TextBox tbArcLength;
+        internal System.Windows.Forms.Label lbArcArea;
+        internal System.Windows.Forms.Label lbArcAngle;
+        internal System.Windows.Forms.TextBox tbArcArea;
+        internal System.Windows.Forms.TextBox tbArcAngle;
+        internal System.Windows.Forms.Label lbArcCY;
+        internal System.Windows.Forms.TextBox tbArcCentreY;
+        internal System.Windows.Forms.Label lbArcCX;
+        internal System.Windows.Forms.TextBox tbArcCentreX;
+        internal System.Windows.Forms.Label lbCentrePoint;
+        internal System.Windows.Forms.Panel pCircle;
+        internal System.Windows.Forms.Label label10;
+        internal System.Windows.Forms.TextBox textBox1;
+        internal System.Windows.Forms.Label label11;
+        internal System.Windows.Forms.Label label12;
+        internal System.Windows.Forms.TextBox textBox2;
+        internal System.Windows.Forms.Label label14;
+        internal System.Windows.Forms.TextBox textBox3;
+        internal System.Windows.Forms.Label lbCirclePerimeter;
+        internal System.Windows.Forms.TextBox tbCircleRadius;
+        internal System.Windows.Forms.TextBox tbPerimeter;
+        internal System.Windows.Forms.Label lbCircleRadius;
+        internal System.Windows.Forms.Label tbCircleProperty;
+        internal System.Windows.Forms.Panel pEllipseProperty;
+        internal System.Windows.Forms.Label lbEllipseCY;
+        internal System.Windows.Forms.TextBox tbEllipseCY;
+        internal System.Windows.Forms.Label lbEllipseCX;
+        internal System.Windows.Forms.Label lbEllipseArea;
+        internal System.Windows.Forms.TextBox tbEllipseCX;
+        internal System.Windows.Forms.Label lbEllipseCPoint;
+        internal System.Windows.Forms.TextBox tbEllipseArea;
+        internal System.Windows.Forms.TextBox tbEllipsePerimeter;
+        internal System.Windows.Forms.Label lbEllipseProperty;
+        internal System.Windows.Forms.Label lbEllipsePerimeter;
+        internal System.Windows.Forms.Label lbAxisP2Y;
+        internal System.Windows.Forms.Label lbAxisP2X;
+        internal System.Windows.Forms.Label lbAxisP1Y;
+        internal System.Windows.Forms.Label lbAxisP1X;
+        internal System.Windows.Forms.TextBox tbAxisP2Y;
+        internal System.Windows.Forms.TextBox tbAxisP2X;
+        internal System.Windows.Forms.TextBox tbAxisP1Y;
+        internal System.Windows.Forms.TextBox tbAxisP1X;
+        internal System.Windows.Forms.Label lbAxisP2;
+        internal System.Windows.Forms.Label lbAxistP1;
+        internal System.Windows.Forms.Panel pPolyGonProperty;
+        internal System.Windows.Forms.Label label16;
+        internal System.Windows.Forms.Label label17;
+        internal System.Windows.Forms.TextBox textBox6;
+        internal System.Windows.Forms.TextBox textBox7;
+        internal System.Windows.Forms.Label label19;
+        internal System.Windows.Forms.Label lbPolygonProperty;
+        internal System.Windows.Forms.Label lbPolygonPerimeter;
+        internal System.Windows.Forms.Label lbPolygonArea;
+        internal System.Windows.Forms.TextBox tbPolygonArea;
+        internal System.Windows.Forms.TextBox tbPolygonPerimeter;
+        internal System.Windows.Forms.Panel pRectangleProperty;
+        internal System.Windows.Forms.Label lbRectWdith;
+        internal System.Windows.Forms.Label lbRectHeight;
+        internal System.Windows.Forms.TextBox tbRectHeight;
+        internal System.Windows.Forms.TextBox tbRectWidth;
+        internal System.Windows.Forms.Label lbRectPerimeter;
+        internal System.Windows.Forms.Label lbRectArea;
+        internal System.Windows.Forms.TextBox tbRectArea;
+        internal System.Windows.Forms.TextBox tbRectPerimeter;
+        internal System.Windows.Forms.Label lbRectSY;
+        internal System.Windows.Forms.Label lbRectSX;
+        internal System.Windows.Forms.TextBox tbRectSY;
+        internal System.Windows.Forms.TextBox tbRectSX;
+        internal System.Windows.Forms.Label lbRectStartPoint;
+        internal System.Windows.Forms.Label lbRectangleProp;
+        internal System.Windows.Forms.Button btOrto;
+        internal System.Windows.Forms.Label label13;
+        internal System.Windows.Forms.ComboBox cbColorSelector;
+        internal System.Windows.Forms.Label lbCurrentColor;
+        internal System.Windows.Forms.Label lbCurrentLineWidth;
+        internal System.Windows.Forms.ComboBox cbCurrentLineWidth;
+        internal System.Windows.Forms.Label lbOrto;
+        internal System.Windows.Forms.Label lbOrtoText;
+        internal System.Windows.Forms.Label lbAction;
+        internal System.Windows.Forms.Label lbActionText;
+        internal System.Windows.Forms.Panel pBoard;
     }
 }
 

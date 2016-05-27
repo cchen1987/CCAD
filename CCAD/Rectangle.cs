@@ -5,7 +5,7 @@ namespace CCAD
     /// <summary>
     /// This class is a set of 4 lines
     /// </summary>
-    class Rectangle : Block
+    public class Rectangle : Block
     {
         public double Width { get; set; }
         public double Height { get; set; }

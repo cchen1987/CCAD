@@ -6,7 +6,7 @@ namespace CCAD
     /// <summary>
     /// This class encompasses all rectilinear drawings
     /// </summary>
-    class Block : Entity
+    public class Block : Entity
     {
         protected Line[] Lines;
 

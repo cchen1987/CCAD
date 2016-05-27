@@ -6,7 +6,7 @@ namespace CCAD
     /// <summary>
     /// Class that represents all the elements that will be drawn
     /// </summary>
-    class Entity
+    public class Entity
     {
         protected double perimeter;
         protected double area;

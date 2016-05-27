@@ -7,7 +7,7 @@ namespace CCAD
     /// <summary>
     /// Class ellipse, defined by a minor axis, and a major axis
     /// </summary>
-    class Ellipse : CurvedLine
+    public class Ellipse : CurvedLine
     {
         public PointF MinorAxisPoint { get; set; }
         public PointF MajorAxisPoint { get; set; }

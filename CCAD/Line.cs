@@ -7,7 +7,7 @@ namespace CCAD
     /// <summary>
     /// This class is one of the basic clases, that will be used by blocks
     /// </summary>
-    class Line : Entity
+    public class Line : Entity
     {
         public PointF StartPoint { get; set; }
         public PointF EndPoint { get; set; }

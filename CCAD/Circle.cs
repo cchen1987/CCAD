@@ -7,7 +7,7 @@ namespace CCAD
     /// <summary>
     /// This class is a circle, defined by a centre point and a radius
     /// </summary>
-    class Circle : CurvedLine
+    public class Circle : CurvedLine
     {
         public Circle(Color color, PointF point, int width, double radius)
                 : base(color, point, width, radius)

@@ -7,7 +7,7 @@ namespace CCAD
     /// This class store information about a text to draw on screen,
     /// and all it's information
     /// </summary>
-    class Text : Entity
+    public class Text : Entity
     {
         public string Phrase { get; set; }
         public int Size { get; set; }
