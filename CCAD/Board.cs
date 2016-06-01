@@ -447,7 +447,25 @@ namespace CCAD
             lbAction.Text = "Line";
         }
 
-// Keyboard event
+        private void btCircleRad_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawCircle = true;
+            lbAction.Text = "Circle";
+        }
+
+        private void btCircleDia_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawCircleOpposite = true;
+            lbAction.Text = "CircleOpposite";
+        }
+
+        // Keyboard event
         /// <summary>
         /// This method checks if enter key pressed and interprete the 
         /// commands
@@ -791,5 +809,7 @@ namespace CCAD
             string path = read.ReadLine();
             return new Image(color, point, path);
         }
+
+        
     }
 }

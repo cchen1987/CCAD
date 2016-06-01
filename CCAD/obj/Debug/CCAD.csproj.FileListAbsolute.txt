@@ -41,3 +41,14 @@ C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.Canv
 C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.HelpScreen.resources
 C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.Properties.Resources.resources
 C:\Users\chao\Desktop\CCAD con Canvas PARA EL SUSTITUTO\CCAD\obj\Debug\CCAD.csproj.GenerateResource.Cache
+C:\Users\vince\Desktop\CCAD\CCAD\bin\Debug\CCAD.exe.config
+C:\Users\vince\Desktop\CCAD\CCAD\obj\Debug\CCAD.exe
+C:\Users\vince\Desktop\CCAD\CCAD\obj\Debug\CCAD.pdb
+C:\Users\vince\Desktop\CCAD\CCAD\bin\Debug\CCAD.exe
+C:\Users\vince\Desktop\CCAD\CCAD\bin\Debug\CCAD.pdb
+C:\Users\vince\Desktop\CCAD\CCAD\obj\Debug\CCAD.csprojResolveAssemblyReference.cache
+C:\Users\vince\Desktop\CCAD\CCAD\obj\Debug\CCAD.Board.resources
+C:\Users\vince\Desktop\CCAD\CCAD\obj\Debug\CCAD.Canvas.resources
+C:\Users\vince\Desktop\CCAD\CCAD\obj\Debug\CCAD.HelpScreen.resources
+C:\Users\vince\Desktop\CCAD\CCAD\obj\Debug\CCAD.Properties.Resources.resources
+C:\Users\vince\Desktop\CCAD\CCAD\obj\Debug\CCAD.csproj.GenerateResource.Cache

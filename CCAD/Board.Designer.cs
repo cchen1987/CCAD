@@ -682,7 +682,7 @@
             this.pProperty.Dock = System.Windows.Forms.DockStyle.Right;
             this.pProperty.Location = new System.Drawing.Point(977, 75);
             this.pProperty.Name = "pProperty";
-            this.pProperty.Size = new System.Drawing.Size(207, 700);
+            this.pProperty.Size = new System.Drawing.Size(207, 666);
             this.pProperty.TabIndex = 3;
             // 
             // pRectangleProperty
@@ -1706,7 +1706,7 @@
             this.pBottom.Controls.Add(this.lbCommand);
             this.pBottom.Controls.Add(this.tbCommands);
             this.pBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pBottom.Location = new System.Drawing.Point(0, 674);
+            this.pBottom.Location = new System.Drawing.Point(0, 640);
             this.pBottom.Name = "pBottom";
             this.pBottom.Size = new System.Drawing.Size(977, 101);
             this.pBottom.TabIndex = 4;
@@ -1901,7 +1901,7 @@
             this.pActionBar.Dock = System.Windows.Forms.DockStyle.Left;
             this.pActionBar.Location = new System.Drawing.Point(0, 75);
             this.pActionBar.Name = "pActionBar";
-            this.pActionBar.Size = new System.Drawing.Size(114, 599);
+            this.pActionBar.Size = new System.Drawing.Size(114, 565);
             this.pActionBar.TabIndex = 5;
             // 
             // btCopy
@@ -2046,6 +2046,7 @@
             this.btCircleDia.Size = new System.Drawing.Size(50, 50);
             this.btCircleDia.TabIndex = 26;
             this.btCircleDia.UseVisualStyleBackColor = false;
+            this.btCircleDia.Click += new System.EventHandler(this.btCircleDia_Click);
             // 
             // btCircleRad
             // 
@@ -2057,6 +2058,7 @@
             this.btCircleRad.Size = new System.Drawing.Size(50, 50);
             this.btCircleRad.TabIndex = 25;
             this.btCircleRad.UseVisualStyleBackColor = false;
+            this.btCircleRad.Click += new System.EventHandler(this.btCircleRad_Click);
             // 
             // btArc
             // 
@@ -2134,14 +2136,14 @@
             this.pBoard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pBoard.Location = new System.Drawing.Point(114, 75);
             this.pBoard.Name = "pBoard";
-            this.pBoard.Size = new System.Drawing.Size(863, 599);
+            this.pBoard.Size = new System.Drawing.Size(863, 565);
             this.pBoard.TabIndex = 6;
             // 
             // Board
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 775);
+            this.ClientSize = new System.Drawing.Size(1184, 741);
             this.Controls.Add(this.pBoard);
             this.Controls.Add(this.pActionBar);
             this.Controls.Add(this.pBottom);

@@ -122,6 +122,10 @@ namespace CCAD
             // Get line points if Drawing line
             if (DrawLine)
                 CreateLine();
+            if (DrawCircle)
+                CreateCircle();
+            if (DrawCircleOpposite)
+                CreateCircleOpposite();
         }
 
         /// <summary>
@@ -389,7 +393,7 @@ namespace CCAD
             return false;
         }
 
-// Entity creation
+        // Entity creation
         /// <summary>
         /// This method gets points to create lines
         /// </summary>
@@ -414,6 +418,88 @@ namespace CCAD
 
                 // Set the next line's start point
                 startPoint = endPoint;
+            }
+        }
+
+        // Entity creation
+        /// <summary>
+        /// This method gets points to create Circles
+        /// </summary>
+        public void CreateCircle()
+        {
+            double radius;
+
+            // Define the first point
+            if (FirstClick)
+            {
+                startPoint.X = CurrentX;
+                startPoint.Y = CurrentY;
+                FirstClick = false;
+                SecondClick = true;
+            }
+            // Define the following points
+            else if (SecondClick)
+            {
+                endPoint.X = CurrentX;
+                endPoint.Y = CurrentY;
+
+                radius = Math.Sqrt(Math.Pow(startPoint.X - endPoint.X, 2) +
+                Math.Pow(startPoint.Y - endPoint.Y, 2));
+
+                Circle circle = new Circle(CurrentColor, startPoint, CurrentLineWidth,
+                radius);
+
+                entities.Add(circle);
+                Refresh();
+
+                SecondClick = false;
+                FirstClick = true;
+
+            }
+
+        }
+
+
+        // Entity creation
+        /// <summary>
+        /// This method gets points to create Circles
+        /// </summary>
+        public void CreateCircleOpposite()
+        {
+            double radius;
+            PointF centrePoint = new PointF();
+
+            // Define the first point
+            if (FirstClick)
+            {
+                startPoint.X = CurrentX;
+                startPoint.Y = CurrentY;
+                FirstClick = false;
+                SecondClick = true;
+            }
+            // Define the following points
+            else if (SecondClick)
+            {
+                endPoint.X = CurrentX;
+                endPoint.Y = CurrentY;
+
+                radius = Math.Sqrt(Math.Pow(startPoint.X - endPoint.X, 2) +
+                Math.Pow(startPoint.Y - endPoint.Y, 2)) / 2;
+
+                centrePoint.X = (startPoint.X + endPoint.X) / 2;
+
+                centrePoint.Y = (startPoint.Y + endPoint.Y) / 2;
+
+
+                Circle circle = new Circle(CurrentColor, centrePoint, CurrentLineWidth,
+                radius);
+
+                entities.Add(circle);
+                Refresh();
+
+                SecondClick = false;
+                FirstClick = true;
+
             }
         }
     }
