@@ -27,8 +27,10 @@ namespace CCAD
 
         public override bool IsInRange(int x, int y)
         {
-            return (Math.Abs((x - CentrePoint.X) * (x - CentrePoint.X) + 
-                (y - CentrePoint.Y) * (y - CentrePoint.Y)) - Radius) <= range;
+            double distance = Math.Abs(Math.Sqrt((x - CentrePoint.X) * 
+                (x - CentrePoint.X) + (y - CentrePoint.Y) * 
+                (y - CentrePoint.Y)) - Radius);
+            return distance <= range;
         }
     }
 }
