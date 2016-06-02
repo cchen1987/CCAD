@@ -13,6 +13,8 @@ namespace CCAD
     {
         private Canvas myCanvas;
         private string currentFilePath;
+        private bool isSelecting;
+        private int currentSelection;
 
         public Board()
         {
@@ -52,6 +54,9 @@ namespace CCAD
             cbColorSelector.SelectedIndex = 0;
             cbCurrentLineWidth.SelectedIndex = 0;
             currentFilePath = "";
+
+            currentSelection = 0;
+            isSelecting = false;
         }
 
         /// <summary>
@@ -155,6 +160,7 @@ namespace CCAD
         {
             if (inFile.ShowDialog() == DialogResult.OK)
             {
+                List<Entity> entities = new List<Entity>();
                 try
                 {
                     currentFilePath = inFile.FileName;
@@ -170,7 +176,6 @@ namespace CCAD
                         return;
                     }
 
-                    List<Entity> entities = new List<Entity>();
                     do
                     {
                         line = read.ReadLine();
@@ -212,24 +217,27 @@ namespace CCAD
                     read.Close();
 
                     myCanvas.LoadDrawing(entities);
-                    entities = null;
                 }
                 catch (PathTooLongException)
                 {
                     MessageBox.Show("Path too long.");
                     currentFilePath = "";
+                    myCanvas.ResetCanvas();
                 }
                 catch (IOException ex)
                 {
                     MessageBox.Show("Input error: Cound not read file" +
                         " from disk. Original error: " + ex.Message);
                     currentFilePath = "";
+                    myCanvas.ResetCanvas();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Unexpected error: " + ex.Message);
                     currentFilePath = "";
+                    myCanvas.ResetCanvas();
                 }
+                entities = null;
             }
         }
 
@@ -265,8 +273,8 @@ namespace CCAD
                         entities[i].GetType().ToString().Replace("CCAD.", "");
                     write.WriteLine(name);
                     write.WriteLine(entities[i].LineWidth);
-                    write.WriteLine(entities[i].Color.ToString().Split()[1].
-                        Replace("[", "").Replace("]", ""));
+                    write.WriteLine(entities[i].GetOriginalColor().ToString().
+                        Split()[1].Replace("[", "").Replace("]", ""));
                     if (name.Equals("Point"))
                         WritePoint(write, ((Point)entities[i]).StartPoint);
                     else if (name.Equals("Line"))
@@ -434,7 +442,41 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method activates the line action
+        /// This method selects drawings on board, increasing the selection index
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btUpArrow_Click(object sender, EventArgs e)
+        {
+            if (currentSelection < myCanvas.GetDrawing().Count - 1)
+            {
+                currentSelection++;
+                isSelecting = true;
+                myCanvas.GetDrawing()[currentSelection].Selected();
+                myCanvas.GetDrawing()[currentSelection - 1].Free();
+                myCanvas.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// This method selects drawings on board, decreasing the selection index
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btDownArrow_Click(object sender, EventArgs e)
+        {
+            if (currentSelection > 0)
+            {
+                currentSelection--;
+                isSelecting = true;
+                myCanvas.GetDrawing()[currentSelection].Selected();
+                myCanvas.GetDrawing()[currentSelection + 1].Free();
+                myCanvas.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// This method activates the draw line action
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -447,6 +489,40 @@ namespace CCAD
             lbAction.Text = "Line";
         }
 
+        /// <summary>
+        /// This method activates the draw arc action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btArc_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawArc = true;
+            lbAction.Text = "Arc";
+        }
+
+        /// <summary>
+        /// This method activates the draw circle by diameter action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btCircleDia_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawCircleOpposite = true;
+            lbAction.Text = "CircleOpposite";
+
+        }
+
+        /// <summary>
+        /// This method activates the draw circle by radius method
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btCircleRad_Click(object sender, EventArgs e)
         {
             myCanvas.ResetAllAction();
@@ -456,16 +532,21 @@ namespace CCAD
             lbAction.Text = "Circle";
         }
 
-        private void btCircleDia_Click(object sender, EventArgs e)
+        /// <summary>
+        /// This method activates the draw point action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btPoint_Click(object sender, EventArgs e)
         {
             myCanvas.ResetAllAction();
             myCanvas.SelectEntity = false;
             myCanvas.Draw = true;
-            myCanvas.DrawCircleOpposite = true;
-            lbAction.Text = "CircleOpposite";
+            myCanvas.DrawPoint = true;
+            lbAction.Text = "Point";
         }
 
-        // Keyboard event
+// Keyboard event
         /// <summary>
         /// This method checks if enter key pressed and interprete the 
         /// commands
@@ -486,8 +567,7 @@ namespace CCAD
                     if (myCanvas.AddLine(parts))
                     {
                         lbxCommands.Items.Add("Command: " + tbCommands.Text);
-                        lbxCommands.BackColor = Color.White;
-                        lbxCommands.SelectedIndex = lbxCommands.Items.Count - 1;
+                        MoveCommandBoxLines();
                         tbCommands.Clear();
                         tbCommands.BackColor = Color.White;
                     }
@@ -503,7 +583,27 @@ namespace CCAD
                 myCanvas.ResetAllAction();
                 myCanvas.SilenceKeySound(e);
                 lbxCommands.Items.Add("*Canceled*");
-                lbxCommands.SelectedIndex = lbxCommands.Items.Count - 1;
+                MoveCommandBoxLines();
+                HideAllPropertyPanels();
+                ResetSelection();
+            }
+        }
+
+        /// <summary>
+        /// This method checks if key pressed when focus on panel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pBoard_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                myCanvas.ResetAllAction();
+                lbxCommands.Items.Add("*Canceled*");
+                MoveCommandBoxLines();
+                myCanvas.ResetAllAction();
+                HideAllPropertyPanels();
+                ResetSelection();
             }
         }
 
@@ -518,8 +618,23 @@ namespace CCAD
             {
                 myCanvas.SilenceKeySound(e);
                 // Reset all actions when key escape pressed
+                lbxCommands.Items.Add("*Canceled*");
+                MoveCommandBoxLines();
                 myCanvas.ResetAllAction();
+                HideAllPropertyPanels();
+                ResetSelection();
             }
+        }
+
+// Mouse events
+        /// <summary>
+        /// This method checks if mouse is on board and focus it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Board_MouseEnter(object sender, EventArgs e)
+        {
+            Focus();
         }
 
 // Own methods
@@ -637,7 +752,7 @@ namespace CCAD
         {
             WritePoint(write, text.Point);
             write.WriteLine(text.Phrase);
-            write.WriteLine(text.FontFamily);
+            write.WriteLine(text.FontFamily.ToString());
             write.WriteLine(text.Size);
         }
 
@@ -789,9 +904,11 @@ namespace CCAD
             PointF point = ReadPoint(read);
             string text = read.ReadLine();
             string font = read.ReadLine();
-            FontFamily fontFamily = font.Equals("FontFamily.GenericSerif") ?
+            FontFamily fontFamily = 
+                font.Equals("[FontFamily: Name=Courier New]") ?
                 FontFamily.GenericSerif : font.Equals(
-                "FontFamily.GenericSansSerif") ? FontFamily.GenericSansSerif :
+                "[FontFamily: Name=Microsoft Sans Serif]") ? 
+                FontFamily.GenericSansSerif :
                 FontFamily.GenericMonospace;
             int size = Convert.ToInt32(read.ReadLine());
             return new CCAD.Text(color, size, fontFamily, point, text);
@@ -810,6 +927,51 @@ namespace CCAD
             return new Image(color, point, path);
         }
 
-        
+        /// <summary>
+        /// This method reset selection mode
+        /// </summary>
+        public void ResetSelection()
+        {
+            isSelecting = false;
+            myCanvas.Refresh();
+        }
+
+        /// <summary>
+        /// This method checks if user is selecting drawings
+        /// </summary>
+        /// <returns>true if user is selecting, false if not</returns>
+        public bool IsSelecting()
+        {
+            return isSelecting;
+        }
+
+        /// <summary>
+        /// This method set the current selection to the entered index
+        /// </summary>
+        /// <param name="index"></param>
+        public void SetSelection(int index)
+        {
+            currentSelection = index;
+        }
+
+        /// <summary>
+        /// This method hides all property panels
+        /// </summary>
+        public void HideAllPropertyPanels()
+        {
+            pStraightLine.Hide();
+            pRectangleProperty.Hide();
+            pPolyGonProperty.Hide();
+            pArcProperty.Hide();
+            pCircle.Hide();
+            pEllipseProperty.Hide();
+            pPolylineProperty.Hide();
+        }
+
+        public void MoveCommandBoxLines()
+        {
+            lbxCommands.BackColor = Color.White;
+            lbxCommands.SelectedIndex = lbxCommands.Items.Count - 1;
+        }
     }
 }

@@ -23,6 +23,34 @@ namespace CCAD
                 LineWidth), new RectangleF((float)(CentrePoint.X - Radius),
                 (float)(CentrePoint.Y - Radius), (float)(2 * Radius),
                 (float)(2 * Radius)));
+
+            if (selected)
+            {
+                // 4 is the point width
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(CentrePoint.X - 2, CentrePoint.Y - 2, 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF((float)(CentrePoint.X - 2 - Radius), CentrePoint.Y - 2, 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF((float)(CentrePoint.X - 2 + Radius), CentrePoint.Y - 2, 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(CentrePoint.X - 2, (float)(CentrePoint.Y - 2 - Radius), 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(CentrePoint.X - 2, (float)(CentrePoint.Y - 2 + Radius), 4, 4));
+            }
+        }
+
+        public override bool IsInside(double minY, double maxY, double minX,
+                double maxX)
+        {
+            double leftX = CentrePoint.X - Radius;
+            double rightX = CentrePoint.X + Radius;
+            double topY = CentrePoint.Y - Radius;
+            double botY = CentrePoint.Y + Radius;
+            if (minX <= leftX && maxX >= rightX && minY <= topY && maxY >= botY)
+                return true;
+
+            return false;
         }
     }
 }

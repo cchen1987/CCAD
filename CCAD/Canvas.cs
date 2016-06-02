@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace CCAD
@@ -11,10 +12,16 @@ namespace CCAD
         private PointF startPoint;
         private PointF endPoint;
         private PointF previousPoint;
+        private System.Drawing.Point ptCurrent; // area selection current point
+        private System.Drawing.Point ptOriginal; // area selection start point
+        private System.Drawing.Point ptLast; // area selection end point
+        private bool areaSelection;
         private Graphics graph;
         private Brush brush;
         private Pen pen;
         private Board myBoard;
+        private List<int> selections;
+        private float[][] dashPatterns;
 
         public bool FirstClick { get; set; }
         public bool SecondClick { get; set; }
@@ -74,10 +81,13 @@ namespace CCAD
             MoveEntity = false;
             SelectEntity = false;
             Orto = false;
+            areaSelection = false;
             ZoomIncrement = 0.1f;
             CurrentZoom = 1f;
             Angle = 0;
             graph = CreateGraphics();
+            ptLast = new System.Drawing.Point();
+            ptOriginal = new System.Drawing.Point();
             startPoint = new PointF();
             endPoint = new PointF();
             previousPoint = new PointF();
@@ -87,6 +97,14 @@ namespace CCAD
                 myBoard.cbColorSelector.Items[0].ToString());
             brush = new SolidBrush(CurrentColor);
             pen = new Pen(brush, CurrentLineWidth);
+            selections = new List<int>();
+            dashPatterns = new float[4][]
+            {
+                new float[] { 5, 5 },
+                new float[] { 8, 4 },
+                new float[] { 10, 10 },
+                new float[] { 2, 10 }
+            };
             lbDinamic.Hide();
             tbDinamic.Hide();
 
@@ -104,11 +122,26 @@ namespace CCAD
         }
 
 // Main board drawing
+        /// <summary>
+        /// This method draws all entities
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Canvas_Paint(object sender, PaintEventArgs e)
         {
             // Draw all entities
             for (int i = 0; i < entities.Count; i++)
                 entities[i].Draw(e);
+        }
+        
+        /// <summary>
+        /// This method redefines the variable graph when canvas size changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Canvas_SizeChanged(object sender, EventArgs e)
+        {
+            graph = CreateGraphics();
         }
 
 // Mouse events
@@ -119,12 +152,50 @@ namespace CCAD
         /// <param name="e"></param>
         private void Canvas_MouseClick(object sender, MouseEventArgs e)
         {
-            // Get line points if Drawing line
+            if (!Draw)
+            {
+                // Clear all selections
+                for (int i = 0; i < entities.Count; i++)
+                {
+                    entities[i].Free();
+                    selections.Clear();
+                }
+
+                // Check if the cursor is next to the drawing when clicks
+                for (int i = 0; i < entities.Count; i++)
+                {
+                    if (entities[i].IsInRange(CurrentX, CurrentY))
+                    {
+                        entities[i].Selected();
+                        selections.Add(i);
+                        myBoard.SetSelection(i);
+                    }
+                    if (selections.Count == 1)
+                    {
+                        myBoard.pStraightLine.Show();
+                    }
+                    else
+                    {
+                        myBoard.pStraightLine.Hide();
+                    }
+                }
+                Refresh();
+            }
+
+            // Create line if Drawing line
             if (DrawLine)
                 CreateLine();
-            if (DrawCircle)
+            // Create point if Drawing point
+            else if (DrawPoint)
+                CreatePoint();
+            // Create arc if Drawing arc
+            else if (DrawArc)
+                CreateArc();
+            // Create circle by radius if Drawing circle
+            else if (DrawCircle)
                 CreateCircle();
-            if (DrawCircleOpposite)
+            // Create circle by diameter if Drawing circle by opposite points
+            else if (DrawCircleOpposite)
                 CreateCircleOpposite();
         }
 
@@ -140,6 +211,78 @@ namespace CCAD
             tbDinamic.Hide();
             lbDinamic.Hide();
         }
+        
+        /// <summary>
+        /// This methods checks if mouse is on canvas and focus it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Canvas_MouseEnter(object sender, EventArgs e)
+        {
+            Focus();
+        }
+
+        /// <summary>
+        /// This method checks if mouse is pressed down
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Canvas_MouseDown(object sender, MouseEventArgs e)
+        {
+            // Activate selection by area
+            areaSelection = true;
+
+            // Start point of the selection rectangle
+            ptOriginal.X = e.X;
+            ptOriginal.Y = e.Y;
+
+            // Special value lets know that no previous rectangle needs 
+            // to be erases
+            ptLast.X = -1;
+            ptLast.Y = -1;
+        }
+
+        /// <summary>
+        /// This method checks if mouse button is up
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Canvas_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (areaSelection)
+            {
+                double botRectangle = ptOriginal.Y > ptCurrent.Y ? ptOriginal.Y : ptCurrent.Y;
+                double topRectangle = ptOriginal.Y < ptCurrent.Y ? ptOriginal.Y : ptCurrent.Y;
+                double leftRectangle = ptOriginal.X < ptCurrent.X ? ptOriginal.X : ptCurrent.X;
+                double rightRectangle = ptOriginal.X > ptCurrent.X ? ptOriginal.X : ptCurrent.X;
+
+                // Check if any entity is contained by selection rectangle
+                for (int i = 0; i < entities.Count; i++)
+                {
+                    if (entities[i].IsInside(topRectangle, botRectangle,
+                            leftRectangle, rightRectangle))
+                    {
+                        entities[i].Selected();
+                        selections.Add(i);
+                        myBoard.SetSelection(i);
+                    }
+                }
+                // Show property editor if just 1 entity selected
+                if (selections.Count == 1)
+                {
+                    myBoard.pStraightLine.Show();
+                }
+                else
+                {
+                    myBoard.pStraightLine.Hide();
+                }
+
+                Refresh();
+            }
+            
+            // Deactivate area selection
+            areaSelection = false;
+        }
 
         /// <summary>
         /// This method displays the current x and y of the mouse
@@ -150,7 +293,7 @@ namespace CCAD
         {
             myBoard.lbMouseX.Text = e.X.ToString("0.0000");
             myBoard.lbMouseY.Text = e.Y.ToString("0.0000");
-
+            
             // Show the mouse current coordinates in the label
             if (Orto && !FirstClick)
             {
@@ -171,6 +314,42 @@ namespace CCAD
                 CurrentY = e.Y;
             }
 
+            if (!Draw && !areaSelection)
+            {
+                // Check if the cursor is next to the drawing
+                for (int i = 0; i < entities.Count; i++)
+                {
+                    if (entities[i].IsInRange(CurrentX, CurrentY) &&
+                            !entities[i].IsSelected())
+                    {
+                        entities[i].SetTemporalColor();
+                        Refresh();
+                    }
+                    else if (!entities[i].IsInRange(CurrentX, CurrentY) &&
+                            !entities[i].IsSelected())
+                    {
+                        entities[i].ResetColor();
+                        Refresh();
+                    }
+                }
+            }
+
+            // Draw selection rectangle
+            ptCurrent = new System.Drawing.Point(CurrentX, CurrentY);
+
+            if (areaSelection && !Draw)
+            {
+                if (ptLast.X != -1)
+                {
+                    DrawReversibleRectangle(ptOriginal, ptLast);
+                }
+                ptLast = ptCurrent;
+                DrawReversibleRectangle(ptOriginal, ptCurrent);
+            }
+
+            // Draw preview of entities
+            DrawPreview();
+
             if (Draw)
             {
                 // Show dinamic items and set their coordinates
@@ -180,11 +359,19 @@ namespace CCAD
                 lbDinamic.Show();
                 lbDinamic.Location = new System.Drawing.Point(e.X + 10, e.Y - 20);
 
-                // set dinamic label text to mouse coordinates
-                if (Draw)
-                {
+                if (Draw && FirstClick)
+                    // set dinamic label text to mouse coordinates
                     lbDinamic.Text = "x: " + e.X.ToString("0.0000") + " y: " +
                         e.Y.ToString("0.0000");
+                else
+                {
+                    if (DrawCircleOpposite && !FirstClick)
+                    {
+                        double diameter = Math.Sqrt(Math.Pow(startPoint.X - 
+                            CurrentX, 2) + Math.Pow(startPoint.Y - 
+                            CurrentY, 2));
+                        lbDinamic.Text = "Diameter: " + diameter.ToString("0.0000");
+                    }
                 }
             }
         }
@@ -197,9 +384,11 @@ namespace CCAD
                 SilenceKeySound(e);
                 // Reset all actions when key escape pressed
                 ResetAllAction();
+                myBoard.ResetSelection();
                 myBoard.lbxCommands.Items.Add("*Canceled*");
                 myBoard.lbxCommands.SelectedIndex =
                     myBoard.lbxCommands.Items.Count - 1;
+                myBoard.HideAllPropertyPanels();
             }
         }
 
@@ -243,6 +432,7 @@ namespace CCAD
                 myBoard.lbxCommands.Items.Add("*Canceled*");
                 myBoard.lbxCommands.SelectedIndex =
                     myBoard.lbxCommands.Items.Count - 1;
+                myBoard.HideAllPropertyPanels();
             }
         }
 
@@ -253,6 +443,7 @@ namespace CCAD
         public void ResetAllAction()
         {
             SelectEntity = true;
+            areaSelection = false;
             FirstClick = true;
             SecondClick = false;
             ThirdClick = false;
@@ -273,8 +464,14 @@ namespace CCAD
             Copy = false;
             MoveEntity = false;
             myBoard.lbAction.Text = "Select";
+            myBoard.ResetSelection();
+            // Deselect all entities
+            for (int i = 0; i < entities.Count; i++)
+                entities[i].Free();
+
             lbDinamic.Hide();
             tbDinamic.Hide();
+            Refresh();
         }
 
         /// <summary>
@@ -327,6 +524,120 @@ namespace CCAD
             startPoint = point;
         }
 
+        /// <summary>
+        /// This method draws a preview of the selected item drawing
+        /// </summary>
+        public void DrawPreview()
+        {
+            if (!FirstClick && Draw)
+            {
+                Refresh();
+                if (!DrawLine && !DrawPoint)
+                    DrawAuxiliarLine();
+                // Draw line preview
+                if (DrawLine)
+                {
+                    graph.DrawLine(new Pen(new SolidBrush(Color.White)),
+                        startPoint, new System.Drawing.Point(CurrentX,
+                        CurrentY));
+                }
+                // Draw arc preview
+                else if (DrawArc && !FirstClick && !SecondClick)
+                {
+                    double lengthX = endPoint.X - startPoint.X;
+                    double lengthY = endPoint.Y - startPoint.Y;
+                    double radius = Math.Sqrt(lengthX * lengthX + lengthY * 
+                        lengthY);
+                    double startAngle = (Math.Atan2(lengthY, lengthX) * 180f /
+                        Math.PI);
+                    lengthX = CurrentX - startPoint.X;
+                    lengthY = CurrentY - startPoint.Y;
+                    double endAngle = (Math.Atan2(lengthY, lengthX) * 180f /
+                        Math.PI);
+                    double sweepAngle = endAngle - startAngle;
+                    graph.DrawArc(new Pen(new SolidBrush(Color.White)),
+                        new RectangleF((float)(startPoint.X - radius),
+                        (float)(startPoint.Y - radius), (float)(2 * radius),
+                        (float)(2 * radius)), (float)startAngle, 
+                        (float)sweepAngle);
+                }
+                // Draw circle preview
+                else if (DrawCircle)
+                {
+                    double radius = Math.Sqrt(Math.Pow(startPoint.X - CurrentX,
+                        2) + Math.Pow(startPoint.Y - CurrentY, 2));
+                    
+                    graph.DrawEllipse(new Pen(new SolidBrush(Color.White)), 
+                        new RectangleF((float)(startPoint.X - radius),
+                        (float)(startPoint.Y - radius), (float)(2 * radius),
+                        (float)(2 * radius)));
+                }
+                // Draw circle by diameter preview
+                else if (DrawCircleOpposite)
+                {
+                    double radius = Math.Sqrt(Math.Pow(startPoint.X - CurrentX,
+                        2) + Math.Pow(startPoint.Y - CurrentY, 2)) / 2;
+                    graph.DrawEllipse(new Pen(new SolidBrush(Color.White)),
+                        new RectangleF((float)((startPoint.X + CurrentX) / 2 -
+                        radius), (float)((startPoint.Y + CurrentY) / 2 - radius),
+                        (float)(2 * radius), (float)(2 * radius)));
+                }
+            }
+        }
+
+        /// <summary>
+        /// This method draws an auxiliar line to help user when drawing
+        /// </summary>
+        public void DrawAuxiliarLine()
+        {
+            Pen auxPen = new Pen(new SolidBrush(Color.White));
+            auxPen.DashPattern = dashPatterns[2];
+            graph.DrawLine(auxPen, startPoint, new PointF(CurrentX, CurrentY));
+        }
+        
+        /// <summary>
+        /// This method draws the selection rectangle
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        private void DrawReversibleRectangle(System.Drawing.Point p1,
+                System.Drawing.Point p2)
+        {
+            System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle();
+            // Convert the points to screen coordinates
+            p1 = PointToScreen(p1);
+            p2 = PointToScreen(p2);
+            Color back = Color.Blue;
+            // Normalize the rectangle
+            if (p1.X < p2.X)
+            {
+                rectangle.X = p1.X;
+                rectangle.Width = p2.X - p1.X;
+                back = Color.Blue;
+            }
+            else
+            {
+                rectangle.X = p2.X;
+                rectangle.Width = p1.X - p2.X;
+                back = Color.LimeGreen;
+            }
+            if (p1.Y < p2.Y)
+            {
+                rectangle.Y = p1.Y;
+                rectangle.Height = p2.Y - p1.Y;
+            }
+            else
+            {
+                rectangle.Y = p2.Y;
+                rectangle.Height = p1.Y - p2.Y;
+            }
+            
+            // Draw the reversible frame
+            ControlPaint.DrawReversibleFrame(rectangle, Color.White,
+                FrameStyle.Dashed);
+            ControlPaint.FillReversibleRectangle(rectangle, back);
+        }
+        
 // Add entity to array
         /// <summary>
         /// This method adds a line in the entity array
@@ -393,7 +704,7 @@ namespace CCAD
             return false;
         }
 
-        // Entity creation
+// Entity creation
         /// <summary>
         /// This method gets points to create lines
         /// </summary>
@@ -407,7 +718,7 @@ namespace CCAD
                 FirstClick = false;
             }
             // Define the following points
-            else if (!FirstClick)
+            else
             {
                 endPoint.X = CurrentX;
                 endPoint.Y = CurrentY;
@@ -421,54 +732,87 @@ namespace CCAD
             }
         }
 
-        // Entity creation
         /// <summary>
-        /// This method gets points to create Circles
+        /// This method gets points to create points
+        /// </summary>
+        public void CreatePoint()
+        {
+            Point point = new Point(CurrentColor, 
+                new PointF(CurrentX, CurrentY));
+            entities.Add(point);
+            Refresh();
+        }
+
+        /// <summary>
+        /// This method gets points to create arc
+        /// </summary>
+        public void CreateArc()
+        {
+            if (FirstClick)
+            {
+                myBoard.lbxCommands.Items.Add(
+                    "Commands: Click for the start point of the arc.");
+                startPoint.X = CurrentX;
+                startPoint.Y = CurrentY;
+                FirstClick = false;
+                SecondClick = true;
+            }
+            else if (SecondClick)
+            {
+                myBoard.lbxCommands.Items.Add(
+                    "Commands: Click for the sweep angle of the arc.");
+                endPoint.X = CurrentX;
+                endPoint.Y = CurrentY;
+                SecondClick = false;
+            }
+            else
+            {
+                Arc arc = new Arc(CurrentColor, startPoint,
+                    endPoint, new PointF(CurrentX, CurrentY), CurrentLineWidth);
+                entities.Add(arc);
+                FirstClick = true;
+                Refresh();
+            }
+            myBoard.MoveCommandBoxLines();
+        }
+
+        /// <summary>
+        /// This method gets points to create circle by radius
         /// </summary>
         public void CreateCircle()
         {
-            double radius;
-
             // Define the first point
             if (FirstClick)
             {
-                startPoint.X = CurrentX;
-                startPoint.Y = CurrentY;
-                FirstClick = false;
-                SecondClick = true;
+                 startPoint.X = CurrentX;
+                 startPoint.Y = CurrentY;
+                 FirstClick = false;
+                 SecondClick = true;
             }
             // Define the following points
             else if (SecondClick)
             {
                 endPoint.X = CurrentX;
                 endPoint.Y = CurrentY;
-
-                radius = Math.Sqrt(Math.Pow(startPoint.X - endPoint.X, 2) +
-                Math.Pow(startPoint.Y - endPoint.Y, 2));
-
-                Circle circle = new Circle(CurrentColor, startPoint, CurrentLineWidth,
-                radius);
-
-                entities.Add(circle);
-                Refresh();
+         
+                double radius = Math.Sqrt(Math.Pow(startPoint.X - endPoint.X,
+                    2) + Math.Pow(startPoint.Y - endPoint.Y, 2));
+         
+                Circle circle = new Circle(CurrentColor, startPoint,
+                    CurrentLineWidth, radius);
 
                 SecondClick = false;
                 FirstClick = true;
-
+                entities.Add(circle);
+                Refresh();
             }
-
         }
 
-
-        // Entity creation
         /// <summary>
-        /// This method gets points to create Circles
+        /// This method gets points to create circle by diameter
         /// </summary>
         public void CreateCircleOpposite()
         {
-            double radius;
-            PointF centrePoint = new PointF();
-
             // Define the first point
             if (FirstClick)
             {
@@ -483,23 +827,25 @@ namespace CCAD
                 endPoint.X = CurrentX;
                 endPoint.Y = CurrentY;
 
+                double radius;
+                PointF centrePoint = new PointF();
+
                 radius = Math.Sqrt(Math.Pow(startPoint.X - endPoint.X, 2) +
-                Math.Pow(startPoint.Y - endPoint.Y, 2)) / 2;
-
+                    Math.Pow(startPoint.Y - endPoint.Y, 2)) / 2;
+              
                 centrePoint.X = (startPoint.X + endPoint.X) / 2;
-
+              
                 centrePoint.Y = (startPoint.Y + endPoint.Y) / 2;
-
-
-                Circle circle = new Circle(CurrentColor, centrePoint, CurrentLineWidth,
-                radius);
-
-                entities.Add(circle);
-                Refresh();
+              
+              
+                Circle circle = new Circle(CurrentColor, centrePoint,
+                    CurrentLineWidth, radius);
 
                 SecondClick = false;
                 FirstClick = true;
 
+                entities.Add(circle);
+                Refresh();
             }
         }
     }

@@ -64,6 +64,17 @@ namespace CCAD
         }
 
         /// <summary>
+        /// This method checks if the entity is contained in the selection rectangle
+        /// </summary>
+        /// <returns></returns>
+        public virtual bool IsInside(double topY, double botY,
+                double leftX, double rightX)
+        {
+            // Defined in each class
+            return false;
+        }
+
+        /// <summary>
         /// This method returns the area of the entity
         /// </summary>
         /// <returns>area</returns>
@@ -87,6 +98,7 @@ namespace CCAD
         public void Selected()
         {
             selected = true;
+            Color = Color.Gray;
         }
 
         /// <summary>
@@ -105,6 +117,15 @@ namespace CCAD
         public void Free()
         {
             selected = false;
+            ResetColor();
+        }
+
+        /// <summary>
+        /// This method sets temporally the drawing color
+        /// </summary>
+        public void SetTemporalColor()
+        {
+            Color = Color.Gray;
         }
     }
 }

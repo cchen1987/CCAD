@@ -68,5 +68,26 @@ namespace CCAD
             for (int i = 0; i < Lines.Length; i++)
                 Lines[i].Color = originalColor;
         }
+
+        // This method checks if all lines are inside of the selection area
+        public override bool IsInside(double minY, double maxY, double minX,
+                double maxX)
+        {
+            int count = 0;
+            // Count selected lines
+            for (int i = 0; i < Lines.Length; i++)
+                count += Lines[i].IsSelected() ? 1 : 0;
+
+            // If all lines selected, return true
+            if (count == Lines.Length)
+                return true;
+            else
+            {
+                for (int i = 0; i < Lines.Length; i++)
+                    Lines[i].Free();
+
+                return false;
+            }
+        }
     }
 }

@@ -35,6 +35,16 @@ namespace CCAD
             base.Draw(graph);
             graph.Graphics.DrawLine(new Pen(new SolidBrush(Color), LineWidth),
                 StartPoint.X, StartPoint.Y, EndPoint.X, EndPoint.Y);
+
+            if (selected)
+            {
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(StartPoint.X - 2, StartPoint.Y - 2, 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(MidPoint.X - 2, MidPoint.Y - 2, 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(EndPoint.X - 2, EndPoint.Y - 2, 4, 4));
+            }
         }
 
         public override bool IsInRange(int x, int y)
@@ -60,6 +70,19 @@ namespace CCAD
                 (Math.Sqrt((EndPoint.X - x) * (EndPoint.X - x) + 
                 (EndPoint.Y - y) * (EndPoint.Y - y)) <= range)) && 
                 range >= distance;
+        }
+
+        public override bool IsInside(double minY, double maxY, double minX,
+                double maxX)
+        {
+            double leftX = StartPoint.X < EndPoint.X ? StartPoint.X : EndPoint.X;
+            double rightX = StartPoint.X > EndPoint.X ? StartPoint.X : EndPoint.X;
+            double topY = StartPoint.Y < EndPoint.Y ? StartPoint.Y : EndPoint.Y;
+            double botY = StartPoint.Y > EndPoint.Y ? StartPoint.Y : EndPoint.Y;
+            if (minX <= leftX && maxX >= rightX && minY <= topY && maxY >= botY)
+                return true;
+
+            return false;
         }
     }
 }

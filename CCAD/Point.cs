@@ -20,8 +20,14 @@ namespace CCAD
         public override void Draw(PaintEventArgs graph)
         {
             base.Draw(graph);
-            this.graph.Graphics.FillRectangle(new SolidBrush(Color),
+            graph.Graphics.FillRectangle(new SolidBrush(Color),
                 StartPoint.X, StartPoint.Y, LineWidth, LineWidth);
+
+            if (selected)
+            {
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    StartPoint.X - 2, StartPoint.Y - 2, 4, 4);
+            }
         }
 
         public override bool IsInRange(int x, int y)
@@ -29,6 +35,17 @@ namespace CCAD
             base.IsInRange(x, y);
             return Math.Abs(StartPoint.X - x) <= range &&
                 Math.Abs(StartPoint.Y - y) <= range;
+        }
+
+        public override bool IsInside(double minY, double maxY, double minX,
+                double maxX)
+        {
+            if (minX <= StartPoint.X && maxX >= StartPoint.X &&
+                    minY <= StartPoint.Y && maxY >= StartPoint.Y)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

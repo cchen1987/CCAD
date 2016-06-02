@@ -30,6 +30,23 @@ namespace CCAD
             base.Draw(graph);
             graph.Graphics.DrawString(Phrase, Font, 
                 new SolidBrush(Color), Point);
+
+            if (selected)
+            {
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    Point.X, Point.Y, LineWidth, LineWidth);
+            }
+        }
+
+        public override bool IsInside(double minY, double maxY, double minX,
+                 double maxX)
+        {
+            if (minX <= Point.X && maxX >= Point.X + Phrase.Length &&
+                    minY <= Point.Y && maxY >= Point.Y + Size)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

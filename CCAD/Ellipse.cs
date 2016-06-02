@@ -28,6 +28,7 @@ namespace CCAD
             // contains the ellipse
             EndPoint = new PointF(MajorAxisPoint.X, 2f * CentrePoint.Y - 
                 MinorAxisPoint.Y);
+            
             // a is major radius
             double a = Math.Abs(MajorAxisPoint.X - CentrePoint.X);
             // b is minor radius
@@ -44,6 +45,30 @@ namespace CCAD
             graph.Graphics.DrawEllipse(new Pen(new SolidBrush(Color),
                 LineWidth), StartPoint.X, StartPoint.Y,
                 EndPoint.X - StartPoint.X, EndPoint.Y - StartPoint.Y);
+
+            if (selected)
+            {
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(MinorAxisPoint.X - 2, MinorAxisPoint.Y - 2, 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(MajorAxisPoint.X - 2, MajorAxisPoint.Y - 2, 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(CentrePoint.X - 2, CentrePoint.Y - 2, 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(StartPoint.X - 2, StartPoint.Y - 2, 4, 4));
+                graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
+                    new RectangleF(EndPoint.X - 2, EndPoint.Y - 2, 4, 4));
+            }
+        }
+
+        public override bool IsInside(double minY, double maxY, double minX,
+                double maxX)
+        {
+            if (minX <= StartPoint.X && maxX >= EndPoint.X &&
+                    minY <= StartPoint.Y && maxY >= EndPoint.Y)
+                return true;
+
+            return false;
         }
     }
 }

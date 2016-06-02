@@ -98,7 +98,7 @@
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
             this.lbPolygonProperty = new System.Windows.Forms.Label();
-            this.lbRectangleProperty = new System.Windows.Forms.Panel();
+            this.pPolylineProperty = new System.Windows.Forms.Panel();
             this.lbPLLength = new System.Windows.Forms.Label();
             this.tbPolyLength = new System.Windows.Forms.TextBox();
             this.lbPolyLine = new System.Windows.Forms.Label();
@@ -225,7 +225,7 @@
             this.pProperty.SuspendLayout();
             this.pRectangleProperty.SuspendLayout();
             this.pPolyGonProperty.SuspendLayout();
-            this.lbRectangleProperty.SuspendLayout();
+            this.pPolylineProperty.SuspendLayout();
             this.pCircle.SuspendLayout();
             this.pStraightLine.SuspendLayout();
             this.pArcProperty.SuspendLayout();
@@ -673,7 +673,7 @@
             this.pProperty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pProperty.Controls.Add(this.pRectangleProperty);
             this.pProperty.Controls.Add(this.pPolyGonProperty);
-            this.pProperty.Controls.Add(this.lbRectangleProperty);
+            this.pProperty.Controls.Add(this.pPolylineProperty);
             this.pProperty.Controls.Add(this.pCircle);
             this.pProperty.Controls.Add(this.pStraightLine);
             this.pProperty.Controls.Add(this.pArcProperty);
@@ -682,7 +682,7 @@
             this.pProperty.Dock = System.Windows.Forms.DockStyle.Right;
             this.pProperty.Location = new System.Drawing.Point(977, 75);
             this.pProperty.Name = "pProperty";
-            this.pProperty.Size = new System.Drawing.Size(207, 666);
+            this.pProperty.Size = new System.Drawing.Size(207, 700);
             this.pProperty.TabIndex = 3;
             // 
             // pRectangleProperty
@@ -703,7 +703,7 @@
             this.pRectangleProperty.Controls.Add(this.lbRectStartPoint);
             this.pRectangleProperty.Controls.Add(this.lbRectangleProp);
             this.pRectangleProperty.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pRectangleProperty.Location = new System.Drawing.Point(0, 1384);
+            this.pRectangleProperty.Location = new System.Drawing.Point(0, 1380);
             this.pRectangleProperty.Name = "pRectangleProperty";
             this.pRectangleProperty.Size = new System.Drawing.Size(205, 211);
             this.pRectangleProperty.TabIndex = 39;
@@ -840,9 +840,9 @@
             this.pPolyGonProperty.Controls.Add(this.label19);
             this.pPolyGonProperty.Controls.Add(this.lbPolygonProperty);
             this.pPolyGonProperty.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pPolyGonProperty.Location = new System.Drawing.Point(0, 1227);
+            this.pPolyGonProperty.Location = new System.Drawing.Point(0, 1220);
             this.pPolyGonProperty.Name = "pPolyGonProperty";
-            this.pPolyGonProperty.Size = new System.Drawing.Size(205, 157);
+            this.pPolyGonProperty.Size = new System.Drawing.Size(205, 160);
             this.pPolyGonProperty.TabIndex = 25;
             this.pPolyGonProperty.Visible = false;
             // 
@@ -931,18 +931,18 @@
             this.lbPolygonProperty.TabIndex = 10;
             this.lbPolygonProperty.Text = "Polygon properties";
             // 
-            // lbRectangleProperty
+            // pPolylineProperty
             // 
-            this.lbRectangleProperty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lbRectangleProperty.Controls.Add(this.lbPLLength);
-            this.lbRectangleProperty.Controls.Add(this.tbPolyLength);
-            this.lbRectangleProperty.Controls.Add(this.lbPolyLine);
-            this.lbRectangleProperty.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbRectangleProperty.Location = new System.Drawing.Point(0, 1167);
-            this.lbRectangleProperty.Name = "lbRectangleProperty";
-            this.lbRectangleProperty.Size = new System.Drawing.Size(205, 60);
-            this.lbRectangleProperty.TabIndex = 25;
-            this.lbRectangleProperty.Visible = false;
+            this.pPolylineProperty.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pPolylineProperty.Controls.Add(this.lbPLLength);
+            this.pPolylineProperty.Controls.Add(this.tbPolyLength);
+            this.pPolylineProperty.Controls.Add(this.lbPolyLine);
+            this.pPolylineProperty.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pPolylineProperty.Location = new System.Drawing.Point(0, 1160);
+            this.pPolylineProperty.Name = "pPolylineProperty";
+            this.pPolylineProperty.Size = new System.Drawing.Size(205, 60);
+            this.pPolylineProperty.TabIndex = 25;
+            this.pPolylineProperty.Visible = false;
             // 
             // lbPLLength
             // 
@@ -986,9 +986,9 @@
             this.pCircle.Controls.Add(this.lbCircleRadius);
             this.pCircle.Controls.Add(this.tbCircleProperty);
             this.pCircle.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pCircle.Location = new System.Drawing.Point(0, 968);
+            this.pCircle.Location = new System.Drawing.Point(0, 957);
             this.pCircle.Name = "pCircle";
-            this.pCircle.Size = new System.Drawing.Size(205, 199);
+            this.pCircle.Size = new System.Drawing.Size(205, 203);
             this.pCircle.TabIndex = 28;
             this.pCircle.Visible = false;
             // 
@@ -1112,9 +1112,9 @@
             this.pStraightLine.Controls.Add(this.tbSLLength);
             this.pStraightLine.Controls.Add(this.lbSLProperty);
             this.pStraightLine.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pStraightLine.Location = new System.Drawing.Point(0, 719);
+            this.pStraightLine.Location = new System.Drawing.Point(0, 713);
             this.pStraightLine.Name = "pStraightLine";
-            this.pStraightLine.Size = new System.Drawing.Size(205, 249);
+            this.pStraightLine.Size = new System.Drawing.Size(205, 244);
             this.pStraightLine.TabIndex = 2;
             this.pStraightLine.Visible = false;
             // 
@@ -1261,9 +1261,9 @@
             this.pArcProperty.Controls.Add(this.lbArcRadius);
             this.pArcProperty.Controls.Add(this.lbArcProperty);
             this.pArcProperty.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pArcProperty.Location = new System.Drawing.Point(0, 496);
+            this.pArcProperty.Location = new System.Drawing.Point(0, 493);
             this.pArcProperty.Name = "pArcProperty";
-            this.pArcProperty.Size = new System.Drawing.Size(205, 223);
+            this.pArcProperty.Size = new System.Drawing.Size(205, 220);
             this.pArcProperty.TabIndex = 26;
             this.pArcProperty.Visible = false;
             // 
@@ -1411,7 +1411,7 @@
             this.pEllipseProperty.Dock = System.Windows.Forms.DockStyle.Top;
             this.pEllipseProperty.Location = new System.Drawing.Point(0, 179);
             this.pEllipseProperty.Name = "pEllipseProperty";
-            this.pEllipseProperty.Size = new System.Drawing.Size(205, 317);
+            this.pEllipseProperty.Size = new System.Drawing.Size(205, 314);
             this.pEllipseProperty.TabIndex = 28;
             this.pEllipseProperty.Visible = false;
             // 
@@ -1706,7 +1706,7 @@
             this.pBottom.Controls.Add(this.lbCommand);
             this.pBottom.Controls.Add(this.tbCommands);
             this.pBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pBottom.Location = new System.Drawing.Point(0, 640);
+            this.pBottom.Location = new System.Drawing.Point(0, 674);
             this.pBottom.Name = "pBottom";
             this.pBottom.Size = new System.Drawing.Size(977, 101);
             this.pBottom.TabIndex = 4;
@@ -1845,6 +1845,7 @@
             this.btDownArrow.Size = new System.Drawing.Size(40, 40);
             this.btDownArrow.TabIndex = 1;
             this.btDownArrow.UseVisualStyleBackColor = true;
+            this.btDownArrow.Click += new System.EventHandler(this.btDownArrow_Click);
             // 
             // btUpArrow
             // 
@@ -1855,6 +1856,7 @@
             this.btUpArrow.Size = new System.Drawing.Size(40, 40);
             this.btUpArrow.TabIndex = 0;
             this.btUpArrow.UseVisualStyleBackColor = true;
+            this.btUpArrow.Click += new System.EventHandler(this.btUpArrow_Click);
             // 
             // lbCommand
             // 
@@ -1901,7 +1903,7 @@
             this.pActionBar.Dock = System.Windows.Forms.DockStyle.Left;
             this.pActionBar.Location = new System.Drawing.Point(0, 75);
             this.pActionBar.Name = "pActionBar";
-            this.pActionBar.Size = new System.Drawing.Size(114, 565);
+            this.pActionBar.Size = new System.Drawing.Size(114, 599);
             this.pActionBar.TabIndex = 5;
             // 
             // btCopy
@@ -2070,6 +2072,7 @@
             this.btArc.Size = new System.Drawing.Size(50, 50);
             this.btArc.TabIndex = 24;
             this.btArc.UseVisualStyleBackColor = false;
+            this.btArc.Click += new System.EventHandler(this.btArc_Click);
             // 
             // btBezier
             // 
@@ -2115,6 +2118,7 @@
             this.btPoint.Size = new System.Drawing.Size(50, 50);
             this.btPoint.TabIndex = 19;
             this.btPoint.UseVisualStyleBackColor = false;
+            this.btPoint.Click += new System.EventHandler(this.btPoint_Click);
             // 
             // outFile
             // 
@@ -2130,20 +2134,22 @@
             // 
             // pBoard
             // 
+            this.pBoard.AutoSize = true;
             this.pBoard.BackColor = System.Drawing.Color.White;
             this.pBoard.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pBoard.Cursor = System.Windows.Forms.Cursors.Cross;
             this.pBoard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pBoard.Location = new System.Drawing.Point(114, 75);
             this.pBoard.Name = "pBoard";
-            this.pBoard.Size = new System.Drawing.Size(863, 565);
+            this.pBoard.Size = new System.Drawing.Size(863, 599);
             this.pBoard.TabIndex = 6;
+            this.pBoard.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pBoard_PreviewKeyDown);
             // 
             // Board
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 741);
+            this.ClientSize = new System.Drawing.Size(1184, 775);
             this.Controls.Add(this.pBoard);
             this.Controls.Add(this.pActionBar);
             this.Controls.Add(this.pBottom);
@@ -2156,6 +2162,7 @@
             this.Text = "CCAD";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Board_KeyDown);
+            this.MouseEnter += new System.EventHandler(this.Board_MouseEnter);
             this.tsToolBar.ResumeLayout(false);
             this.tsToolBar.PerformLayout();
             this.pTools.ResumeLayout(false);
@@ -2165,8 +2172,8 @@
             this.pRectangleProperty.PerformLayout();
             this.pPolyGonProperty.ResumeLayout(false);
             this.pPolyGonProperty.PerformLayout();
-            this.lbRectangleProperty.ResumeLayout(false);
-            this.lbRectangleProperty.PerformLayout();
+            this.pPolylineProperty.ResumeLayout(false);
+            this.pPolylineProperty.PerformLayout();
             this.pCircle.ResumeLayout(false);
             this.pCircle.PerformLayout();
             this.pStraightLine.ResumeLayout(false);
@@ -2288,7 +2295,7 @@
         internal System.Windows.Forms.Label lbEX;
         internal System.Windows.Forms.TextBox tbEY;
         internal System.Windows.Forms.TextBox tbEX;
-        internal System.Windows.Forms.Panel lbRectangleProperty;
+        internal System.Windows.Forms.Panel pPolylineProperty;
         internal System.Windows.Forms.Label lbPLLength;
         internal System.Windows.Forms.TextBox tbPolyLength;
         internal System.Windows.Forms.Label lbPolyLine;
@@ -2341,7 +2348,6 @@
         internal System.Windows.Forms.TextBox tbAxisP1X;
         internal System.Windows.Forms.Label lbAxisP2;
         internal System.Windows.Forms.Label lbAxistP1;
-        internal System.Windows.Forms.Panel pPolyGonProperty;
         internal System.Windows.Forms.Label label16;
         internal System.Windows.Forms.Label label17;
         internal System.Windows.Forms.TextBox textBox6;
@@ -2378,6 +2384,7 @@
         internal System.Windows.Forms.Label lbAction;
         internal System.Windows.Forms.Label lbActionText;
         internal System.Windows.Forms.Panel pBoard;
+        internal System.Windows.Forms.Panel pPolyGonProperty;
     }
 }
 

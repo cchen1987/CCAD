@@ -56,8 +56,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(855, 518);
+            this.ClientSize = new System.Drawing.Size(847, 560);
             this.Controls.Add(this.tbDinamic);
             this.Controls.Add(this.lbDinamic);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
@@ -65,11 +66,15 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Canvas";
             this.Text = "Canvas";
+            this.SizeChanged += new System.EventHandler(this.Canvas_SizeChanged);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Canvas_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Canvas_KeyDown);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseDown);
+            this.MouseEnter += new System.EventHandler(this.Canvas_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.Canvas_MouseLeave);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Canvas_MouseUp);
             this.ResumeLayout(false);
             this.PerformLayout();
 
