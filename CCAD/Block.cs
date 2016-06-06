@@ -8,11 +8,11 @@ namespace CCAD
     /// </summary>
     public class Block : Entity
     {
-        protected Line[] Lines;
+        protected Line[] lines;
 
         public Block(Color color, Line[] lines) : base(color)
         {
-            Lines = lines;
+            this.lines = lines;
             for (int i = 0; i < lines.Length; i++)
                 perimeter += lines[i].Length;
         }
@@ -24,7 +24,7 @@ namespace CCAD
         /// <returns>Line</returns>
         public Line GetLineAt(int index)
         {
-            return Lines[index];
+            return lines[index];
         }
 
         /// <summary>
@@ -33,20 +33,20 @@ namespace CCAD
         /// <returns>Line[]</returns>
         public Line[] GetLines()
         {
-            return Lines;
+            return lines;
         }
 
         // This method splits the block into lines
         public Line[] Split()
         {
-            return Lines;
+            return lines;
         }
 
         public override void Draw(PaintEventArgs graph)
         {
             base.Draw(graph);
-            for (int i = 0; i < Lines.Length; i++)
-                Lines[i].Draw(graph);
+            for (int i = 0; i < lines.Length; i++)
+                lines[i].Draw(graph);
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace CCAD
         /// <param name="color"></param>
         public void SetBlockColor(Color color)
         {
-            for (int i = 0; i < Lines.Length; i++)
-                Lines[i].Color = color;
+            for (int i = 0; i < lines.Length; i++)
+                lines[i].Color = color;
         }
 
         /// <summary>
@@ -65,8 +65,8 @@ namespace CCAD
         /// </summary>
         public void ResetBlockColor()
         {
-            for (int i = 0; i < Lines.Length; i++)
-                Lines[i].Color = originalColor;
+            for (int i = 0; i < lines.Length; i++)
+                lines[i].Color = originalColor;
         }
 
         // This method checks if all lines are inside of the selection area
@@ -75,18 +75,82 @@ namespace CCAD
         {
             int count = 0;
             // Count selected lines
-            for (int i = 0; i < Lines.Length; i++)
-                count += Lines[i].IsSelected() ? 1 : 0;
+            for (int i = 0; i < lines.Length; i++)
+                count += lines[i].IsSelected() ? 1 : 0;
 
             // If all lines selected, return true
-            if (count == Lines.Length)
+            if (count == lines.Length)
                 return true;
             else
             {
-                for (int i = 0; i < Lines.Length; i++)
-                    Lines[i].Free();
+                for (int i = 0; i < lines.Length; i++)
+                    lines[i].Free();
 
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// This method checks if any of lines in the block is in mouse range
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns>true if is in range, false if not</returns>
+        public override bool IsInRange(int x, int y)
+        {
+            for (int i = 0; i < lines.Length; i++)
+            {
+                if (lines[i].IsInRange(x, y))
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// This method sets temporal color for all lines
+        /// </summary>
+        public override void SetTemporalColor()
+        {
+            base.SetTemporalColor();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i].SetTemporalColor();
+            }
+        }
+
+        /// <summary>
+        /// This method resets color to original color
+        /// </summary>
+        public override void ResetColor()
+        {
+            base.ResetColor();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i].ResetColor();
+            }
+        }
+
+        /// <summary>
+        /// This method activates the selected property on each line in block
+        /// </summary>
+        public override void Selected()
+        {
+            base.Selected();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i].Selected();
+            }
+        }
+
+        /// <summary>
+        /// This method deactivates the selected property on each line in block
+        /// </summary>
+        public override void Free()
+        {
+            base.Free();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                lines[i].Free();
             }
         }
     }

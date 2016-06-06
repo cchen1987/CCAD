@@ -534,6 +534,7 @@
             this.btCopy2.Size = new System.Drawing.Size(40, 40);
             this.btCopy2.TabIndex = 13;
             this.btCopy2.UseVisualStyleBackColor = true;
+            this.btCopy2.Click += new System.EventHandler(this.btCopy2_Click);
             // 
             // btCut
             // 
@@ -1916,6 +1917,7 @@
             this.btCopy.Size = new System.Drawing.Size(50, 50);
             this.btCopy.TabIndex = 41;
             this.btCopy.UseVisualStyleBackColor = false;
+            this.btCopy.Click += new System.EventHandler(this.btCopy_Click);
             // 
             // btRectangle
             // 
@@ -1938,6 +1940,7 @@
             this.btPolyline.Size = new System.Drawing.Size(50, 50);
             this.btPolyline.TabIndex = 40;
             this.btPolyline.UseVisualStyleBackColor = false;
+            this.btPolyline.Click += new System.EventHandler(this.btPolyline_Click);
             // 
             // btSplit
             // 

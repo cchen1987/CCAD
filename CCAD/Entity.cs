@@ -37,7 +37,7 @@ namespace CCAD
         /// <summary>
         /// This method restore the current color to the previous color
         /// </summary>
-        public void ResetColor()
+        public virtual void ResetColor()
         {
             Color = originalColor;
         }
@@ -95,7 +95,7 @@ namespace CCAD
         /// <summary>
         /// This method marks the entity as selected
         /// </summary>
-        public void Selected()
+        public virtual void Selected()
         {
             selected = true;
             Color = Color.Gray;
@@ -114,7 +114,7 @@ namespace CCAD
         /// This method changes the selected status to
         /// not selected
         /// </summary>
-        public void Free()
+        public virtual void Free()
         {
             selected = false;
             ResetColor();
@@ -123,7 +123,7 @@ namespace CCAD
         /// <summary>
         /// This method sets temporally the drawing color
         /// </summary>
-        public void SetTemporalColor()
+        public virtual void SetTemporalColor()
         {
             Color = Color.Gray;
         }

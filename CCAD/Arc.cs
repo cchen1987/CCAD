@@ -27,8 +27,8 @@ namespace CCAD
             lengthY = end.Y - CentrePoint.Y;
             double tempAngle = Math.Atan2(lengthY, lengthX) * 180f / Math.PI;
             SweepAngle = tempAngle - StartAngle;
-            end.Y = (float)(Math.Cos(tempAngle) * Radius);
-            end.X = (float)(Math.Sin(tempAngle) * Radius);
+            end.Y = (float)(Math.Cos(tempAngle) * 180f / Math.PI * Radius);
+            end.X = (float)(Math.Sin(tempAngle) * 180f / Math.PI * Radius);
             EndPoint = end;
             perimeter = 2 * Math.PI * Radius * SweepAngle / 360;
         }

@@ -15,7 +15,7 @@ namespace CCAD
         public Rectangle(Color color, Line[] lines) : base(color, lines)
         {
             StartPoint = lines[0].StartPoint;
-            for (int i = 0; i < Lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
                 StartPoint = lines[i].StartPoint.X > StartPoint.X || 
                     (lines[i].StartPoint.X == StartPoint.X && 
@@ -27,7 +27,7 @@ namespace CCAD
             area = Width * Height;
         }
 
-        // Save until draw rectangle method available and check if functional
+        // Save until draw rectangle method available and check if works
         //public override bool IsInside(double minY, double maxY, double minX,
         //        double maxX)
         //{

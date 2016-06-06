@@ -21,6 +21,7 @@ namespace CCAD
         private Pen pen;
         private Board myBoard;
         private List<int> selections;
+        private List<Line> tempPolyline;
         private float[][] dashPatterns;
 
         public bool FirstClick { get; set; }
@@ -132,6 +133,10 @@ namespace CCAD
             // Draw all entities
             for (int i = 0; i < entities.Count; i++)
                 entities[i].Draw(e);
+            // Draw polyline previews
+            if (DrawPolyline)
+                for (int i = 0; i < tempPolyline.Count; i++)
+                    tempPolyline[i].Draw(e);
         }
         
         /// <summary>
@@ -152,7 +157,10 @@ namespace CCAD
         /// <param name="e"></param>
         private void Canvas_MouseClick(object sender, MouseEventArgs e)
         {
-            if (!Draw)
+            // Makes copy of selected elements
+            if (Copy && selections.Count > 0)
+                CopyElements();
+            else if (!Draw)
             {
                 // Clear all selections
                 for (int i = 0; i < entities.Count; i++)
@@ -181,7 +189,7 @@ namespace CCAD
                 }
                 Refresh();
             }
-
+            
             // Create line if Drawing line
             if (DrawLine)
                 CreateLine();
@@ -197,6 +205,9 @@ namespace CCAD
             // Create circle by diameter if Drawing circle by opposite points
             else if (DrawCircleOpposite)
                 CreateCircleOpposite();
+            // Create polyline
+            else if (DrawPolyline)
+                CreatePolyline();
         }
 
         /// <summary>
@@ -385,7 +396,8 @@ namespace CCAD
                 // Reset all actions when key escape pressed
                 ResetAllAction();
                 myBoard.ResetSelection();
-                myBoard.lbxCommands.Items.Add("*Canceled*");
+                ResetSelection();
+                myBoard.lbxCommands.Items.Add("Command: *Canceled*");
                 myBoard.lbxCommands.SelectedIndex =
                     myBoard.lbxCommands.Items.Count - 1;
                 myBoard.HideAllPropertyPanels();
@@ -428,6 +440,7 @@ namespace CCAD
             else if (e.KeyCode == Keys.Escape)
             {
                 ResetAllAction();
+                ResetSelection();
                 SilenceKeySound(e);
                 myBoard.lbxCommands.Items.Add("*Canceled*");
                 myBoard.lbxCommands.SelectedIndex =
@@ -449,6 +462,8 @@ namespace CCAD
             ThirdClick = false;
             Draw = false;
             DrawLine = false;
+            if (DrawPolyline)
+                AddPolylineToMainList();
             DrawPolyline = false;
             DrawRectAngle = false;
             DrawPolygon = false;
@@ -464,14 +479,22 @@ namespace CCAD
             Copy = false;
             MoveEntity = false;
             myBoard.lbAction.Text = "Select";
-            myBoard.ResetSelection();
             // Deselect all entities
             for (int i = 0; i < entities.Count; i++)
                 entities[i].Free();
-
+            myBoard.ResetSelection();
+            DeactivatePolylineCreation();
             lbDinamic.Hide();
             tbDinamic.Hide();
             Refresh();
+        }
+
+        /// <summary>
+        /// This method clears selections list
+        /// </summary>
+        public void ResetSelection()
+        {
+            selections.Clear();
         }
 
         /// <summary>
@@ -532,10 +555,10 @@ namespace CCAD
             if (!FirstClick && Draw)
             {
                 Refresh();
-                if (!DrawLine && !DrawPoint)
+                if (!DrawLine && !DrawPoint && !DrawPolyline)
                     DrawAuxiliarLine();
                 // Draw line preview
-                if (DrawLine)
+                if (DrawLine || DrawPolyline)
                 {
                     graph.DrawLine(new Pen(new SolidBrush(Color.White)),
                         startPoint, new System.Drawing.Point(CurrentX,
@@ -581,6 +604,21 @@ namespace CCAD
                         new RectangleF((float)((startPoint.X + CurrentX) / 2 -
                         radius), (float)((startPoint.Y + CurrentY) / 2 - radius),
                         (float)(2 * radius), (float)(2 * radius)));
+                }
+            }
+            if (Copy && selections.Count > 0)
+            {
+                int lastItem = selections.Count - 1;
+                if (entities[selections[lastItem]].GetType().ToString().Equals
+                    ("CCAD.Line"))
+                {
+                    Line tempLine = (Line)entities[selections[lastItem]];
+                    startPoint = new PointF(CurrentX, CurrentY);
+                    endPoint = tempLine.EndPoint;
+                    endPoint.X = endPoint.X + CurrentX - tempLine.StartPoint.X;
+                    endPoint.Y = endPoint.Y + CurrentY - tempLine.StartPoint.Y;
+                    graph.DrawLine(new Pen(new SolidBrush(Color.White)),
+                        startPoint, endPoint);
                 }
             }
         }
@@ -636,6 +674,33 @@ namespace CCAD
             ControlPaint.DrawReversibleFrame(rectangle, Color.White,
                 FrameStyle.Dashed);
             ControlPaint.FillReversibleRectangle(rectangle, back);
+        }
+
+        /// <summary>
+        /// This method initialize the temporal polyline list
+        /// </summary>
+        public void ActivatePolylineCreation()
+        {
+            tempPolyline = new List<Line>();
+        }
+
+        /// <summary>
+        /// This method clear the temporal polyline list
+        /// </summary>
+        public void DeactivatePolylineCreation()
+        {
+            tempPolyline = null;
+        }
+
+        /// <summary>
+        /// This method adds all temporal lines polyline object and adds it to
+        /// main list
+        /// </summary>
+        public void AddPolylineToMainList()
+        {
+            Polyline polyline = new Polyline(CurrentColor,
+                tempPolyline.ToArray());
+            entities.Add(polyline);
         }
         
 // Add entity to array
@@ -845,6 +910,51 @@ namespace CCAD
                 FirstClick = true;
 
                 entities.Add(circle);
+                Refresh();
+            }
+        }
+
+        /// <summary>
+        /// This method get points to create a polyline
+        /// </summary>
+        public void CreatePolyline()
+        {
+            // Define the first point
+            if (FirstClick)
+            {
+                startPoint.X = CurrentX;
+                startPoint.Y = CurrentY;
+                FirstClick = false;
+            }
+            // Define the following points
+            else
+            {
+                endPoint.X = CurrentX;
+                endPoint.Y = CurrentY;
+                Line tempLine = new Line(CurrentColor, CurrentLineWidth,
+                    startPoint, endPoint);
+                tempPolyline.Add(tempLine);
+                Refresh();
+
+                // Set the next line's start point
+                startPoint = endPoint;
+            }
+        }
+
+// Copy block
+        /// <summary>
+        /// This method makes a copy of an entity and paste it on board
+        /// when mouse clicks
+        /// </summary>
+        public void CopyElements()
+        {
+            int lastItem = selections.Count - 1;
+            if (entities[selections[lastItem]].GetType().ToString().Equals
+                    ("CCAD.Line"))
+            {
+                Line tempLine = new Line(CurrentColor, CurrentLineWidth, startPoint,
+                    endPoint);
+                entities.Add(tempLine);
                 Refresh();
             }
         }

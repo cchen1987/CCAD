@@ -169,7 +169,7 @@ namespace CCAD
 
                     // Read and check header
                     line = read.ReadLine();
-                    if (!line.Equals("CCADv2016"))
+                    if (line != null && !line.Equals("CCADv2016"))
                     {
                         MessageBox.Show("Not a valid file!");
                         currentFilePath = "";
@@ -533,6 +533,21 @@ namespace CCAD
         }
 
         /// <summary>
+        /// This method activates the draw polyline action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btPolyline_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawPolyline = true;
+            myCanvas.ActivatePolylineCreation();
+            lbAction.Text = "Polyline";
+        }
+
+        /// <summary>
         /// This method activates the draw point action
         /// </summary>
         /// <param name="sender"></param>
@@ -544,6 +559,29 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawPoint = true;
             lbAction.Text = "Point";
+        }
+
+        /// <summary>
+        /// This method activates the copy action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btCopy2_Click(object sender, EventArgs e)
+        {
+            btCopy_Click(sender, e);
+        }
+
+        /// <summary>
+        /// This method activates the copy action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btCopy_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+            myCanvas.Copy = true;
+            myCanvas.FirstClick = false;
+            lbAction.Text = "Copy";
         }
 
 // Keyboard event
@@ -582,7 +620,7 @@ namespace CCAD
             {
                 myCanvas.ResetAllAction();
                 myCanvas.SilenceKeySound(e);
-                lbxCommands.Items.Add("*Canceled*");
+                lbxCommands.Items.Add("Command: *Canceled*");
                 MoveCommandBoxLines();
                 HideAllPropertyPanels();
                 ResetSelection();
@@ -599,7 +637,7 @@ namespace CCAD
             if (e.KeyCode == Keys.Escape)
             {
                 myCanvas.ResetAllAction();
-                lbxCommands.Items.Add("*Canceled*");
+                lbxCommands.Items.Add("Command: *Canceled*");
                 MoveCommandBoxLines();
                 myCanvas.ResetAllAction();
                 HideAllPropertyPanels();
@@ -618,7 +656,7 @@ namespace CCAD
             {
                 myCanvas.SilenceKeySound(e);
                 // Reset all actions when key escape pressed
-                lbxCommands.Items.Add("*Canceled*");
+                lbxCommands.Items.Add("Command: *Canceled*");
                 MoveCommandBoxLines();
                 myCanvas.ResetAllAction();
                 HideAllPropertyPanels();
@@ -968,6 +1006,9 @@ namespace CCAD
             pPolylineProperty.Hide();
         }
 
+        /// <summary>
+        /// This method moves the list box selection to the last item
+        /// </summary>
         public void MoveCommandBoxLines()
         {
             lbxCommands.BackColor = Color.White;
