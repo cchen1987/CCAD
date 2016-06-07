@@ -13,6 +13,10 @@ namespace CCAD
         public PointF MajorAxisPoint { get; set; }
         public PointF StartPoint { get; set; }
         public PointF EndPoint { get; set; }
+        private PointF leftPoint;
+        private PointF topPoint;
+        private PointF rightPoint;
+        private PointF botPoint;
         
         public Ellipse(Color color, PointF point, int width,
                 PointF minorAxisPoint, PointF majorAxisPoint)
@@ -28,7 +32,22 @@ namespace CCAD
             // contains the ellipse
             EndPoint = new PointF(MajorAxisPoint.X, 2f * CentrePoint.Y - 
                 MinorAxisPoint.Y);
-            
+            // Calculate left point
+            leftPoint.X = CentrePoint.X - Math.Abs(majorAxisPoint.X - 
+                CentrePoint.X);
+            leftPoint.Y = CentrePoint.Y;
+            // Calculate top point
+            topPoint.X = CentrePoint.X;
+            topPoint.Y = CentrePoint.Y - Math.Abs(minorAxisPoint.Y - 
+                CentrePoint.Y);
+            // Calculate right point
+            rightPoint.X = CentrePoint.X + Math.Abs(majorAxisPoint.X - 
+                CentrePoint.X);
+            rightPoint.Y = CentrePoint.Y;
+            // Calculate bottom point
+            botPoint.X = CentrePoint.X;
+            botPoint.Y = CentrePoint.Y + Math.Abs(minorAxisPoint.Y - 
+                CentrePoint.Y);
             // a is major radius
             double a = Math.Abs(MajorAxisPoint.X - CentrePoint.X);
             // b is minor radius
@@ -45,27 +64,27 @@ namespace CCAD
             graph.Graphics.DrawEllipse(new Pen(new SolidBrush(Color),
                 LineWidth), StartPoint.X, StartPoint.Y,
                 EndPoint.X - StartPoint.X, EndPoint.Y - StartPoint.Y);
-
+            // Draw the 5 main points of an ellipse
             if (selected)
             {
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(MinorAxisPoint.X - 2, MinorAxisPoint.Y - 2, 4, 4));
+                    new RectangleF(leftPoint.X - 2, leftPoint.Y - 2, 4, 4));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(MajorAxisPoint.X - 2, MajorAxisPoint.Y - 2, 4, 4));
+                    new RectangleF(topPoint.X - 2, topPoint.Y - 2, 4, 4));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
                     new RectangleF(CentrePoint.X - 2, CentrePoint.Y - 2, 4, 4));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(StartPoint.X - 2, StartPoint.Y - 2, 4, 4));
+                    new RectangleF(rightPoint.X - 2, rightPoint.Y - 2, 4, 4));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(EndPoint.X - 2, EndPoint.Y - 2, 4, 4));
+                    new RectangleF(botPoint.X - 2, botPoint.Y - 2, 4, 4));
             }
         }
 
         public override bool IsInside(double minY, double maxY, double minX,
                 double maxX)
         {
-            if (minX <= StartPoint.X && maxX >= EndPoint.X &&
-                    minY <= StartPoint.Y && maxY >= EndPoint.Y)
+            if (minX <= leftPoint.X && maxX >= rightPoint.X &&
+                    minY <= topPoint.Y && maxY >= botPoint.Y)
                 return true;
 
             return false;

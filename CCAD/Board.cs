@@ -487,6 +487,8 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawLine = true;
             lbAction.Text = "Line";
+            lbxCommands.Items.Add("Press Esc to cancel.");
+            MoveCommandBoxLines();
         }
 
         /// <summary>
@@ -501,6 +503,8 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawArc = true;
             lbAction.Text = "Arc";
+            lbxCommands.Items.Add("Press Esc to cancel.");
+            MoveCommandBoxLines();
         }
 
         /// <summary>
@@ -515,7 +519,8 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawCircleOpposite = true;
             lbAction.Text = "CircleOpposite";
-
+            lbxCommands.Items.Add("Press Esc to cancel.");
+            MoveCommandBoxLines();
         }
 
         /// <summary>
@@ -530,6 +535,8 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawCircle = true;
             lbAction.Text = "Circle";
+            lbxCommands.Items.Add("Press Esc to cancel.");
+            MoveCommandBoxLines();
         }
 
         /// <summary>
@@ -545,6 +552,8 @@ namespace CCAD
             myCanvas.DrawPolyline = true;
             myCanvas.ActivatePolylineCreation();
             lbAction.Text = "Polyline";
+            lbxCommands.Items.Add("Press Esc to cancel.");
+            MoveCommandBoxLines();
         }
 
         /// <summary>
@@ -559,6 +568,8 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawPoint = true;
             lbAction.Text = "Point";
+            lbxCommands.Items.Add("Press Esc to cancel.");
+            MoveCommandBoxLines();
         }
 
         /// <summary>
@@ -582,6 +593,250 @@ namespace CCAD
             myCanvas.Copy = true;
             myCanvas.FirstClick = false;
             lbAction.Text = "Copy";
+            lbxCommands.Items.Add("Press Esc to cancel.");
+            MoveCommandBoxLines();
+        }
+
+        /// <summary>
+        /// This method activates the draw rectangle action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btRectangle_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawRectAngle = true;
+            lbAction.Text = "Rectangle";
+            lbxCommands.Items.Add("Press Esc to cancel.");
+            MoveCommandBoxLines();
+        }
+
+        /// <summary>
+        /// This method activates the draw ellipse action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btEllipse_Click(object sender, EventArgs e)
+        {
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawEllipse = true;
+            lbAction.Text = "Ellipse";
+            lbxCommands.Items.Add("Press Esc to cancel.");
+            MoveCommandBoxLines();
+        }
+
+        /// <summary>
+        /// This method undo the previous action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btUndo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method redo the undone action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btRedo_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method erase the selected element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btErase_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method cuts the selected element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btCut_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method pastes the copied, cut or moving element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btPaste_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method zooms in the current view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btZoomIn_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method zooms out the current view
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btZoomOut_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method zooms out the selected area
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btZoom_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method measures the distance between 2 points
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btMeasurePoints_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method measures the distance between a point and a line
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btMeasurePtoLine_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method measures the selected closed geometry's area
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btArea_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method activates the draw polygon action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btPolygon_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method activates the draw bezier action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btBezier_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method activates the draw text action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btText_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method activates the draw image action
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btImage_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method moves the selected element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btMove_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method scales the selected element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btScale_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method makes an reversed copy of the selected element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btMirror_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method rotate the selected element
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btRotate_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method splits the selected block into lines
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btSplit_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
+        }
+
+        /// <summary>
+        /// This method fill the selected closed geometry with the selected colour
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btShade_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Option not valid yet!");
         }
 
 // Keyboard event

@@ -28,14 +28,14 @@ namespace CCAD
         }
 
         // Save until draw rectangle method available and check if works
-        //public override bool IsInside(double minY, double maxY, double minX,
-        //        double maxX)
-        //{
-        //    if (minX <= StartPoint.X && maxX >= StartPoint.X + Width && 
-        //            minY <= StartPoint.Y && maxY >= StartPoint.Y + Height)
-        //        return true;
+        public override bool IsInside(double minY, double maxY, double minX,
+                double maxX)
+        {
+            if (minX <= StartPoint.X && maxX >= StartPoint.X + Width && 
+                    minY <= StartPoint.Y && maxY >= StartPoint.Y + Height)
+                return true;
 
-        //    return false;
-        //}
+            return false;
+        }
     }
 }

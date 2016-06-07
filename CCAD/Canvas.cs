@@ -17,12 +17,12 @@ namespace CCAD
         private System.Drawing.Point ptLast; // area selection end point
         private bool areaSelection;
         private Graphics graph;
-        private Brush brush;
-        private Pen pen;
         private Board myBoard;
         private List<int> selections;
         private List<Line> tempPolyline;
         private float[][] dashPatterns;
+        private float width;
+        private float height;
 
         public bool FirstClick { get; set; }
         public bool SecondClick { get; set; }
@@ -86,6 +86,8 @@ namespace CCAD
             ZoomIncrement = 0.1f;
             CurrentZoom = 1f;
             Angle = 0;
+            width = 0;
+            height = 0;
             graph = CreateGraphics();
             ptLast = new System.Drawing.Point();
             ptOriginal = new System.Drawing.Point();
@@ -96,8 +98,6 @@ namespace CCAD
                 myBoard.cbCurrentLineWidth.Items[0]);
             CurrentColor = Color.FromName(
                 myBoard.cbColorSelector.Items[0].ToString());
-            brush = new SolidBrush(CurrentColor);
-            pen = new Pen(brush, CurrentLineWidth);
             selections = new List<int>();
             dashPatterns = new float[4][]
             {
@@ -189,7 +189,7 @@ namespace CCAD
                 }
                 Refresh();
             }
-            
+
             // Create line if Drawing line
             if (DrawLine)
                 CreateLine();
@@ -208,6 +208,12 @@ namespace CCAD
             // Create polyline
             else if (DrawPolyline)
                 CreatePolyline();
+            // Create rectangle
+            else if (DrawRectAngle)
+                CreateRectangle();
+            // Create ellipse
+            else if (DrawEllipse)
+                CreateEllipse();
         }
 
         /// <summary>
@@ -605,10 +611,48 @@ namespace CCAD
                         radius), (float)((startPoint.Y + CurrentY) / 2 - radius),
                         (float)(2 * radius), (float)(2 * radius)));
                 }
+                // Draw rectangle preview
+                else if (DrawRectAngle)
+                {
+                    DrawReversibleRectangle(new System.Drawing.Point(
+                        (int)startPoint.X, (int)startPoint.Y), 
+                        new System.Drawing.Point(CurrentX, CurrentY));
+                }
+                // Draw ellipse preview
+                else if (DrawEllipse)
+                {
+                    // Preview the ellipse with predefined width
+                    if (SecondClick)
+                    {
+                        previousPoint.X = startPoint.X - 50;
+                        previousPoint.Y = CurrentY > startPoint.Y ?
+                            startPoint.Y * 2 - CurrentY : CurrentY;
+                        // Predefined width
+                        width = 100;
+                        // Set ellipse height
+                        height = Math.Abs(CurrentY - startPoint.Y) * 2;
+                        graph.DrawEllipse(new Pen(new SolidBrush(Color.White)),
+                            new RectangleF(previousPoint.X, previousPoint.Y, width,
+                            height));
+                    }
+                    // Preview the ellipse with the final width
+                    else if (!SecondClick && !FirstClick)
+                    {
+                        previousPoint.X = CurrentX > startPoint.X ?
+                            CurrentX : startPoint.X * 2 - CurrentX;
+                        // Set ellipse width
+                        width = (startPoint.X - previousPoint.X) * 2;
+                        graph.DrawEllipse(new Pen(new SolidBrush(Color.White)),
+                            new RectangleF(previousPoint.X, previousPoint.Y, width,
+                            height));
+                    }
+                }
             }
+            // Preview copy
             if (Copy && selections.Count > 0)
             {
                 int lastItem = selections.Count - 1;
+                // Preview line copy
                 if (entities[selections[lastItem]].GetType().ToString().Equals
                     ("CCAD.Line"))
                 {
@@ -671,9 +715,17 @@ namespace CCAD
             }
             
             // Draw the reversible frame
-            ControlPaint.DrawReversibleFrame(rectangle, Color.White,
+            if (!DrawRectAngle)
+            {
+                ControlPaint.DrawReversibleFrame(rectangle, Color.White,
                 FrameStyle.Dashed);
-            ControlPaint.FillReversibleRectangle(rectangle, back);
+                ControlPaint.FillReversibleRectangle(rectangle, back);
+            }
+            else
+            {
+                ControlPaint.DrawReversibleFrame(rectangle, Color.White,
+                    FrameStyle.Thick);
+            }
         }
 
         /// <summary>
@@ -938,6 +990,75 @@ namespace CCAD
 
                 // Set the next line's start point
                 startPoint = endPoint;
+            }
+        }
+
+        /// <summary>
+        /// This method get points to create a rectangle
+        /// </summary>
+        public void CreateRectangle()
+        {
+            // Define the left top corner point
+            if (FirstClick)
+            {
+                startPoint.X = CurrentX;
+                startPoint.Y = CurrentY;
+                FirstClick = false;
+            }
+            // Define the right bottom corner point
+            else
+            {
+                endPoint.X = CurrentX;
+                endPoint.Y = CurrentY;
+                Line[] tempLines = new Line[4];
+                // Top line
+                tempLines[0] = new Line(CurrentColor, CurrentLineWidth,
+                    startPoint, new PointF(endPoint.X, startPoint.Y));
+                // Right line
+                tempLines[1] = new Line(CurrentColor, CurrentLineWidth,
+                    new PointF(endPoint.X, startPoint.Y), endPoint);
+                // Bottom line
+                tempLines[2] = new Line(CurrentColor, CurrentLineWidth,
+                    endPoint, new PointF(startPoint.X, endPoint.Y));
+                // Left line
+                tempLines[3] = new Line(CurrentColor, CurrentLineWidth,
+                    new PointF(startPoint.X, endPoint.Y), startPoint);
+                Rectangle tempRectangle = new Rectangle(CurrentColor,
+                    tempLines);
+                entities.Add(tempRectangle);
+                Refresh();
+                FirstClick = true;
+            }
+        }
+
+        /// <summary>
+        /// This method get points to create an ellipse
+        /// </summary>
+        public void CreateEllipse()
+        {
+            // Define the centre point
+            if (FirstClick)
+            {
+                startPoint.X = CurrentX;
+                startPoint.Y = CurrentY;
+                FirstClick = false;
+                SecondClick = true;
+            }
+            // Define an axis point
+            else if (SecondClick)
+            {
+                endPoint.X = CurrentX;
+                endPoint.Y = CurrentY;
+                SecondClick = false;
+            }
+            // Define the last axis point
+            else
+            {
+                Ellipse tempEllipse = new Ellipse(CurrentColor, startPoint,
+                    CurrentLineWidth, endPoint, new PointF(CurrentX, CurrentY));
+                entities.Add(tempEllipse);
+                Refresh();
+                FirstClick = true;
             }
         }
 

@@ -443,6 +443,7 @@
             this.btZoom.Size = new System.Drawing.Size(40, 40);
             this.btZoom.TabIndex = 18;
             this.btZoom.UseVisualStyleBackColor = true;
+            this.btZoom.Click += new System.EventHandler(this.btZoom_Click);
             // 
             // label6
             // 
@@ -462,6 +463,7 @@
             this.btZoomOut.Size = new System.Drawing.Size(40, 40);
             this.btZoomOut.TabIndex = 17;
             this.btZoomOut.UseVisualStyleBackColor = true;
+            this.btZoomOut.Click += new System.EventHandler(this.btZoomOut_Click);
             // 
             // btArea
             // 
@@ -473,6 +475,7 @@
             this.btArea.Size = new System.Drawing.Size(40, 40);
             this.btArea.TabIndex = 39;
             this.btArea.UseVisualStyleBackColor = false;
+            this.btArea.Click += new System.EventHandler(this.btArea_Click);
             // 
             // btZoomIn
             // 
@@ -483,6 +486,7 @@
             this.btZoomIn.Size = new System.Drawing.Size(40, 40);
             this.btZoomIn.TabIndex = 16;
             this.btZoomIn.UseVisualStyleBackColor = true;
+            this.btZoomIn.Click += new System.EventHandler(this.btZoomIn_Click);
             // 
             // btMeasurePtoLine
             // 
@@ -494,6 +498,7 @@
             this.btMeasurePtoLine.Size = new System.Drawing.Size(40, 40);
             this.btMeasurePtoLine.TabIndex = 38;
             this.btMeasurePtoLine.UseVisualStyleBackColor = false;
+            this.btMeasurePtoLine.Click += new System.EventHandler(this.btMeasurePtoLine_Click);
             // 
             // label5
             // 
@@ -514,6 +519,7 @@
             this.btMeasurePoints.Size = new System.Drawing.Size(40, 40);
             this.btMeasurePoints.TabIndex = 37;
             this.btMeasurePoints.UseVisualStyleBackColor = false;
+            this.btMeasurePoints.Click += new System.EventHandler(this.btMeasurePoints_Click);
             // 
             // btPaste
             // 
@@ -524,6 +530,7 @@
             this.btPaste.Size = new System.Drawing.Size(40, 40);
             this.btPaste.TabIndex = 14;
             this.btPaste.UseVisualStyleBackColor = true;
+            this.btPaste.Click += new System.EventHandler(this.btPaste_Click);
             // 
             // btCopy2
             // 
@@ -545,6 +552,7 @@
             this.btCut.Size = new System.Drawing.Size(40, 40);
             this.btCut.TabIndex = 12;
             this.btCut.UseVisualStyleBackColor = true;
+            this.btCut.Click += new System.EventHandler(this.btCut_Click);
             // 
             // label4
             // 
@@ -564,6 +572,7 @@
             this.btErase.Size = new System.Drawing.Size(40, 40);
             this.btErase.TabIndex = 10;
             this.btErase.UseVisualStyleBackColor = true;
+            this.btErase.Click += new System.EventHandler(this.btErase_Click);
             // 
             // label3
             // 
@@ -583,6 +592,7 @@
             this.btRedo.Size = new System.Drawing.Size(40, 40);
             this.btRedo.TabIndex = 8;
             this.btRedo.UseVisualStyleBackColor = true;
+            this.btRedo.Click += new System.EventHandler(this.btRedo_Click);
             // 
             // btUndo
             // 
@@ -593,6 +603,7 @@
             this.btUndo.Size = new System.Drawing.Size(40, 40);
             this.btUndo.TabIndex = 7;
             this.btUndo.UseVisualStyleBackColor = true;
+            this.btUndo.Click += new System.EventHandler(this.btUndo_Click);
             // 
             // label2
             // 
@@ -1929,6 +1940,7 @@
             this.btRectangle.Size = new System.Drawing.Size(50, 50);
             this.btRectangle.TabIndex = 21;
             this.btRectangle.UseVisualStyleBackColor = false;
+            this.btRectangle.Click += new System.EventHandler(this.btRectangle_Click);
             // 
             // btPolyline
             // 
@@ -1952,6 +1964,7 @@
             this.btSplit.Size = new System.Drawing.Size(50, 50);
             this.btSplit.TabIndex = 36;
             this.btSplit.UseVisualStyleBackColor = false;
+            this.btSplit.Click += new System.EventHandler(this.btSplit_Click);
             // 
             // btShade
             // 
@@ -1963,6 +1976,7 @@
             this.btShade.Size = new System.Drawing.Size(50, 50);
             this.btShade.TabIndex = 35;
             this.btShade.UseVisualStyleBackColor = false;
+            this.btShade.Click += new System.EventHandler(this.btShade_Click);
             // 
             // btMirror
             // 
@@ -1974,6 +1988,7 @@
             this.btMirror.Size = new System.Drawing.Size(50, 50);
             this.btMirror.TabIndex = 34;
             this.btMirror.UseVisualStyleBackColor = false;
+            this.btMirror.Click += new System.EventHandler(this.btMirror_Click);
             // 
             // btScale
             // 
@@ -1985,6 +2000,7 @@
             this.btScale.Size = new System.Drawing.Size(50, 50);
             this.btScale.TabIndex = 33;
             this.btScale.UseVisualStyleBackColor = false;
+            this.btScale.Click += new System.EventHandler(this.btScale_Click);
             // 
             // btRotate
             // 
@@ -1996,6 +2012,7 @@
             this.btRotate.Size = new System.Drawing.Size(50, 50);
             this.btRotate.TabIndex = 32;
             this.btRotate.UseVisualStyleBackColor = false;
+            this.btRotate.Click += new System.EventHandler(this.btRotate_Click);
             // 
             // btImage
             // 
@@ -2007,6 +2024,7 @@
             this.btImage.Size = new System.Drawing.Size(50, 50);
             this.btImage.TabIndex = 31;
             this.btImage.UseVisualStyleBackColor = false;
+            this.btImage.Click += new System.EventHandler(this.btImage_Click);
             // 
             // btMove
             // 
@@ -2018,6 +2036,7 @@
             this.btMove.Size = new System.Drawing.Size(50, 50);
             this.btMove.TabIndex = 30;
             this.btMove.UseVisualStyleBackColor = false;
+            this.btMove.Click += new System.EventHandler(this.btMove_Click);
             // 
             // btText
             // 
@@ -2029,6 +2048,7 @@
             this.btText.Size = new System.Drawing.Size(50, 50);
             this.btText.TabIndex = 29;
             this.btText.UseVisualStyleBackColor = false;
+            this.btText.Click += new System.EventHandler(this.btText_Click);
             // 
             // btEllipse
             // 
@@ -2040,6 +2060,7 @@
             this.btEllipse.Size = new System.Drawing.Size(50, 50);
             this.btEllipse.TabIndex = 27;
             this.btEllipse.UseVisualStyleBackColor = false;
+            this.btEllipse.Click += new System.EventHandler(this.btEllipse_Click);
             // 
             // btCircleDia
             // 
@@ -2087,6 +2108,7 @@
             this.btBezier.Size = new System.Drawing.Size(50, 50);
             this.btBezier.TabIndex = 23;
             this.btBezier.UseVisualStyleBackColor = false;
+            this.btBezier.Click += new System.EventHandler(this.btBezier_Click);
             // 
             // btPolygon
             // 
@@ -2098,6 +2120,7 @@
             this.btPolygon.Size = new System.Drawing.Size(50, 50);
             this.btPolygon.TabIndex = 22;
             this.btPolygon.UseVisualStyleBackColor = false;
+            this.btPolygon.Click += new System.EventHandler(this.btPolygon_Click);
             // 
             // btLine
             // 
