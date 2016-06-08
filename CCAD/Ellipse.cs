@@ -64,22 +64,36 @@ namespace CCAD
             graph.Graphics.DrawEllipse(new Pen(new SolidBrush(Color),
                 LineWidth), StartPoint.X, StartPoint.Y,
                 EndPoint.X - StartPoint.X, EndPoint.Y - StartPoint.Y);
-            // Draw the 5 main points of an ellipse
+            // Draw the 5 main points of an ellipse when selected
             if (selected)
             {
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(leftPoint.X - 2, leftPoint.Y - 2, 4, 4));
+                    new RectangleF(leftPoint.X - displace, leftPoint.Y - 
+                    displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(topPoint.X - 2, topPoint.Y - 2, 4, 4));
+                    new RectangleF(topPoint.X - displace, topPoint.Y - 
+                    displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(CentrePoint.X - 2, CentrePoint.Y - 2, 4, 4));
+                    new RectangleF(CentrePoint.X - displace, CentrePoint.Y - 
+                    displace, pointWidth,
+                    pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(rightPoint.X - 2, rightPoint.Y - 2, 4, 4));
+                    new RectangleF(rightPoint.X - displace, rightPoint.Y - 
+                    displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(botPoint.X - 2, botPoint.Y - 2, 4, 4));
+                    new RectangleF(botPoint.X - displace, botPoint.Y - 
+                    displace, pointWidth, pointHeight));
             }
         }
 
+        /// <summary>
+        /// This method checks if the ellipse is inside the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
         public override bool IsInside(double minY, double maxY, double minX,
                 double maxX)
         {
@@ -88,6 +102,17 @@ namespace CCAD
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// This method checks if the ellipse is next to the mouse
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public override bool IsInRange(int x, int y)
+        {
+            return base.IsInRange(x, y);
         }
     }
 }

@@ -18,16 +18,18 @@ namespace CCAD
         public PointF StartPoint { get; set; }
         public PointF EndPoint { get; set; }
 
-        public Image(Color color, PointF point, string path, PointF endPoint) : base(color)
+        public Image(Color color, PointF point, string path, PointF endPoint)
+                : base(color)
         {
             StartPoint = point;
             EndPoint = endPoint;
             Path = path;
             width = Math.Abs(StartPoint.X - endPoint.X);
             height = Math.Abs(StartPoint.Y - endPoint.Y);
-            points = new PointF[] { StartPoint, new PointF(StartPoint.X + width, 
-                StartPoint.Y), new PointF(StartPoint.X, StartPoint.Y + height),
-                new PointF(StartPoint.X + width, StartPoint.Y + height) };
+            points = new PointF[] { StartPoint, new PointF(StartPoint.X +
+                width, StartPoint.Y), new PointF(StartPoint.X, StartPoint.Y +
+                height), new PointF(StartPoint.X + width, StartPoint.Y + 
+                height) };
         }
 
         public override void Draw(PaintEventArgs graph)
@@ -36,31 +38,46 @@ namespace CCAD
             graph.Graphics.DrawImage(System.Drawing.Image.FromFile(Path),
                 StartPoint.X, StartPoint.Y, width, height);
 
+            // Draw the main points of the image when selected
             if (selected)
             {
                 for (int i = 0; i < points.Length; i++)
                 {
-                    graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                        new RectangleF(points[i].X - 2, points[i].Y - 2, 4, 4));
+                    graph.Graphics.FillRectangle(new SolidBrush(
+                        Color.DarkBlue), new RectangleF(points[i].X - displace,
+                        points[i].Y - displace, pointWidth, pointHeight));
                 }
             }
         }
 
-
+        /// <summary>
+        /// This method checks if the image is next to the mouse
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public override bool IsInRange(int x, int y)
         {
             return (StartPoint.X - range <= x && StartPoint.X + range >= x &&
-                StartPoint.Y - range <= y && StartPoint.Y + height + range >= y) ||
-                (StartPoint.X + width - range <= x && 
+                StartPoint.Y - range <= y && StartPoint.Y + height + range >=
+                y) || (StartPoint.X + width - range <= x && 
                 StartPoint.X + width + range >= x &&
-                StartPoint.Y - range <= y && StartPoint.Y + height + range >= y) ||
-                (StartPoint.X - range <= x && StartPoint.X + width + range >= x &&
-                StartPoint.Y - range <= y && StartPoint.Y + range >= y) ||
-                (StartPoint.X - range <= x && StartPoint.X + width + range >= x &&
-                StartPoint.Y + height - range <= y && 
+                StartPoint.Y - range <= y && StartPoint.Y + height + range >= 
+                y) || (StartPoint.X - range <= x && StartPoint.X + width +
+                range >= x && StartPoint.Y - range <= y && StartPoint.Y + 
+                range >= y) || (StartPoint.X - range <= x && StartPoint.X + 
+                width + range >= x && StartPoint.Y + height - range <= y && 
                 StartPoint.Y + height + range >= y);
         }
 
+        /// <summary>
+        /// This method checks if the image is inside the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
         public override bool IsInside(double minY, double maxY, double minX,
                 double maxX)
         {

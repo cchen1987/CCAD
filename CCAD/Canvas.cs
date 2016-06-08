@@ -23,6 +23,12 @@ namespace CCAD
         private float[][] dashPatterns;
         private float width;
         private float height;
+        private float scaleFactor;
+        private enum entityType
+        {
+            ARC, LINE, POLYGON, POLYLINE, RECTANGLE,
+            IMAGE, ELLIPSE, CIRCLE
+        };
 
         public int PolygonSides { get; set; }
         public bool FirstClick { get; set; }
@@ -90,6 +96,7 @@ namespace CCAD
             width = 0;
             height = 0;
             PolygonSides = 0;
+            scaleFactor = 1;
             graph = CreateGraphics();
             ptLast = new System.Drawing.Point();
             ptOriginal = new System.Drawing.Point();
@@ -270,7 +277,7 @@ namespace CCAD
             ptOriginal.X = e.X;
             ptOriginal.Y = e.Y;
 
-            // Special value lets know that no previous rectangle needs 
+            // Special value lets know that no previous rectangle needs
             // to be erases
             ptLast.X = -1;
             ptLast.Y = -1;
@@ -285,10 +292,14 @@ namespace CCAD
         {
             if (areaSelection)
             {
-                double botRectangle = ptOriginal.Y > ptCurrent.Y ? ptOriginal.Y : ptCurrent.Y;
-                double topRectangle = ptOriginal.Y < ptCurrent.Y ? ptOriginal.Y : ptCurrent.Y;
-                double leftRectangle = ptOriginal.X < ptCurrent.X ? ptOriginal.X : ptCurrent.X;
-                double rightRectangle = ptOriginal.X > ptCurrent.X ? ptOriginal.X : ptCurrent.X;
+                double botRectangle = ptOriginal.Y > ptCurrent.Y ? 
+                    ptOriginal.Y : ptCurrent.Y;
+                double topRectangle = ptOriginal.Y < ptCurrent.Y ? 
+                    ptOriginal.Y : ptCurrent.Y;
+                double leftRectangle = ptOriginal.X < ptCurrent.X ? 
+                    ptOriginal.X : ptCurrent.X;
+                double rightRectangle = ptOriginal.X > ptCurrent.X ? 
+                    ptOriginal.X : ptCurrent.X;
 
                 // Check if any entity is contained by selection rectangle
                 for (int i = 0; i < entities.Count; i++)
@@ -331,7 +342,8 @@ namespace CCAD
             // Show the mouse current coordinates in the label
             if (Orto && !FirstClick)
             {
-                if (Math.Abs(e.X - startPoint.X) > Math.Abs(e.Y - startPoint.Y))
+                if (Math.Abs(e.X - startPoint.X) > Math.Abs(e.Y - 
+                        startPoint.Y))
                 {
                     CurrentX = e.X;
                     CurrentY = (int)startPoint.Y;
@@ -388,10 +400,12 @@ namespace CCAD
             {
                 // Show dinamic items and set their coordinates
                 tbDinamic.Show();
-                tbDinamic.Location = new System.Drawing.Point(e.X + 10, e.Y + 10);
+                tbDinamic.Location = new System.Drawing.Point(e.X + 10, 
+                    e.Y + 10);
                 tbDinamic.Focus();
                 lbDinamic.Show();
-                lbDinamic.Location = new System.Drawing.Point(e.X + 10, e.Y - 20);
+                lbDinamic.Location = new System.Drawing.Point(e.X + 10, 
+                    e.Y - 20);
 
                 if (Draw && FirstClick)
                     // set dinamic label text to mouse coordinates
@@ -404,7 +418,8 @@ namespace CCAD
                         double diameter = Math.Sqrt(Math.Pow(startPoint.X - 
                             CurrentX, 2) + Math.Pow(startPoint.Y - 
                             CurrentY, 2));
-                        lbDinamic.Text = "Diameter: " + diameter.ToString("0.0000");
+                        lbDinamic.Text = "Diameter: " + 
+                            diameter.ToString("0.0000");
                     }
                 }
             }
@@ -451,7 +466,8 @@ namespace CCAD
                     // Interpretation of commands
                     if (AddLine(parts))
                     {
-                        myBoard.lbxCommands.Items.Add("Command: " + tbDinamic.Text);
+                        myBoard.lbxCommands.Items.Add("Command: " + 
+                            tbDinamic.Text);
                         myBoard.lbxCommands.BackColor = Color.White;
                         myBoard.lbxCommands.SelectedIndex = 
                             myBoard.lbxCommands.Items.Count - 1;
@@ -476,8 +492,9 @@ namespace CCAD
                         }
                         else
                         {
-                            myBoard.lbxCommands.Items.Add("Command: The number" +
-                                " of sides should be equal or bigger than 3");
+                            myBoard.lbxCommands.Items.Add("Command: The number"
+                                + " of sides should be equal or bigger than 3"
+                                );
                             myBoard.MoveCommandBoxLines();
                         }
                     }
@@ -486,6 +503,21 @@ namespace CCAD
                         MessageBox.Show("Error: " + ex.Message);
                     }
                     
+                }
+                // Scale the selected entities
+                else if (ScaleEntity)
+                {
+                    if (IsNumber(tbDinamic.Text))
+                    {
+                        scaleFactor = Convert.ToSingle(tbDinamic.Text);
+                        tbDinamic.Clear();
+                        tbDinamic.BackColor = Color.White;
+                        Scale();
+                    }
+                    else
+                    {
+                        tbDinamic.BackColor = Color.Red;
+                    }
                 }
             }
             // Cancel all actions
@@ -554,6 +586,14 @@ namespace CCAD
         }
 
         /// <summary>
+        /// This method adds the selected element index in the selection array
+        /// </summary>
+        public void AddSelection(int index)
+        {
+            selections.Add(index);
+        }
+
+        /// <summary>
         /// This method silences the key sound
         /// </summary>
         public void SilenceKeySound(KeyEventArgs e)
@@ -613,14 +653,24 @@ namespace CCAD
             myBoard.lbxCommands.Items.Add("Author: Chen Chao");
             Refresh();
         }
-
+        
         /// <summary>
-        /// This method sets the start point of an entity
+        /// This method checks if a string can be converted to number
         /// </summary>
-        /// <param name="point"></param>
-        public void SetStartPoint(PointF point)
+        /// <param name="num"></param>
+        /// <returns>true if the number can be converted, false if not
+        /// </returns>
+        public bool IsNumber(string num)
         {
-            startPoint = point;
+            try
+            {
+                Convert.ToSingle(num);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -660,8 +710,8 @@ namespace CCAD
                         (float)(2 * radius)), (float)startAngle, 
                         (float)sweepAngle);
                 }
-                // Draw circle preview
-                else if (DrawCircle)
+                // Draw circle and polygon container preview
+                else if (DrawCircle || DrawPolygon)
                 {
                     double radius = Math.Sqrt(Math.Pow(startPoint.X - CurrentX,
                         2) + Math.Pow(startPoint.Y - CurrentY, 2));
@@ -678,8 +728,8 @@ namespace CCAD
                         2) + Math.Pow(startPoint.Y - CurrentY, 2)) / 2;
                     graph.DrawEllipse(new Pen(new SolidBrush(Color.White)),
                         new RectangleF((float)((startPoint.X + CurrentX) / 2 -
-                        radius), (float)((startPoint.Y + CurrentY) / 2 - radius),
-                        (float)(2 * radius), (float)(2 * radius)));
+                        radius), (float)((startPoint.Y + CurrentY) / 2 - 
+                        radius), (float)(2 * radius), (float)(2 * radius)));
                 }
                 // Draw rectangle preview
                 else if (DrawRectAngle)
@@ -702,8 +752,8 @@ namespace CCAD
                         // Set ellipse height
                         height = Math.Abs(CurrentY - startPoint.Y) * 2;
                         graph.DrawEllipse(new Pen(new SolidBrush(Color.White)),
-                            new RectangleF(previousPoint.X, previousPoint.Y, width,
-                            height));
+                            new RectangleF(previousPoint.X, previousPoint.Y, 
+                            width, height));
                     }
                     // Preview the ellipse with the final width
                     else if (!SecondClick && !FirstClick)
@@ -713,8 +763,8 @@ namespace CCAD
                         // Set ellipse width
                         width = (startPoint.X - previousPoint.X) * 2;
                         graph.DrawEllipse(new Pen(new SolidBrush(Color.White)),
-                            new RectangleF(previousPoint.X, previousPoint.Y, width,
-                            height));
+                            new RectangleF(previousPoint.X, previousPoint.Y, 
+                            width, height));
                     }
                 }
             }
@@ -755,7 +805,8 @@ namespace CCAD
         private void DrawReversibleRectangle(System.Drawing.Point p1,
                 System.Drawing.Point p2)
         {
-            System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle();
+            System.Drawing.Rectangle rectangle = 
+                new System.Drawing.Rectangle();
             // Convert the points to screen coordinates
             p1 = PointToScreen(p1);
             p2 = PointToScreen(p2);
@@ -955,7 +1006,8 @@ namespace CCAD
             else
             {
                 Arc arc = new Arc(CurrentColor, startPoint,
-                    endPoint, new PointF(CurrentX, CurrentY), CurrentLineWidth);
+                    endPoint, new PointF(CurrentX, CurrentY), 
+                    CurrentLineWidth);
                 entities.Add(arc);
                 FirstClick = true;
                 Refresh();
@@ -1125,7 +1177,8 @@ namespace CCAD
             else
             {
                 Ellipse tempEllipse = new Ellipse(CurrentColor, startPoint,
-                    CurrentLineWidth, endPoint, new PointF(CurrentX, CurrentY));
+                    CurrentLineWidth, endPoint, new PointF(CurrentX, 
+                    CurrentY));
                 entities.Add(tempEllipse);
                 Refresh();
                 FirstClick = true;
@@ -1171,13 +1224,16 @@ namespace CCAD
             for (int i = 0; i < PolygonSides; i++)
             {
                 tempAngle += Angle;
-                nextPoint.X = (float)(radius * Math.Cos(tempAngle) + startPoint.X);
-                nextPoint.Y = (float)(radius * Math.Sin(tempAngle) + startPoint.Y);
-                tempLines[i] = new Line(CurrentColor, CurrentLineWidth, tempPoint, nextPoint);
+                nextPoint.X = (float)(radius * Math.Cos(tempAngle) + 
+                    startPoint.X);
+                nextPoint.Y = (float)(radius * Math.Sin(tempAngle) + 
+                    startPoint.Y);
+                tempLines[i] = new Line(CurrentColor, CurrentLineWidth,
+                    tempPoint, nextPoint);
                 tempPoint = nextPoint;
             }
-            Polygon tempPolygon = new Polygon(CurrentColor, tempLines, startPoint,
-                CurrentLineWidth);
+            Polygon tempPolygon = new Polygon(CurrentColor, tempLines, 
+                startPoint, CurrentLineWidth);
             entities.Add(tempPolygon);
             Refresh();
             FirstClick = true;
@@ -1235,9 +1291,136 @@ namespace CCAD
             if (entities[selections[lastItem]].GetType().ToString().Equals
                     ("CCAD.Line"))
             {
-                Line tempLine = new Line(CurrentColor, CurrentLineWidth, startPoint,
-                    endPoint);
+                Line tempLine = new Line(CurrentColor, CurrentLineWidth,
+                    startPoint, endPoint);
                 entities.Add(tempLine);
+                Refresh();
+            }
+        }
+
+// Scale block
+        /// <summary>
+        /// This method scales the selected drawing
+        /// </summary>
+        public void Scale()
+        {
+            PointF tempCentre;
+            PointF start;
+            PointF end;
+            Color tempColor;
+            int tempWidth;
+            string name;
+            for (int i = 0; i < selections.Count; i++)
+            {
+                name = entities[selections[i]].GetType().
+                    ToString().Replace("CCAD.", "").ToUpper();
+                tempColor = entities[selections[i]].Color;
+                tempWidth = entities[selections[i]].LineWidth;
+                
+                switch ((entityType)Enum.Parse(typeof(entityType), name, true))
+                {
+                    case entityType.ARC:
+                        Arc tempArc = (Arc)entities[selections[i]];
+                        // Scale centre point
+                        tempCentre = tempArc.CentrePoint;
+                        // Scale start point
+                        float startX = tempArc.StartPoint.X * scaleFactor;
+                        float startY = tempArc.StartPoint.Y * scaleFactor;
+                        // Scale end point
+                        float endX = tempArc.EndPoint.X * scaleFactor;
+                        float endY = tempArc.EndPoint.Y * scaleFactor;
+
+                        tempArc = new Arc(tempColor, tempCentre, new PointF(
+                            startX, startY), new PointF(endX, endY), 
+                            tempWidth);
+                        entities[selections[i]] = tempArc;
+                        break;
+                    case entityType.CIRCLE:
+                        Circle tempCircle = (Circle)entities[selections[i]];
+                        tempCentre = tempCircle.CentrePoint;
+                        // Scale radius
+                        double radius = tempCircle.Radius * scaleFactor;
+                        tempCircle = new Circle(tempColor, tempCentre,
+                            tempWidth, radius);
+                        entities[selections[i]] = tempCircle;
+                        break;
+                    case entityType.ELLIPSE:
+                        Ellipse tempEllipse = (Ellipse)entities[selections[i]];
+                        tempCentre = tempEllipse.CentrePoint;
+                        // Scale minor axis point
+                        PointF minorAxis = tempEllipse.MinorAxisPoint;
+                        minorAxis.X *= scaleFactor;
+                        minorAxis.Y *= scaleFactor;
+                        // Scale major axis point
+                        PointF majorAxis = tempEllipse.MajorAxisPoint;
+                        majorAxis.X *= scaleFactor;
+                        majorAxis.Y *= scaleFactor;
+                        tempEllipse = new Ellipse(tempColor, tempCentre,
+                            tempWidth, minorAxis, majorAxis);
+                        entities[selections[i]] = tempEllipse;
+                        break;
+                    case entityType.IMAGE:
+                        Image tempImage = (Image)entities[selections[i]];
+                        start = tempImage.StartPoint;
+                        // Scale end point
+                        end = tempImage.EndPoint;
+                        end.X *= scaleFactor;
+                        end.Y *= scaleFactor;
+                        string tempPath = tempImage.Path;
+                        tempImage = new Image(tempColor, start, tempPath, end);
+                        entities[selections[i]] = tempImage;
+                        break;
+                    case entityType.LINE:
+                        Line tempLine = (Line)entities[selections[i]];
+                        start = tempLine.StartPoint;
+                        // Scale end point
+                        end = tempLine.EndPoint;
+                        end.X *= scaleFactor;
+                        end.Y *= scaleFactor;
+                        tempLine = new Line(tempColor, tempWidth, start, end);
+                        entities[selections[i]] = tempLine;
+                        break;
+                    case entityType.RECTANGLE:
+                        Rectangle tempRectangle =
+                            (Rectangle)entities[selections[i]];
+                        start = tempRectangle.StartPoint;
+                        // Scale width
+                        double tWidth = tempRectangle.Width;
+                        tWidth *= scaleFactor;
+                        // Scale height
+                        double tempHeight = tempRectangle.Height;
+                        tempHeight *= scaleFactor;
+                        PointF rightTopPoint = new PointF((float)
+                            (start.X + tWidth), start.Y);
+                        PointF rightBotPoint = new PointF(rightTopPoint.X, 
+                            (float)(start.Y + tempHeight));
+                        PointF leftBotPoint = new PointF(start.X,
+                            rightBotPoint.Y);
+                        Line[] tLines = new Line[4];
+                        tLines[0] = new Line(tempColor, tempWidth, start,
+                            rightTopPoint);
+                        tLines[1] = new Line(tempColor, tempWidth,
+                            rightTopPoint, rightBotPoint);
+                        tLines[2] = new Line(tempColor, tempWidth,
+                            rightBotPoint, leftBotPoint);
+                        tLines[3] = new Line(tempColor, tempWidth,
+                            leftBotPoint, start);
+                        tempRectangle = new Rectangle(tempColor, tLines,
+                            tempWidth);
+                        entities[selections[i]] = tempRectangle;
+                        break;
+                    case entityType.POLYGON:
+                        Polygon tempPolygon = (Polygon)entities[selections[i]];
+                        // TO DO
+                        break;
+                    case entityType.POLYLINE:
+                        Polyline tempPolyline =
+                            (Polyline)entities[selections[i]];
+                        // TO DO
+                        break;
+                    default:
+                        break;
+                }
                 Refresh();
             }
         }

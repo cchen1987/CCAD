@@ -218,7 +218,6 @@
             this.outFile = new System.Windows.Forms.SaveFileDialog();
             this.inFile = new System.Windows.Forms.OpenFileDialog();
             this.tToolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.cdColor = new System.Windows.Forms.ColorDialog();
             this.pBoard = new System.Windows.Forms.Panel();
             this.imageInFile = new System.Windows.Forms.OpenFileDialog();
             this.tsToolBar.SuspendLayout();
@@ -2233,7 +2232,6 @@
         private System.Windows.Forms.OpenFileDialog inFile;
         private System.Windows.Forms.ToolTip tToolTip;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ColorDialog cdColor;
         internal System.Windows.Forms.ToolStrip tsToolBar;
         internal System.Windows.Forms.ToolStripMenuItem btNew;
         internal System.Windows.Forms.ToolStripMenuItem btOpen;

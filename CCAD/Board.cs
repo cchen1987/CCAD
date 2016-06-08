@@ -279,11 +279,13 @@ namespace CCAD
                 while (count < size)
                 {
                     string name =
-                        entities[count].GetType().ToString().Replace("CCAD.", "");
+                        entities[count].GetType().ToString().Replace("CCAD.",
+                        "");
                     write.WriteLine(name);
                     write.WriteLine(entities[count].LineWidth);
-                    write.WriteLine(entities[count].GetOriginalColor().ToString().
-                        Split()[1].Replace("[", "").Replace("]", ""));
+                    write.WriteLine(entities[count].GetOriginalColor().
+                        ToString().Split()[1].Replace("[", "").Replace("]", 
+                        ""));
                     if (name.Equals("Point"))
                         WritePoint(write, ((Point)entities[count]).StartPoint);
                     else if (name.Equals("Line"))
@@ -385,7 +387,8 @@ namespace CCAD
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cbColorSelector_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbColorSelector_SelectedIndexChanged(object sender, 
+                EventArgs e)
         {
             myCanvas.CurrentColor = 
                 Color.FromName(cbColorSelector.SelectedItem.ToString());
@@ -397,7 +400,8 @@ namespace CCAD
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cbColorSelector_DrawItem(object sender, DrawItemEventArgs e)
+        private void cbColorSelector_DrawItem(object sender, 
+                DrawItemEventArgs e)
         {
             DrawItemsColor(sender, e);
         }
@@ -408,7 +412,8 @@ namespace CCAD
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cbCurrentLineWidth_SelectedIndexChanged(object sender, EventArgs e)
+        private void cbCurrentLineWidth_SelectedIndexChanged(object sender, 
+                EventArgs e)
         {
             myCanvas.CurrentLineWidth = 
                 Convert.ToInt32(cbCurrentLineWidth.SelectedItem);
@@ -452,35 +457,61 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method selects drawings on board, increasing the selection index
+        /// This method selects drawings on board, increasing the selection
+        /// index
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btUpArrow_Click(object sender, EventArgs e)
         {
-            if (currentSelection < myCanvas.GetDrawing().Count - 1)
+            if (myCanvas.GetDrawing().Count == 1)
+            {
+                currentSelection = 0;
+                isSelecting = true;
+                myCanvas.GetDrawing()[currentSelection].Selected();
+                myCanvas.ResetSelection();
+                myCanvas.AddSelection(currentSelection);
+                myCanvas.Refresh();
+            }
+            else if (currentSelection < myCanvas.GetDrawing().Count - 1)
             {
                 currentSelection++;
                 isSelecting = true;
                 myCanvas.GetDrawing()[currentSelection].Selected();
-                myCanvas.GetDrawing()[currentSelection - 1].Free();
+                if (myCanvas.GetDrawing().Count > 0)
+                    myCanvas.GetDrawing()[currentSelection - 1].Free();
+                myCanvas.ResetSelection();
+                myCanvas.AddSelection(currentSelection);
                 myCanvas.Refresh();
             }
         }
 
         /// <summary>
-        /// This method selects drawings on board, decreasing the selection index
+        /// This method selects drawings on board, decreasing the selection
+        /// index
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void btDownArrow_Click(object sender, EventArgs e)
         {
-            if (currentSelection > 0)
+            if (myCanvas.GetDrawing().Count == 1)
+            {
+                currentSelection = 0;
+                isSelecting = true;
+                myCanvas.GetDrawing()[currentSelection].Selected();
+                myCanvas.ResetSelection();
+                myCanvas.AddSelection(currentSelection);
+                myCanvas.Refresh();
+            }
+            else if (currentSelection > 0)
             {
                 currentSelection--;
                 isSelecting = true;
                 myCanvas.GetDrawing()[currentSelection].Selected();
-                myCanvas.GetDrawing()[currentSelection + 1].Free();
+                if (myCanvas.GetDrawing().Count > 1)
+                    myCanvas.GetDrawing()[currentSelection + 1].Free();
+                myCanvas.ResetSelection();
+                myCanvas.AddSelection(currentSelection);
                 myCanvas.Refresh();
             }
         }
@@ -849,7 +880,14 @@ namespace CCAD
         /// <param name="e"></param>
         private void btScale_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Option not valid yet!");
+            //MessageBox.Show("Option not valid yet!");
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.ScaleEntity = true;
+            lbAction.Text = "Scale";
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
+            MoveCommandBoxLines();
         }
 
         /// <summary>
@@ -883,7 +921,8 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method fill the selected closed geometry with the selected colour
+        /// This method fill the selected closed geometry with the selected
+        /// colour
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -960,7 +999,8 @@ namespace CCAD
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void pBoard_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        private void pBoard_PreviewKeyDown(object sender, 
+                PreviewKeyDownEventArgs e)
         {
             if (e.KeyCode == Keys.Escape)
             {
@@ -1029,8 +1069,8 @@ namespace CCAD
                 Brush tempBrush = new SolidBrush(color);
                 g.DrawString(name, font, Brushes.Black, rect.X, rect.Top);
                 // Draw background colour
-                g.FillRectangle(tempBrush, rect.X + 60, rect.Y + 2, rect.Width - 65,
-                    rect.Height - 3);
+                g.FillRectangle(tempBrush, rect.X + 60, rect.Y + 2, 
+                    rect.Width - 65, rect.Height - 3);
                 // Draw perimeter
                 e.Graphics.DrawRectangle(SystemPens.WindowText,
                     new System.Drawing.Rectangle(rect.X + 60, rect.Y + 2, 

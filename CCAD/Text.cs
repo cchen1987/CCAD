@@ -30,7 +30,7 @@ namespace CCAD
             base.Draw(graph);
             graph.Graphics.DrawString(Phrase, Font, 
                 new SolidBrush(Color), Point);
-
+            // Draw the main point of the text when selected
             if (selected)
             {
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
@@ -38,6 +38,14 @@ namespace CCAD
             }
         }
 
+        /// <summary>
+        /// This method checks if the text is inside the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
         public override bool IsInside(double minY, double maxY, double minX,
                  double maxX)
         {

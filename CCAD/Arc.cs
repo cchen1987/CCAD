@@ -39,19 +39,30 @@ namespace CCAD
             graph.Graphics.DrawArc(new Pen(new SolidBrush(Color),
                 LineWidth), new RectangleF((float)(CentrePoint.X - Radius),
                 (float)(CentrePoint.Y - Radius), (float)(2 * Radius), 
-                (float)(2 * Radius)), (float)(StartAngle), (float)(SweepAngle));
+                (float)(2 * Radius)), (float)(StartAngle), 
+                (float)(SweepAngle));
 
+            //Draw main points of the arc when selected
             if (selected)
             {
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(CentrePoint.X - 2, CentrePoint.Y - 2, 4, 4));
+                    new RectangleF(CentrePoint.X - displace, CentrePoint.Y - 
+                    displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(StartPoint.X - 2, StartPoint.Y - 2, 4, 4));
+                    new RectangleF(StartPoint.X - displace, StartPoint.Y - 
+                    displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(EndPoint.X - 2, EndPoint.Y - 2, 4, 4));
+                    new RectangleF(EndPoint.X - displace, EndPoint.Y - 
+                    displace, pointWidth, pointHeight));
             }
         }
 
+        /// <summary>
+        /// This method checks if then arc is near enough to mouse
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public override bool IsInRange(int x, int y)
         {
             base.IsInRange(x, y);
@@ -65,7 +76,14 @@ namespace CCAD
                 angle - StartAngle < SweepAngle && angle >= StartAngle;
         }
 
-
+        /// <summary>
+        /// This method checks if the arc is inside of the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
         public override bool IsInside(double minY, double maxY, double minX,
                 double maxX)
         {
@@ -73,7 +91,8 @@ namespace CCAD
             double rightX = CentrePoint.X + Radius;
             double topY = CentrePoint.Y - Radius;
             double botY = CentrePoint.Y + Radius;
-            if (minX <= leftX && maxX >= rightX && minY <= topY && maxY >= botY)
+            if (minX <= leftX && maxX >= rightX && minY <= topY && maxY >=
+                    botY)
                 return true;
 
             return false;

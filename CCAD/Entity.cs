@@ -14,12 +14,18 @@ namespace CCAD
         protected Color originalColor;
         protected PaintEventArgs graph;
         protected bool selected;
+        protected static int displace;
+        protected static int pointWidth;
+        protected static int pointHeight;
 
         public int LineWidth { get; set; }
         public Color Color { get; set; }
 
         public Entity(Color color)
         {
+            displace = 2;
+            pointHeight = 4;
+            pointWidth = 4;
             range = 10;
             originalColor = color;
             Color = color;
@@ -64,7 +70,8 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method checks if the entity is contained in the selection rectangle
+        /// This method checks if the entity is contained in the selection
+        /// rectangle
         /// </summary>
         /// <returns></returns>
         public virtual bool IsInside(double topY, double botY,

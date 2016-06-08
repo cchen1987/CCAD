@@ -17,7 +17,8 @@ namespace CCAD
         public double LengthY { get; }
         public double Angle { get; set; }
 
-        public Line(Color color, int width, PointF start, PointF end) : base(color)
+        public Line(Color color, int width, PointF start, PointF end)
+                : base(color)
         {
             StartPoint = start;
             EndPoint = end;
@@ -35,18 +36,27 @@ namespace CCAD
             base.Draw(graph);
             graph.Graphics.DrawLine(new Pen(new SolidBrush(Color), LineWidth),
                 StartPoint.X, StartPoint.Y, EndPoint.X, EndPoint.Y);
-
+            // Draw the main points of the line when selected
             if (selected)
             {
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(StartPoint.X - 2, StartPoint.Y - 2, 4, 4));
+                    new RectangleF(StartPoint.X - displace, StartPoint.Y - 
+                    displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(MidPoint.X - 2, MidPoint.Y - 2, 4, 4));
+                    new RectangleF(MidPoint.X - displace, MidPoint.Y - 
+                    displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(EndPoint.X - 2, EndPoint.Y - 2, 4, 4));
+                    new RectangleF(EndPoint.X - displace, EndPoint.Y - 
+                    displace, pointWidth, pointHeight));
             }
         }
 
+        /// <summary>
+        /// This method chekcs if the line is next to the mouse
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public override bool IsInRange(int x, int y)
         {
             double a = EndPoint.Y - StartPoint.Y;
@@ -58,10 +68,14 @@ namespace CCAD
             double distance = Math.Abs(a * x - b * y + e) / 
                 Math.Sqrt(a*a + b*b);
 
-            double minX = StartPoint.X < EndPoint.X ? StartPoint.X : EndPoint.X;
-            double maxX = StartPoint.X > EndPoint.X ? StartPoint.X : EndPoint.X;
-            double minY = StartPoint.Y < EndPoint.Y ? StartPoint.Y : EndPoint.Y;
-            double maxY = StartPoint.Y > EndPoint.Y ? StartPoint.Y : EndPoint.Y;
+            double minX = StartPoint.X < EndPoint.X ? StartPoint.X : 
+                EndPoint.X;
+            double maxX = StartPoint.X > EndPoint.X ? StartPoint.X : 
+                EndPoint.X;
+            double minY = StartPoint.Y < EndPoint.Y ? StartPoint.Y : 
+                EndPoint.Y;
+            double maxY = StartPoint.Y > EndPoint.Y ? StartPoint.Y : 
+                EndPoint.Y;
 
             return ((x >= minX - range && x <= maxX + range &&
                 y >= minY - range && y <= maxY + range) ||
@@ -72,14 +86,27 @@ namespace CCAD
                 range >= distance;
         }
 
+        /// <summary>
+        /// This method checks if the line is inside the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
         public override bool IsInside(double minY, double maxY, double minX,
                 double maxX)
         {
-            double leftX = StartPoint.X < EndPoint.X ? StartPoint.X : EndPoint.X;
-            double rightX = StartPoint.X > EndPoint.X ? StartPoint.X : EndPoint.X;
-            double topY = StartPoint.Y < EndPoint.Y ? StartPoint.Y : EndPoint.Y;
-            double botY = StartPoint.Y > EndPoint.Y ? StartPoint.Y : EndPoint.Y;
-            if (minX <= leftX && maxX >= rightX && minY <= topY && maxY >= botY)
+            double leftX = StartPoint.X < EndPoint.X ? StartPoint.X : 
+                EndPoint.X;
+            double rightX = StartPoint.X > EndPoint.X ? StartPoint.X : 
+                EndPoint.X;
+            double topY = StartPoint.Y < EndPoint.Y ? StartPoint.Y : 
+                EndPoint.Y;
+            double botY = StartPoint.Y > EndPoint.Y ? StartPoint.Y : 
+                EndPoint.Y;
+            if (minX <= leftX && maxX >= rightX && minY <= topY && 
+                    maxY >= botY)
                 return true;
 
             return false;

@@ -25,6 +25,12 @@ namespace CCAD
             LineWidth = width;
         }
 
+        /// <summary>
+        /// This method checks if the curved line is inside the selecion area
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public override bool IsInRange(int x, int y)
         {
             double distance = Math.Abs(Math.Sqrt((x - CentrePoint.X) * 

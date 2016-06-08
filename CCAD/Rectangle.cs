@@ -28,11 +28,18 @@ namespace CCAD
             area = Width * Height;
         }
 
-        // Save until draw rectangle method available and check if works
+        /// <summary>
+        /// This method checks if the rectangle is inside the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
         public override bool IsInside(double minY, double maxY, double minX,
                 double maxX)
         {
-            if (minX <= StartPoint.X && maxX >= StartPoint.X + Width && 
+            if (minX <= StartPoint.X && maxX >= StartPoint.X + Width &&
                     minY <= StartPoint.Y && maxY >= StartPoint.Y + Height)
                 return true;
 

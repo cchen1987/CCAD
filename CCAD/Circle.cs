@@ -24,22 +24,37 @@ namespace CCAD
                 (float)(CentrePoint.Y - Radius), (float)(2 * Radius),
                 (float)(2 * Radius)));
 
+            // Draw main points of the circle when selected
             if (selected)
             {
-                // 4 is the point width
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(CentrePoint.X - 2, CentrePoint.Y - 2, 4, 4));
+                    new RectangleF(CentrePoint.X - displace, CentrePoint.Y -
+                    displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF((float)(CentrePoint.X - 2 - Radius), CentrePoint.Y - 2, 4, 4));
+                    new RectangleF((float)(CentrePoint.X - displace - Radius),
+                    CentrePoint.Y - displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF((float)(CentrePoint.X - 2 + Radius), CentrePoint.Y - 2, 4, 4));
+                    new RectangleF((float)(CentrePoint.X - displace + Radius), 
+                    CentrePoint.Y - displace, pointWidth, pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(CentrePoint.X - 2, (float)(CentrePoint.Y - 2 - Radius), 4, 4));
+                    new RectangleF(CentrePoint.X - displace, (float)(
+                    CentrePoint.Y - displace - Radius), pointWidth, 
+                    pointHeight));
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    new RectangleF(CentrePoint.X - 2, (float)(CentrePoint.Y - 2 + Radius), 4, 4));
+                    new RectangleF(CentrePoint.X - displace, (float)(
+                    CentrePoint.Y - displace + Radius), pointWidth, 
+                    pointHeight));
             }
         }
 
+        /// <summary>
+        /// This method checks if the circle is inside the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
         public override bool IsInside(double minY, double maxY, double minX,
                 double maxX)
         {
@@ -47,7 +62,8 @@ namespace CCAD
             double rightX = CentrePoint.X + Radius;
             double topY = CentrePoint.Y - Radius;
             double botY = CentrePoint.Y + Radius;
-            if (minX <= leftX && maxX >= rightX && minY <= topY && maxY >= botY)
+            if (minX <= leftX && maxX >= rightX && minY <= topY && maxY >= 
+                    botY)
                 return true;
 
             return false;

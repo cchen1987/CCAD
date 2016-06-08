@@ -22,14 +22,21 @@ namespace CCAD
             base.Draw(graph);
             graph.Graphics.FillRectangle(new SolidBrush(Color),
                 StartPoint.X, StartPoint.Y, LineWidth, LineWidth);
-
+            // Draw point when selected
             if (selected)
             {
                 graph.Graphics.FillRectangle(new SolidBrush(Color.DarkBlue),
-                    StartPoint.X - 2, StartPoint.Y - 2, 4, 4);
+                    StartPoint.X - displace, StartPoint.Y - displace, 
+                    pointWidth, pointHeight);
             }
         }
 
+        /// <summary>
+        /// This method checks if the point is next to the mouse
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public override bool IsInRange(int x, int y)
         {
             base.IsInRange(x, y);
@@ -37,6 +44,14 @@ namespace CCAD
                 Math.Abs(StartPoint.Y - y) <= range;
         }
 
+        /// <summary>
+        /// This method checks if the point is inside the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
         public override bool IsInside(double minY, double maxY, double minX,
                 double maxX)
         {

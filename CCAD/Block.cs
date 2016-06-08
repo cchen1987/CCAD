@@ -19,16 +19,6 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method returns a line at the entered index
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns>Line</returns>
-        public Line GetLineAt(int index)
-        {
-            return lines[index];
-        }
-
-        /// <summary>
         /// This method returns all lines contained in the block
         /// </summary>
         /// <returns>Line[]</returns>
@@ -37,12 +27,19 @@ namespace CCAD
             return lines;
         }
 
-        // This method splits the block into lines
+        /// <summary>
+        /// This method splits the block into lines
+        /// </summary>
+        /// <returns></returns>
         public Line[] Split()
         {
             return lines;
         }
 
+        /// <summary>
+        /// This method draw all lines
+        /// </summary>
+        /// <param name="graph"></param>
         public override void Draw(PaintEventArgs graph)
         {
             base.Draw(graph);
@@ -70,7 +67,14 @@ namespace CCAD
                 lines[i].Color = originalColor;
         }
 
-        // This method checks if all lines are inside of the selection area
+        /// <summary>
+        /// This method checks if all lines are inside of the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
         public override bool IsInside(double minY, double maxY, double minX,
                 double maxX)
         {
