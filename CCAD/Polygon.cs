@@ -11,7 +11,8 @@ namespace CCAD
     {
         public PointF CentrePoint { get; set; }
 
-        public Polygon(Color color, Line[] lines, PointF point) : base(color, lines)
+        public Polygon(Color color, Line[] lines, PointF point, int lineWidth)
+                : base(color, lines, lineWidth)
         {
             CentrePoint = point;
             double a = lines[0].EndPoint.Y - lines[0].StartPoint.Y;

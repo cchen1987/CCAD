@@ -15,6 +15,7 @@ namespace CCAD
         private string currentFilePath;
         private bool isSelecting;
         private int currentSelection;
+        private string imagePath;
 
         public Board()
         {
@@ -40,20 +41,27 @@ namespace CCAD
             cbColor.Items.Add("Gray");
             cbColor.Items.Add("Brown");
             cbLineWidth.Items.Add(1);
+            cbLineWidth.Items.Add(3);
             cbLineWidth.Items.Add(5);
+            cbLineWidth.Items.Add(7);
             cbLineWidth.Items.Add(9);
             cbCurrentLineWidth.Items.Add(1);
+            cbCurrentLineWidth.Items.Add(3);
             cbCurrentLineWidth.Items.Add(5);
+            cbCurrentLineWidth.Items.Add(7);
             cbCurrentLineWidth.Items.Add(9);
+
             // Create canvas
             myCanvas = new Canvas(this);
             pBoard.Controls.Add(myCanvas);
             pBoard.Tag = myCanvas;
             myCanvas.Show();
+
             // Predefine item
             cbColorSelector.SelectedIndex = 0;
             cbCurrentLineWidth.SelectedIndex = 0;
             currentFilePath = "";
+            imagePath = "";
 
             currentSelection = 0;
             isSelecting = false;
@@ -267,33 +275,35 @@ namespace CCAD
                 // Save drawings
                 List<Entity> entities = myCanvas.GetDrawing();
                 int size = entities.Count;
-                for (int i = 0; i < size; i++)
+                int count = 0;
+                while (count < size)
                 {
                     string name =
-                        entities[i].GetType().ToString().Replace("CCAD.", "");
+                        entities[count].GetType().ToString().Replace("CCAD.", "");
                     write.WriteLine(name);
-                    write.WriteLine(entities[i].LineWidth);
-                    write.WriteLine(entities[i].GetOriginalColor().ToString().
+                    write.WriteLine(entities[count].LineWidth);
+                    write.WriteLine(entities[count].GetOriginalColor().ToString().
                         Split()[1].Replace("[", "").Replace("]", ""));
                     if (name.Equals("Point"))
-                        WritePoint(write, ((Point)entities[i]).StartPoint);
+                        WritePoint(write, ((Point)entities[count]).StartPoint);
                     else if (name.Equals("Line"))
-                        WriteLine(write, (Line)entities[i]);
+                        WriteLine(write, (Line)entities[count]);
                     else if (name.Equals("Rectangle") ||
                             name.Equals("Polyline"))
-                        WriteBlock(write, (Block)entities[i]);
+                        WriteBlock(write, (Block)entities[count]);
                     else if (name.Equals("Polygon"))
-                        WritePolygon(write, (Polygon)entities[i]);
+                        WritePolygon(write, (Polygon)entities[count]);
                     else if (name.Equals("Arc"))
-                        WriteArc(write, (Arc)entities[i]);
+                        WriteArc(write, (Arc)entities[count]);
                     else if (name.Equals("Circle"))
-                        WriteCircle(write, (Circle)entities[i]);
+                        WriteCircle(write, (Circle)entities[count]);
                     else if (name.Equals("Ellipse"))
-                        WriteEllipse(write, (Ellipse)entities[i]);
+                        WriteEllipse(write, (Ellipse)entities[count]);
                     else if (name.Equals("Text"))
-                        WriteText(write, (Text)entities[i]);
+                        WriteText(write, (Text)entities[count]);
                     else if (name.Equals("Image"))
-                        WriteImageInfo(write, (Image)entities[i]);
+                        WriteImageInfo(write, (Image)entities[count]);
+                    count++;
                 }
                 write.Close();
             }
@@ -487,7 +497,7 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawLine = true;
             lbAction.Text = "Line";
-            lbxCommands.Items.Add("Press Esc to cancel.");
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
             MoveCommandBoxLines();
         }
 
@@ -503,7 +513,7 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawArc = true;
             lbAction.Text = "Arc";
-            lbxCommands.Items.Add("Press Esc to cancel.");
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
             MoveCommandBoxLines();
         }
 
@@ -518,8 +528,8 @@ namespace CCAD
             myCanvas.SelectEntity = false;
             myCanvas.Draw = true;
             myCanvas.DrawCircleOpposite = true;
-            lbAction.Text = "CircleOpposite";
-            lbxCommands.Items.Add("Press Esc to cancel.");
+            lbAction.Text = "Circle";
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
             MoveCommandBoxLines();
         }
 
@@ -535,7 +545,7 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawCircle = true;
             lbAction.Text = "Circle";
-            lbxCommands.Items.Add("Press Esc to cancel.");
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
             MoveCommandBoxLines();
         }
 
@@ -552,7 +562,7 @@ namespace CCAD
             myCanvas.DrawPolyline = true;
             myCanvas.ActivatePolylineCreation();
             lbAction.Text = "Polyline";
-            lbxCommands.Items.Add("Press Esc to cancel.");
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
             MoveCommandBoxLines();
         }
 
@@ -568,7 +578,7 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawPoint = true;
             lbAction.Text = "Point";
-            lbxCommands.Items.Add("Press Esc to cancel.");
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
             MoveCommandBoxLines();
         }
 
@@ -593,7 +603,7 @@ namespace CCAD
             myCanvas.Copy = true;
             myCanvas.FirstClick = false;
             lbAction.Text = "Copy";
-            lbxCommands.Items.Add("Press Esc to cancel.");
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
             MoveCommandBoxLines();
         }
 
@@ -609,7 +619,7 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawRectAngle = true;
             lbAction.Text = "Rectangle";
-            lbxCommands.Items.Add("Press Esc to cancel.");
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
             MoveCommandBoxLines();
         }
 
@@ -625,7 +635,7 @@ namespace CCAD
             myCanvas.Draw = true;
             myCanvas.DrawEllipse = true;
             lbAction.Text = "Ellipse";
-            lbxCommands.Items.Add("Press Esc to cancel.");
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
             MoveCommandBoxLines();
         }
 
@@ -656,7 +666,7 @@ namespace CCAD
         /// <param name="e"></param>
         private void btErase_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Option not valid yet!");
+            myCanvas.EraseSelectedElements();
         }
 
         /// <summary>
@@ -746,7 +756,13 @@ namespace CCAD
         /// <param name="e"></param>
         private void btPolygon_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Option not valid yet!");
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawPolygon = true;
+            lbAction.Text = "Polygon";
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
+            MoveCommandBoxLines();
         }
 
         /// <summary>
@@ -776,7 +792,44 @@ namespace CCAD
         /// <param name="e"></param>
         private void btImage_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Option not valid yet!");
+            myCanvas.ResetAllAction();
+            myCanvas.SelectEntity = false;
+            myCanvas.Draw = true;
+            myCanvas.DrawImage = true;
+            lbAction.Text = "Image";
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
+            MoveCommandBoxLines();
+            if (imageInFile.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    string path;
+                    path = imageInFile.FileName;
+                    if (path.EndsWith(".png") || path.EndsWith(".jpg") ||
+                            path.EndsWith(".bmp"))
+                    {
+                        imagePath = path;
+                    }
+                    else
+                    {
+                        imagePath = null;
+                        MessageBox.Show("Not a valid image file");
+                    }
+                }
+                catch (PathTooLongException)
+                {
+                    MessageBox.Show("Path too long.");
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("Input error: Cound not read file" +
+                        " from disk. Original error: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unexpected error: " + ex.Message);
+                }
+            }
         }
 
         /// <summary>
@@ -869,6 +922,22 @@ namespace CCAD
                         tbCommands.BackColor = Color.Red;
                     }
                 }
+                // Get number of sides and calculate polygon's vertex
+                else if (myCanvas.DrawPolygon)
+                {
+                    myCanvas.PolygonSides = Convert.ToInt32(tbCommands.Text);
+                    if (myCanvas.PolygonSides >= 3)
+                    {
+                        myCanvas.CalculatePolygon();
+                        tbCommands.Clear();
+                    }
+                    else
+                    {
+                        lbxCommands.Items.Add("Command: The number" +
+                            " of sides should be equal or bigger than 3");
+                        MoveCommandBoxLines();
+                    }
+                }
                 // TO DO
             }
             else if (e.KeyCode == Keys.Escape)
@@ -879,6 +948,10 @@ namespace CCAD
                 MoveCommandBoxLines();
                 HideAllPropertyPanels();
                 ResetSelection();
+            }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                myCanvas.EraseSelectedElements();
             }
         }
 
@@ -898,6 +971,10 @@ namespace CCAD
                 HideAllPropertyPanels();
                 ResetSelection();
             }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                myCanvas.EraseSelectedElements();
+            }
         }
 
         /// <summary>
@@ -916,6 +993,10 @@ namespace CCAD
                 myCanvas.ResetAllAction();
                 HideAllPropertyPanels();
                 ResetSelection();
+            }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                myCanvas.EraseSelectedElements();
             }
         }
 
@@ -1058,6 +1139,7 @@ namespace CCAD
         {
             WritePoint(write, image.StartPoint);
             write.WriteLine(image.Path);
+            WritePoint(write, image.EndPoint);
         }
 
         /// <summary>
@@ -1100,7 +1182,7 @@ namespace CCAD
             Line[] lines = new Line[size];
             for (int i = 0; i < size; i++)
                 lines[i] = ReadLine(read, color, lineWidth);
-            return new Rectangle(color, lines);
+            return new Rectangle(color, lines, lineWidth);
         }
 
         /// <summary>
@@ -1118,7 +1200,7 @@ namespace CCAD
             Line[] lines = new Line[size];
             for (int i = 0; i < size; i++)
                 lines[i] = ReadLine(read, color, lineWidth);
-            return new Polygon(color, lines, point);
+            return new Polygon(color, lines, point, lineWidth);
         }
 
         /// <summary>
@@ -1135,7 +1217,7 @@ namespace CCAD
             Line[] lines = new Line[size];
             for (int i = 0; i < size; i++)
                 lines[i] = ReadLine(read, color, lineWidth);
-            return new Polyline(color, lines);
+            return new Polyline(color, lines, lineWidth);
         }
 
         /// <summary>
@@ -1149,7 +1231,7 @@ namespace CCAD
                 int lineWidth)
         {
             PointF point = ReadPoint(read);
-            int radius = Convert.ToInt32(read.ReadLine());
+            double radius = Convert.ToDouble(read.ReadLine());
             return new Circle(color, point, lineWidth, radius);
         }
 
@@ -1217,7 +1299,8 @@ namespace CCAD
         {
             PointF point = ReadPoint(read);
             string path = read.ReadLine();
-            return new Image(color, point, path);
+            PointF endPoint = ReadPoint(read);
+            return new Image(color, point, path, endPoint);
         }
 
         /// <summary>
@@ -1268,6 +1351,15 @@ namespace CCAD
         {
             lbxCommands.BackColor = Color.White;
             lbxCommands.SelectedIndex = lbxCommands.Items.Count - 1;
+        }
+
+        /// <summary>
+        /// This method returns the file path
+        /// </summary>
+        /// <returns>imagePath</returns>
+        public string GetPath()
+        {
+            return imagePath;
         }
     }
 }

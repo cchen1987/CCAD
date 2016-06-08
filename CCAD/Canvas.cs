@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using System.IO;
 using System.Windows.Forms;
 
 namespace CCAD
@@ -24,6 +24,7 @@ namespace CCAD
         private float width;
         private float height;
 
+        public int PolygonSides { get; set; }
         public bool FirstClick { get; set; }
         public bool SecondClick { get; set; }
         public bool ThirdClick { get; set; }
@@ -88,6 +89,7 @@ namespace CCAD
             Angle = 0;
             width = 0;
             height = 0;
+            PolygonSides = 0;
             graph = CreateGraphics();
             ptLast = new System.Drawing.Point();
             ptOriginal = new System.Drawing.Point();
@@ -130,13 +132,22 @@ namespace CCAD
         /// <param name="e"></param>
         private void Canvas_Paint(object sender, PaintEventArgs e)
         {
-            // Draw all entities
-            for (int i = 0; i < entities.Count; i++)
-                entities[i].Draw(e);
-            // Draw polyline previews
-            if (DrawPolyline)
-                for (int i = 0; i < tempPolyline.Count; i++)
-                    tempPolyline[i].Draw(e);
+            try
+            {
+                // Draw all entities
+                for (int i = 0; i < entities.Count; i++)
+                    entities[i].Draw(e);
+                // Draw polyline previews
+                if (DrawPolyline)
+                    for (int i = 0; i < tempPolyline.Count; i++)
+                        tempPolyline[i].Draw(e);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+                entities.RemoveAt(entities.Count - 1);
+                Refresh();
+            }
         }
         
         /// <summary>
@@ -214,6 +225,12 @@ namespace CCAD
             // Create ellipse
             else if (DrawEllipse)
                 CreateEllipse();
+            // Create polygon
+            else if (DrawPolygon)
+                CreatePolygon();
+            // Create image
+            else if (DrawImage)
+                CreateImage();
         }
 
         /// <summary>
@@ -408,6 +425,10 @@ namespace CCAD
                     myBoard.lbxCommands.Items.Count - 1;
                 myBoard.HideAllPropertyPanels();
             }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                EraseSelectedElements();
+            }
         }
 
         /// <summary>
@@ -442,16 +463,45 @@ namespace CCAD
                         tbDinamic.BackColor = Color.Red;
                     }
                 }
+                // Get number of vertex and calculate polygon's vertex
+                else if (DrawPolygon)
+                {
+                    try
+                    {
+                        PolygonSides = Convert.ToInt32(tbDinamic.Text);
+                        if (PolygonSides >= 3)
+                        {
+                            CalculatePolygon();
+                            tbDinamic.Clear();
+                        }
+                        else
+                        {
+                            myBoard.lbxCommands.Items.Add("Command: The number" +
+                                " of sides should be equal or bigger than 3");
+                            myBoard.MoveCommandBoxLines();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                    
+                }
             }
+            // Cancel all actions
             else if (e.KeyCode == Keys.Escape)
             {
                 ResetAllAction();
                 ResetSelection();
                 SilenceKeySound(e);
-                myBoard.lbxCommands.Items.Add("*Canceled*");
+                myBoard.lbxCommands.Items.Add("Command: *Canceled*");
                 myBoard.lbxCommands.SelectedIndex =
                     myBoard.lbxCommands.Items.Count - 1;
                 myBoard.HideAllPropertyPanels();
+            }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                EraseSelectedElements();
             }
         }
 
@@ -520,6 +570,26 @@ namespace CCAD
         public List<Entity> GetDrawing()
         {
             return entities;
+        }
+
+        /// <summary>
+        /// This method erases the selected elements index
+        /// </summary>
+        /// <returns></returns>
+        public void EraseSelectedElements()
+        {
+            List<Entity> tempEntities = new List<Entity>();
+            // Copy all entities that should be erased
+            for (int i = 0; i < selections.Count; i++)
+                tempEntities.Add(entities[selections[i]]);
+
+            // Erase the selected elements
+            for (int i = 0; i < tempEntities.Count; i++)
+                entities.Remove(tempEntities[i]);
+            // Free memory
+            tempEntities = null;
+            selections.Clear();
+            Refresh();
         }
 
         /// <summary>
@@ -751,7 +821,7 @@ namespace CCAD
         public void AddPolylineToMainList()
         {
             Polyline polyline = new Polyline(CurrentColor,
-                tempPolyline.ToArray());
+                tempPolyline.ToArray(), CurrentLineWidth);
             entities.Add(polyline);
         }
         
@@ -967,7 +1037,7 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method get points to create a polyline
+        /// This method gets points to create a polyline
         /// </summary>
         public void CreatePolyline()
         {
@@ -994,7 +1064,7 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method get points to create a rectangle
+        /// This method gets points to create a rectangle
         /// </summary>
         public void CreateRectangle()
         {
@@ -1024,7 +1094,7 @@ namespace CCAD
                 tempLines[3] = new Line(CurrentColor, CurrentLineWidth,
                     new PointF(startPoint.X, endPoint.Y), startPoint);
                 Rectangle tempRectangle = new Rectangle(CurrentColor,
-                    tempLines);
+                    tempLines, CurrentLineWidth);
                 entities.Add(tempRectangle);
                 Refresh();
                 FirstClick = true;
@@ -1032,7 +1102,7 @@ namespace CCAD
         }
 
         /// <summary>
-        /// This method get points to create an ellipse
+        /// This method gets points to create an ellipse
         /// </summary>
         public void CreateEllipse()
         {
@@ -1059,6 +1129,98 @@ namespace CCAD
                 entities.Add(tempEllipse);
                 Refresh();
                 FirstClick = true;
+            }
+        }
+
+        /// <summary>
+        /// This method gets points to create a polygon
+        /// </summary>
+        public void CreatePolygon()
+        {
+            if (FirstClick)
+            {
+                startPoint.X = CurrentX;
+                startPoint.Y = CurrentY;
+                FirstClick = false;
+            }
+            else
+            {
+                endPoint.X = CurrentX;
+                endPoint.Y = CurrentY;
+                myBoard.lbxCommands.Items.Add(
+                    "Command: Enter the number of sides of polygon");
+                myBoard.MoveCommandBoxLines();
+            }
+        }
+
+        /// <summary>
+        /// This method calculates the polygon's vertex
+        /// </summary>
+        public void CalculatePolygon()
+        {
+            double radius = Math.Sqrt(Math.Pow(endPoint.X - startPoint.X, 2) +
+                    Math.Pow(endPoint.Y - startPoint.Y, 2));
+            Angle = 2f / PolygonSides * Math.PI;
+            double tempAngle = 0;
+            PointF tempPoint = new PointF();
+            tempPoint.X = (float)(radius * Math.Cos(tempAngle) + startPoint.X);
+            tempPoint.Y = (float)(radius * Math.Sin(tempAngle) + startPoint.Y);
+            Line[] tempLines = new Line[PolygonSides];
+            PointF nextPoint = new PointF();
+
+            for (int i = 0; i < PolygonSides; i++)
+            {
+                tempAngle += Angle;
+                nextPoint.X = (float)(radius * Math.Cos(tempAngle) + startPoint.X);
+                nextPoint.Y = (float)(radius * Math.Sin(tempAngle) + startPoint.Y);
+                tempLines[i] = new Line(CurrentColor, CurrentLineWidth, tempPoint, nextPoint);
+                tempPoint = nextPoint;
+            }
+            Polygon tempPolygon = new Polygon(CurrentColor, tempLines, startPoint,
+                CurrentLineWidth);
+            entities.Add(tempPolygon);
+            Refresh();
+            FirstClick = true;
+        }
+
+        /// <summary>
+        /// This method gets points to create an image
+        /// </summary>
+        public void CreateImage()
+        {
+            if (FirstClick)
+            {
+                startPoint.X = CurrentX;
+                startPoint.Y = CurrentY;
+                FirstClick = false;
+            }
+            else
+            {
+                try
+                {
+                    string path = myBoard.GetPath();
+                    if (path != null)
+                    {
+                        Image tempImage = new Image(CurrentColor, startPoint,
+                            path, new PointF(CurrentX, CurrentY));
+                        entities.Add(tempImage);
+                        Refresh();
+                    }
+                }
+                catch (PathTooLongException)
+                {
+                    MessageBox.Show("Path too long.");
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show("Input error: Cound not read file" +
+                        " from disk. Original error: " + ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unexpected error: " + ex.Message);
+                }
+                ResetAllAction();
             }
         }
 

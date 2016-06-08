@@ -220,6 +220,7 @@
             this.tToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.cdColor = new System.Windows.Forms.ColorDialog();
             this.pBoard = new System.Windows.Forms.Panel();
+            this.imageInFile = new System.Windows.Forms.OpenFileDialog();
             this.tsToolBar.SuspendLayout();
             this.pTools.SuspendLayout();
             this.pProperty.SuspendLayout();
@@ -243,7 +244,7 @@
             this.tbHelp});
             this.tsToolBar.Location = new System.Drawing.Point(0, 0);
             this.tsToolBar.Name = "tsToolBar";
-            this.tsToolBar.Size = new System.Drawing.Size(1184, 25);
+            this.tsToolBar.Size = new System.Drawing.Size(1424, 25);
             this.tsToolBar.TabIndex = 0;
             this.tsToolBar.Text = "ToolBar";
             // 
@@ -360,7 +361,7 @@
             this.pTools.Dock = System.Windows.Forms.DockStyle.Top;
             this.pTools.Location = new System.Drawing.Point(0, 25);
             this.pTools.Name = "pTools";
-            this.pTools.Size = new System.Drawing.Size(1184, 50);
+            this.pTools.Size = new System.Drawing.Size(1424, 50);
             this.pTools.TabIndex = 1;
             // 
             // lbCurrentLineWidth
@@ -692,7 +693,7 @@
             this.pProperty.Controls.Add(this.pEllipseProperty);
             this.pProperty.Controls.Add(this.pGeneralProperty);
             this.pProperty.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pProperty.Location = new System.Drawing.Point(977, 75);
+            this.pProperty.Location = new System.Drawing.Point(1217, 75);
             this.pProperty.Name = "pProperty";
             this.pProperty.Size = new System.Drawing.Size(207, 700);
             this.pProperty.TabIndex = 3;
@@ -1720,7 +1721,7 @@
             this.pBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pBottom.Location = new System.Drawing.Point(0, 674);
             this.pBottom.Name = "pBottom";
-            this.pBottom.Size = new System.Drawing.Size(977, 101);
+            this.pBottom.Size = new System.Drawing.Size(1217, 101);
             this.pBottom.TabIndex = 4;
             // 
             // lbxCommands
@@ -1732,7 +1733,7 @@
             this.lbxCommands.Location = new System.Drawing.Point(0, 0);
             this.lbxCommands.Name = "lbxCommands";
             this.lbxCommands.ScrollAlwaysVisible = true;
-            this.lbxCommands.Size = new System.Drawing.Size(678, 64);
+            this.lbxCommands.Size = new System.Drawing.Size(918, 64);
             this.lbxCommands.TabIndex = 3;
             // 
             // pSelector
@@ -1752,7 +1753,7 @@
             this.pSelector.Controls.Add(this.btDownArrow);
             this.pSelector.Controls.Add(this.btUpArrow);
             this.pSelector.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pSelector.Location = new System.Drawing.Point(678, 0);
+            this.pSelector.Location = new System.Drawing.Point(918, 0);
             this.pSelector.Name = "pSelector";
             this.pSelector.Size = new System.Drawing.Size(297, 99);
             this.pSelector.TabIndex = 2;
@@ -2167,15 +2168,19 @@
             this.pBoard.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pBoard.Location = new System.Drawing.Point(114, 75);
             this.pBoard.Name = "pBoard";
-            this.pBoard.Size = new System.Drawing.Size(863, 599);
+            this.pBoard.Size = new System.Drawing.Size(1103, 599);
             this.pBoard.TabIndex = 6;
             this.pBoard.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pBoard_PreviewKeyDown);
+            // 
+            // imageInFile
+            // 
+            this.imageInFile.Filter = "jpg files (*.jpg)|*.jpg|png files (*.png)|*.png|bmp files (*.bmp)|*.bmp";
             // 
             // Board
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1184, 775);
+            this.ClientSize = new System.Drawing.Size(1424, 775);
             this.Controls.Add(this.pBoard);
             this.Controls.Add(this.pActionBar);
             this.Controls.Add(this.pBottom);
@@ -2411,6 +2416,7 @@
         internal System.Windows.Forms.Label lbActionText;
         internal System.Windows.Forms.Panel pBoard;
         internal System.Windows.Forms.Panel pPolyGonProperty;
+        private System.Windows.Forms.OpenFileDialog imageInFile;
     }
 }
 

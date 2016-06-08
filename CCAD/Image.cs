@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
+using System;
 
 namespace CCAD
 {
@@ -9,19 +10,21 @@ namespace CCAD
     /// </summary>
     public class Image : Entity
     {
-        private int width;
-        private int height;
+        private float width;
+        private float height;
         private PointF[] points;
 
         public string Path { get; set; }
         public PointF StartPoint { get; set; }
+        public PointF EndPoint { get; set; }
 
-        public Image(Color color, PointF point, string path) : base(color)
+        public Image(Color color, PointF point, string path, PointF endPoint) : base(color)
         {
             StartPoint = point;
+            EndPoint = endPoint;
             Path = path;
-            width = System.Drawing.Image.FromFile(Path).Size.Width;
-            height = System.Drawing.Image.FromFile(Path).Size.Height;
+            width = Math.Abs(StartPoint.X - endPoint.X);
+            height = Math.Abs(StartPoint.Y - endPoint.Y);
             points = new PointF[] { StartPoint, new PointF(StartPoint.X + width, 
                 StartPoint.Y), new PointF(StartPoint.X, StartPoint.Y + height),
                 new PointF(StartPoint.X + width, StartPoint.Y + height) };
@@ -31,7 +34,7 @@ namespace CCAD
         {
             base.Draw(graph);
             graph.Graphics.DrawImage(System.Drawing.Image.FromFile(Path),
-                StartPoint);
+                StartPoint.X, StartPoint.Y, width, height);
 
             if (selected)
             {

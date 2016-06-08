@@ -12,7 +12,8 @@ namespace CCAD
         public double Height { get; set; }
         public PointF StartPoint { get; set; }
 
-        public Rectangle(Color color, Line[] lines) : base(color, lines)
+        public Rectangle(Color color, Line[] lines, int lineWidth)
+                : base(color, lines, lineWidth)
         {
             StartPoint = lines[0].StartPoint;
             for (int i = 0; i < lines.Length; i++)

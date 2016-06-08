@@ -7,7 +7,8 @@ namespace CCAD
     /// </summary>
     public class Polyline : Block
     {
-        public Polyline(Color color, Line[] lines) : base(color, lines)
+        public Polyline(Color color, Line[] lines, int lineWidth)
+                : base(color, lines, lineWidth)
         {
         }
     }

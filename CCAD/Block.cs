@@ -10,9 +10,10 @@ namespace CCAD
     {
         protected Line[] lines;
 
-        public Block(Color color, Line[] lines) : base(color)
+        public Block(Color color, Line[] lines, int lineWidth) : base(color)
         {
             this.lines = lines;
+            LineWidth = lineWidth;
             for (int i = 0; i < lines.Length; i++)
                 perimeter += lines[i].Length;
         }
