@@ -18,9 +18,9 @@ namespace CCAD
             StartPoint = lines[0].StartPoint;
             for (int i = 0; i < lines.Length; i++)
             {
-                StartPoint = lines[i].StartPoint.X > StartPoint.X || 
+                StartPoint = lines[i].StartPoint.X > StartPoint.X ||
                     (lines[i].StartPoint.X == StartPoint.X && 
-                    lines[i].StartPoint.Y > StartPoint.Y) ? 
+                    lines[i].StartPoint.Y > StartPoint.Y) ?
                     StartPoint : lines[i].StartPoint;
             }
             Width = Math.Abs(lines[0].StartPoint.X - lines[1].StartPoint.X);

@@ -27,7 +27,7 @@ namespace CCAD
         private enum entityType
         {
             ARC, LINE, POLYGON, POLYLINE, RECTANGLE,
-            IMAGE, ELLIPSE, CIRCLE
+            IMAGE, ELLIPSE, CIRCLE, POINT, TEXT
         };
 
         public int PolygonSides { get; set; }
@@ -796,6 +796,34 @@ namespace CCAD
                     graph.DrawLine(new Pen(new SolidBrush(Color.White)),
                         startPoint, endPoint);
                 }
+                // Preview circle copy
+                else if (entities[selections[lastItem]].GetType().ToString().
+                    Equals("CCAD.Circle"))
+                {
+                    Refresh();
+                    Circle tempCircle = (Circle)entities[selections[lastItem]];
+                    graph.DrawEllipse(new Pen(new SolidBrush(Color.White)),
+                        new RectangleF((float)(CurrentX - tempCircle.Radius),
+                        (float)(CurrentY - tempCircle.Radius), 
+                        (float)(2 * tempCircle.Radius),
+                        (float)(2 * tempCircle.Radius)));
+                }
+                // Preview circle copy
+                else if (entities[selections[lastItem]].GetType().ToString().
+                    Equals("CCAD.Ellipse"))
+                {
+                    Refresh();
+                    Ellipse tempEllipse = (Ellipse)entities[selections[lastItem]];
+                    float width = Math.Abs(tempEllipse.MajorAxisPoint.X - 
+                        tempEllipse.CentrePoint.X);
+                    float height = Math.Abs(tempEllipse.MinorAxisPoint.Y - 
+                        tempEllipse.CentrePoint.Y);
+                    PointF start = new PointF(CurrentX - width,
+                        CurrentY - height);
+
+                    graph.DrawEllipse(new Pen(new SolidBrush(Color.White)),
+                        start.X, start.Y, 2 * width, 2 * height);
+                }
             }
         }
 
@@ -1078,17 +1106,13 @@ namespace CCAD
                 endPoint.X = CurrentX;
                 endPoint.Y = CurrentY;
 
-                double radius;
-                PointF centrePoint = new PointF();
-
-                radius = Math.Sqrt(Math.Pow(startPoint.X - endPoint.X, 2) +
+                double radius = Math.Sqrt(Math.Pow(startPoint.X - endPoint.X, 2) +
                     Math.Pow(startPoint.Y - endPoint.Y, 2)) / 2;
-              
+                // Calculate centre point
+                PointF centrePoint = new PointF();
                 centrePoint.X = (startPoint.X + endPoint.X) / 2;
-              
                 centrePoint.Y = (startPoint.Y + endPoint.Y) / 2;
-              
-              
+                // create circle
                 Circle circle = new Circle(CurrentColor, centrePoint,
                     CurrentLineWidth, radius);
 
@@ -1301,14 +1325,47 @@ namespace CCAD
         public void CopyElements()
         {
             int lastItem = selections.Count - 1;
-            if (entities[selections[lastItem]].GetType().ToString().Equals
-                    ("CCAD.Line"))
+            string name = entities[selections[lastItem]].GetType().
+                ToString().Replace("CCAD.", "").ToUpper();
+            switch ((entityType)Enum.Parse(typeof(entityType), name, true))
             {
-                Line tempLine = new Line(CurrentColor, CurrentLineWidth,
-                    startPoint, endPoint);
-                entities.Add(tempLine);
-                Refresh();
+                // Copy line
+                case entityType.LINE:
+                    Line tempLine = new Line(CurrentColor, CurrentLineWidth, 
+                        startPoint, endPoint);
+                    entities.Add(tempLine);
+                    Refresh();
+                    break;
+                // Copy Circle
+                case entityType.CIRCLE:
+                    Circle tempCircle = new Circle(CurrentColor,
+                        new PointF(CurrentX, CurrentY), CurrentLineWidth,
+                        ((Circle)entities[selections[lastItem]]).Radius);
+                    entities.Add(tempCircle);
+                    Refresh();
+                    break;
+                // Copy ellipse
+                case entityType.ELLIPSE:
+                    Ellipse tempEllipse = 
+                        (Ellipse)entities[selections[lastItem]];
+                    float width = Math.Abs(tempEllipse.MajorAxisPoint.X -
+                        tempEllipse.CentrePoint.X);
+                    float height = Math.Abs(tempEllipse.MinorAxisPoint.Y -
+                        tempEllipse.CentrePoint.Y);
+                    PointF start = new PointF(CurrentX - width,
+                        CurrentY - height);
+                    PointF end = new PointF(CurrentX + width,
+                        CurrentY + height);
+                    tempEllipse = new Ellipse(CurrentColor,
+                        new PointF(CurrentX, CurrentY), CurrentLineWidth,
+                        start, end);
+                    entities.Add(tempEllipse);
+                    Refresh();
+                    break;
+                default:
+                    break;
             }
+                
         }
 
 // Scale block
@@ -1332,6 +1389,7 @@ namespace CCAD
                 
                 switch ((entityType)Enum.Parse(typeof(entityType), name, true))
                 {
+                    // Scale arc
                     case entityType.ARC:
                         Arc tempArc = (Arc)entities[selections[i]];
                         tempArc.Radius *= scaleFactor;
@@ -1346,6 +1404,7 @@ namespace CCAD
                         tempArc.EndPoint = end;
                         entities[selections[i]] = tempArc;
                         break;
+                    // Scale circle
                     case entityType.CIRCLE:
                         Circle tempCircle = (Circle)entities[selections[i]];
                         tempCentre = tempCircle.CentrePoint;
@@ -1353,13 +1412,14 @@ namespace CCAD
                         tempCircle.Radius *= scaleFactor;
                         entities[selections[i]] = tempCircle;
                         break;
+                    // Scale ellipse
                     case entityType.ELLIPSE:
                         Ellipse tempEllipse = (Ellipse)entities[selections[i]];
                         tempCentre = tempEllipse.CentrePoint;
 
                         start = tempEllipse.MinorAxisPoint;
                         end = tempEllipse.MajorAxisPoint;
-                        
+                        // Calculate height and width
                         float height = Math.Abs(start.Y - tempCentre.Y) * 
                             scaleFactor;
                         float width = Math.Abs(end.X - tempCentre.X) * 
@@ -1371,6 +1431,7 @@ namespace CCAD
                             tempWidth, start, end);
                         entities[selections[i]] = tempEllipse;
                         break;
+                    // Scale image
                     case entityType.IMAGE:
                         Image tempImage = (Image)entities[selections[i]];
                         start = tempImage.StartPoint;
@@ -1382,6 +1443,7 @@ namespace CCAD
                         tempImage = new Image(tempColor, start, tempPath, end);
                         entities[selections[i]] = tempImage;
                         break;
+                    // Scale line
                     case entityType.LINE:
                         Line tempLine = (Line)entities[selections[i]];
                         start = tempLine.StartPoint;
@@ -1394,6 +1456,7 @@ namespace CCAD
                         tempLine.EndPoint = end;
                         entities[selections[i]] = tempLine;
                         break;
+                    // Scale rectangle
                     case entityType.RECTANGLE:
                         Rectangle tempRectangle =
                             (Rectangle)entities[selections[i]];
@@ -1411,6 +1474,7 @@ namespace CCAD
                         PointF leftBotPoint = new PointF(start.X,
                             rightBotPoint.Y);
                         Line[] tLines = new Line[4];
+                        // Recalculate all lines
                         tLines[0] = new Line(tempColor, tempWidth, start,
                             rightTopPoint);
                         tLines[1] = new Line(tempColor, tempWidth,
@@ -1423,10 +1487,12 @@ namespace CCAD
                             tempWidth);
                         entities[selections[i]] = tempRectangle;
                         break;
+                    // Scale polygon
                     case entityType.POLYGON:
                         Polygon tempPolygon = (Polygon)entities[selections[i]];
                         // TO DO
                         break;
+                    // Scale polyline
                     case entityType.POLYLINE:
                         Polyline tempPolyline =
                             (Polyline)entities[selections[i]];

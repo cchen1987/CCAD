@@ -25,5 +25,46 @@ namespace CCAD
                 e) / Math.Sqrt(a * a + b * b);
             area = apothem * perimeter / 2f;
         }
+
+        /// <summary>
+        /// This method checks if the polygon is inside the selection area
+        /// </summary>
+        /// <param name="minY"></param>
+        /// <param name="maxY"></param>
+        /// <param name="minX"></param>
+        /// <param name="maxX"></param>
+        /// <returns></returns>
+        public override bool IsInside(double minY, double maxY, double minX,
+                double maxX)
+        {
+            float miniX = lines[0].StartPoint.X;
+            float miniY = lines[0].StartPoint.Y;
+            float maxiX = miniX;
+            float maxiY = miniY;
+
+            // Calculate the minimum x and y and maximum x and y
+            for (int i = 0; i < lines.Length; i++)
+            {
+                miniX = miniX < lines[i].StartPoint.X ? miniX : 
+                    lines[i].StartPoint.X;
+                miniX = miniX < lines[i].EndPoint.X ? miniX :
+                    lines[i].EndPoint.X;
+                miniY = miniY < lines[i].StartPoint.Y ? miniY :
+                    lines[i].StartPoint.Y;
+                miniY = miniY < lines[i].EndPoint.Y ? miniY :
+                    lines[i].EndPoint.Y;
+                maxiX = maxiX > lines[i].StartPoint.X ? maxiX :
+                    lines[i].StartPoint.X;
+                maxiX = maxiX > lines[i].EndPoint.X ? maxiX :
+                    lines[i].EndPoint.X;
+                maxiY = maxiY > lines[i].StartPoint.Y ? maxiY :
+                    lines[i].StartPoint.Y;
+                maxiY = maxiY > lines[i].EndPoint.Y ? maxiY :
+                    lines[i].EndPoint.Y;
+            }
+
+            return minX <= miniX && maxX >= maxiX && minY <= miniY &&
+                maxY >= maxiY;
+        }
     }
 }
