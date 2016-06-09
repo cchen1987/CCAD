@@ -870,7 +870,13 @@ namespace CCAD
         /// <param name="e"></param>
         private void btMove_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Option not valid yet!");
+            //MessageBox.Show("Option not valid yet!");
+            myCanvas.ResetAllAction();
+            myCanvas.MoveEntity = true;
+            myCanvas.FirstClick = false;
+            lbAction.Text = "Move";
+            lbxCommands.Items.Add("Command: Press Esc to cancel.");
+            MoveCommandBoxLines();
         }
 
         /// <summary>
@@ -880,7 +886,6 @@ namespace CCAD
         /// <param name="e"></param>
         private void btScale_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("Option not valid yet!");
             myCanvas.ResetAllAction();
             myCanvas.SelectEntity = false;
             myCanvas.Draw = true;

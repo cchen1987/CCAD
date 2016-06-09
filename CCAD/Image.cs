@@ -13,6 +13,7 @@ namespace CCAD
         private float width;
         private float height;
         private PointF[] points;
+        private Bitmap bitmap;
 
         public string Path { get; set; }
         public PointF StartPoint { get; set; }
@@ -23,6 +24,7 @@ namespace CCAD
         {
             StartPoint = point;
             EndPoint = endPoint;
+            bitmap = new Bitmap(path);
             Path = path;
             width = Math.Abs(StartPoint.X - endPoint.X);
             height = Math.Abs(StartPoint.Y - endPoint.Y);
@@ -35,8 +37,8 @@ namespace CCAD
         public override void Draw(PaintEventArgs graph)
         {
             base.Draw(graph);
-            graph.Graphics.DrawImage(System.Drawing.Image.FromFile(Path),
-                StartPoint.X, StartPoint.Y, width, height);
+            graph.Graphics.DrawImage(bitmap, StartPoint.X, StartPoint.Y, width,
+                height);
 
             // Draw the main points of the image when selected
             if (selected)

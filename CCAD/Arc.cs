@@ -12,8 +12,8 @@ namespace CCAD
     {
         public double StartAngle { get; set; }
         public double SweepAngle { get; set; }
-        public PointF StartPoint { get; }
-        public PointF EndPoint { get; }
+        public PointF StartPoint { get; set; }
+        public PointF EndPoint { get; set; }
 
         public Arc(Color color, PointF point, PointF start, PointF end,
                 int width) : base(color, point, width)
@@ -22,13 +22,11 @@ namespace CCAD
             double lengthX = start.X - CentrePoint.X;
             double lengthY = start.Y - CentrePoint.Y;
             Radius = Math.Sqrt(lengthX * lengthX + lengthY * lengthY);
-            StartAngle = (Math.Atan2(lengthY, lengthX) * 180f / Math.PI);
+            StartAngle = Math.Atan2(lengthY, lengthX) * 180f / Math.PI;
             lengthX = end.X - CentrePoint.X;
             lengthY = end.Y - CentrePoint.Y;
             double tempAngle = Math.Atan2(lengthY, lengthX) * 180f / Math.PI;
             SweepAngle = tempAngle - StartAngle;
-            end.Y = (float)(Math.Cos(tempAngle) * 180f / Math.PI * Radius);
-            end.X = (float)(Math.Sin(tempAngle) * 180f / Math.PI * Radius);
             EndPoint = end;
             perimeter = 2 * Math.PI * Radius * SweepAngle / 360;
         }

@@ -143,7 +143,9 @@ namespace CCAD
             {
                 // Draw all entities
                 for (int i = 0; i < entities.Count; i++)
+                {
                     entities[i].Draw(e);
+                }
                 // Draw polyline previews
                 if (DrawPolyline)
                     for (int i = 0; i < tempPolyline.Count; i++)
@@ -152,7 +154,8 @@ namespace CCAD
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
-                entities.RemoveAt(entities.Count - 1);
+                if (entities.Count > 0)
+                    entities.RemoveAt(entities.Count - 1);
                 Refresh();
             }
         }
@@ -175,9 +178,17 @@ namespace CCAD
         /// <param name="e"></param>
         private void Canvas_MouseClick(object sender, MouseEventArgs e)
         {
-            // Makes copy of selected elements
-            if (Copy && selections.Count > 0)
+            // Makes copy of selected element
+            if ((Copy || MoveEntity) && selections.Count > 0)
+            {
                 CopyElements();
+                // Erase the selected element
+                if (MoveEntity)
+                {
+                    entities.RemoveAt(selections[selections.Count - 1]);
+                    MoveEntity = false;
+                }
+            }
             else if (!Draw)
             {
                 // Clear all selections
@@ -769,13 +780,14 @@ namespace CCAD
                 }
             }
             // Preview copy
-            if (Copy && selections.Count > 0)
+            if ((Copy || MoveEntity) && selections.Count > 0)
             {
                 int lastItem = selections.Count - 1;
                 // Preview line copy
                 if (entities[selections[lastItem]].GetType().ToString().Equals
                     ("CCAD.Line"))
                 {
+                    Refresh();
                     Line tempLine = (Line)entities[selections[lastItem]];
                     startPoint = new PointF(CurrentX, CurrentY);
                     endPoint = tempLine.EndPoint;
@@ -1254,6 +1266,7 @@ namespace CCAD
             {
                 try
                 {
+                    // Get file path
                     string path = myBoard.GetPath();
                     if (path != null)
                     {
@@ -1304,9 +1317,9 @@ namespace CCAD
         /// </summary>
         public void Scale()
         {
-            PointF tempCentre;
-            PointF start;
-            PointF end;
+            PointF tempCentre = new PointF();
+            PointF start = new PointF();
+            PointF end = new PointF();
             Color tempColor;
             int tempWidth;
             string name;
@@ -1321,42 +1334,41 @@ namespace CCAD
                 {
                     case entityType.ARC:
                         Arc tempArc = (Arc)entities[selections[i]];
-                        // Scale centre point
-                        tempCentre = tempArc.CentrePoint;
+                        tempArc.Radius *= scaleFactor;
                         // Scale start point
-                        float startX = tempArc.StartPoint.X * scaleFactor;
-                        float startY = tempArc.StartPoint.Y * scaleFactor;
+                        start.X = tempArc.StartPoint.X * scaleFactor;
+                        start.Y = tempArc.StartPoint.Y * scaleFactor;
                         // Scale end point
-                        float endX = tempArc.EndPoint.X * scaleFactor;
-                        float endY = tempArc.EndPoint.Y * scaleFactor;
+                        end.X = tempArc.EndPoint.X * scaleFactor;
+                        end.Y = tempArc.EndPoint.Y * scaleFactor;
 
-                        tempArc = new Arc(tempColor, tempCentre, new PointF(
-                            startX, startY), new PointF(endX, endY), 
-                            tempWidth);
+                        tempArc.StartPoint = start;
+                        tempArc.EndPoint = end;
                         entities[selections[i]] = tempArc;
                         break;
                     case entityType.CIRCLE:
                         Circle tempCircle = (Circle)entities[selections[i]];
                         tempCentre = tempCircle.CentrePoint;
                         // Scale radius
-                        double radius = tempCircle.Radius * scaleFactor;
-                        tempCircle = new Circle(tempColor, tempCentre,
-                            tempWidth, radius);
+                        tempCircle.Radius *= scaleFactor;
                         entities[selections[i]] = tempCircle;
                         break;
                     case entityType.ELLIPSE:
                         Ellipse tempEllipse = (Ellipse)entities[selections[i]];
                         tempCentre = tempEllipse.CentrePoint;
-                        // Scale minor axis point
-                        PointF minorAxis = tempEllipse.MinorAxisPoint;
-                        minorAxis.X *= scaleFactor;
-                        minorAxis.Y *= scaleFactor;
-                        // Scale major axis point
-                        PointF majorAxis = tempEllipse.MajorAxisPoint;
-                        majorAxis.X *= scaleFactor;
-                        majorAxis.Y *= scaleFactor;
+
+                        start = tempEllipse.MinorAxisPoint;
+                        end = tempEllipse.MajorAxisPoint;
+                        
+                        float height = Math.Abs(start.Y - tempCentre.Y) * 
+                            scaleFactor;
+                        float width = Math.Abs(end.X - tempCentre.X) * 
+                            scaleFactor;
+                        // Scale major and minor axis point
+                        start.Y = tempCentre.Y - height;
+                        end.X = tempCentre.X + width;
                         tempEllipse = new Ellipse(tempColor, tempCentre,
-                            tempWidth, minorAxis, majorAxis);
+                            tempWidth, start, end);
                         entities[selections[i]] = tempEllipse;
                         break;
                     case entityType.IMAGE:
@@ -1375,9 +1387,11 @@ namespace CCAD
                         start = tempLine.StartPoint;
                         // Scale end point
                         end = tempLine.EndPoint;
-                        end.X *= scaleFactor;
-                        end.Y *= scaleFactor;
-                        tempLine = new Line(tempColor, tempWidth, start, end);
+                        float lengthX = end.X - start.X;
+                        float lengthY = end.Y - start.Y;
+                        end.X = start.X + lengthX * scaleFactor;
+                        end.Y = start.Y + lengthY * scaleFactor;
+                        tempLine.EndPoint = end;
                         entities[selections[i]] = tempLine;
                         break;
                     case entityType.RECTANGLE:
